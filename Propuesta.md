@@ -23,7 +23,7 @@ Una aplicación de gestión de inventario diseñada para pequeñas empresas de d
 
 ### Modelo
 
-- [imagen del modelo](https://prnt.sc/rv8D3w1tqOiV)
+![imagen del modelo](https://prnt.sc/rv8D3w1tqOiV)
 
 ### Alcance Funcional
 
@@ -31,8 +31,8 @@ Una aplicación de gestión de inventario diseñada para pequeñas empresas de d
 
 | Req               | Detalle                                                                                             |
 | :---------------- | :-------------------------------------------------------------------------------------------------- |
-| CRUD simple       | 1. CRUD de Productos<br>2. CRUD de Proveedores<br>3. CRUD de Categorias                             |
-| CRUD dependiente  | 1. CRUD de Productos_Proveedores {depende de} CRUD de Productos                                     |
+| CRUD simple       | 1. CRUD de Productos<br>2. CRUD de Proveedores<br>3. CRUD de Productos_Proveedores                  |
+| CRUD dependiente  | 1. CRUD de Categorias {depende de} CRUD de Productos                                                |
 | Listado + detalle | 1. Listado de productos con detalles completos<br> 2. Listado de proveedores con detalles completos |
 | CUU/Epic          | 1. Realizar un nuevo pedido de productos<br>2. Verificar el estado de un pedido                     |
 
