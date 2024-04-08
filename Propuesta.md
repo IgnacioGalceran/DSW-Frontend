@@ -4,9 +4,11 @@
 
 ### Integrantes
 
--       - Fonseca, José
-- 45337 - Galcerán, Ignacio Agustín
--       - Gómez, Fernando
+- legajo - Apellido(s), Nombre(s)
+
+*       - Fonseca, José
+* 45337 - Galcerán, Ignacio Agustín
+*       - Gómez, Fernando
 
 ### Repositorios
 
@@ -17,34 +19,31 @@
 
 ### Descripción
 
-Una aplicación de gestión de inventario diseñada para pequeñas empresas de distribución, que les permite administrar eficientemente sus productos, proveedores y pedidos. Simplifica el seguimiento de inventario, la gestión de proveedores y la realización de pedidos.
+Una aplicación de gestión de inventario diseñada para pequeñas empresas de distribución, que les permite administrar eficientemente sus productos, proveedores y cantidad de stock. Simplifica el seguimiento de inventario y la gestión de proveedores.
 
 ### Modelo
 
-![imagen del modelo]()
+![imagen del modelo](https://prnt.sc/rv8D3w1tqOiV)
 
-## Alcance Funcional
+### Alcance Funcional
 
-### Alcance Mínimo
+#### Alcance Mínimo
 
-Regularidad:
-|Req|Detalle|
-|:-|:-|
-|CRUD simple|1. CRUD de Productos<br>2. CRUD de Proveedores<br>3. CRUD de Pedidos|
-|CRUD dependiente|1. CRUD de Detalles de Pedido {depende de} CRUD de Pedidos|
-|Listado<br>+<br>detalle| 1. Listado de productos con detalles completos<br> 2. Listado de pedidos con detalles completos|
-|CUU/Epic|1. Realizar un nuevo pedido de productos<br>2. Verificar el estado de un pedido|
+| Req               | Detalle                                                                                             |
+| :---------------- | :-------------------------------------------------------------------------------------------------- |
+| CRUD simple       | 1. CRUD de Productos<br>2. CRUD de Proveedores<br>3. CRUD de Relación Producto-Proveedor            |
+| CRUD dependiente  | 1. CRUD de Categorías {depende de} CRUD de Productos                                                |
+| Listado + detalle | 1. Listado de productos con detalles completos<br> 2. Listado de proveedores con detalles completos |
+| CUU/Epic          | 1. Realizar un nuevo pedido de productos<br>2. Verificar el estado de un pedido                     |
 
-### Adicionales para Aprobación
+#### Adicionales para Aprobación
 
 | Req      | Detalle                                                                                               |
 | :------- | :---------------------------------------------------------------------------------------------------- |
-| CRUD     | 1. CRUD de Categorías de Productos<br>2. CRUD de Clientes                                             |
+| CRUD     | 1. CRUD de Categorías de Productos<br>2. CRUD de Pedidos.                                             |
 | CUU/Epic | 1. Generar informes de inventario<br>2. Notificar al usuario cuando el stock de un producto esté bajo |
 
-### Alcance Adicional Voluntario
-
-_Nota_: El Alcance Adicional Voluntario es opcional, pero ayuda a que la funcionalidad del sistema esté completa y será considerado en la nota en función de su complejidad y esfuerzo.
+#### Alcance Adicional Voluntario
 
 | Req      | Detalle                                                                                                                       |
 | :------- | :---------------------------------------------------------------------------------------------------------------------------- |
