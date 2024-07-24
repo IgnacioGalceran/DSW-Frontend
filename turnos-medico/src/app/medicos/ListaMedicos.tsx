@@ -6,18 +6,41 @@ export default function ListaMedicos() {
   if (!medicos) {
     return <div>Cargando...</div>;
   }
-
+  console.log(medicos);
   return (
-    <div className="h-screen bg-gradient-to-b from-emerald-300 from-10% via-emerald-200 via-30% to-emerald-100 to-75% ">
-      <div className="bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% ..."></div>
-      <h1 className="font-sans text-3xl "> Lista de Médicos</h1>
-      <ul className="list-decimal">
-        {medicos.data?.map((medico: medicos) => (
-          <li className="font-sans" key={medico.id}>
-            {medico.nombre} - {medico.idEspecialidad}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div className="h-screen  bg-gradient-to-b from-emerald-300 from-10% via-emerald-200 via-30% to-emerald-100 to-75%">
+        <div>
+          <h1 className="font-sans text-3xl "> Lista de Médicos</h1>
+        </div>
+        <div className="flex">
+          <ul role="list" className="divide-y divide-gray-100 ">
+            {medicos.data?.map((medico: medicos) => (
+              <li className="flex justify-between gap-x-6 py-5" key={medico.id}>
+                <div className="flex min-w-0 gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      {medico.nombre + " " + medico.apellido}
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {"Matricula: " + medico.matricula}
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {"telefono: " + medico.telefono}
+                    </p>
+                  </div>
+                </div>
+                <div className=" sm:flex sm:flex-col ">
+                  <p className="text-sm leading-6 text-gray-900"></p>
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    Last seen
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
   );
 }
