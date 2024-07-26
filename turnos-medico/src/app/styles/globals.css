@@ -1,5 +1,36 @@
-.fontFamily{
-    font-family: 'Lato'
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border: none;
+}
+
+body {
+  background-image: linear-gradient(
+    to right top,
+    #d8ece4,
+    #d6e8e8,
+    #d9e3e8,
+    #dddfe3,
+    #dcdcdc
+  );
+}
+
+@media only screen and (min-width: 800px) {
+  body {
+    background-image: linear-gradient(
+      to right top,
+      #b7f6dd,
+      #b6f0f1,
+      #c7e8f5,
+      #d8e0eb,
+      #dcdcdc
+    );
+  }
+}
+
+.fontFamily {
+  font-family: "Lato";
 }
 
 @tailwind base;

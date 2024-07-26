@@ -1,10 +1,10 @@
-type medicos = {
+type Medicos = {
   id: string;
   nombre: string;
   apellido: string;
   telefono: string;
   tipoDni: string;
-  idEspecialidad: string;
+  especialidad: Especialidades;
   horaDesde: string;
   horaHasta: string;
   matricula: string;
