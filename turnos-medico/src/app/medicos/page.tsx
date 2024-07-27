@@ -1,12 +1,10 @@
 "use client";
-import useFind from "../hooks/useFind";
+import useFind from "@/app/hooks/useFind";
 import styles from "./medicos.module.css";
+import Loader from "../components/Loader";
 
 export default function ListaMedicos() {
-  const { data: medicos } = useFind<Medicos>("medicos");
-  if (!medicos) {
-    return <div>Cargando...</div>;
-  }
+  const { data: medicos, loading } = useFind<Medicos>("medicos");
 
   return (
     <>
@@ -16,6 +14,7 @@ export default function ListaMedicos() {
             Lista de Médicos
           </h1>
         </div>
+        {loading && <Loader />}
         <div className="flex justify-center">
           <ul role="list">
             {medicos.data?.map((medico: Medicos) => (
@@ -39,7 +38,9 @@ export default function ListaMedicos() {
                 <div className=" sm:flex sm:flex-col ">
                   <p className="text-sm leading-6 text-gray-900"></p>
                   <p className="mt-1 text-xs leading-5 text-gray-500">
-                    {"Especialidad: " + medico.especialidad.nombre}
+                    {medico.especialidad
+                      ? "Especialidad: " + medico.especialidad?.nombre
+                      : "Especialidad: Sin especialidad"}
                   </p>
                 </div>
               </li>

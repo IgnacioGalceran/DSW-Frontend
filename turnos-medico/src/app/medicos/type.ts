@@ -4,7 +4,7 @@ type Medicos = {
   apellido: string;
   telefono: string;
   tipoDni: string;
-  especialidad: Especialidades;
+  especialidad: Especialidades | null;
   horaDesde: string;
   horaHasta: string;
   matricula: string;

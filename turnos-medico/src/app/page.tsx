@@ -1,5 +1,4 @@
-import { LoginPage } from "../app/pages";
-import ListaMedicos from "./medicos/ListaMedicos";
+import ListaMedicos from "./medicos/page";
 
 export default function Home() {
   return (

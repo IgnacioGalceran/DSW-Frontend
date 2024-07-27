@@ -2,18 +2,29 @@
 import { useEffect, useState } from "react";
 
 export default function useFind<T>(entity: string) {
-  const [data, setData] = useState<response<T>>();
+  const [data, setData] = useState<response<T>>({
+    data: [],
+    error: false,
+    message: "",
+  });
+  const [loading, setLoading] = useState<boolean>(true);
 
   const findData = async () => {
-    const response = await fetch(`http://localhost:4000/api/${entity}`);
-    const data = await response.json();
+    try {
+      const response = await fetch(`http://localhost:4000/api/${entity}`);
+      const data = await response.json();
 
-    setData(data);
+      setData(data);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     findData();
   }, [entity]);
+
   console.log(data);
-  return { data };
+  return { data, loading };
 }
