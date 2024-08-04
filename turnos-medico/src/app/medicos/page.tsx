@@ -8,22 +8,22 @@ export default function ListaMedicos() {
 
   return (
     <>
-      <div className="h-screen">
+      <div className="h-screen overflow-auto max-h-dvh">
         <div>
           <h1 className="font-sans text-3xl text-center p-10">
             Lista de Médicos
           </h1>
         </div>
         {loading && <Loader />}
-        <div className="flex justify-center">
-          <ul role="list">
+        <div>
+          <ul role="list" className="flex justify-center flex-row flex-wrap">
             {medicos.data?.map((medico: Medicos) => (
               <li
-                className={`flex justify-between gap-x-6 py-5 rounded-md m-2 p-4 ${styles.sombra}`}
+                className={`w-4/5 md:w-1/4 py-5 rounded-md m-2 p-4 ${styles.sombra}`}
                 key={medico.id}
               >
-                <div className="flex min-w-0 gap-x-4">
-                  <div className="min-w-0 flex-auto">
+                <div className="min-w-0 gap-x-4">
+                  <div className="min-w-0">
                     <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
                       {medico.nombre + " " + medico.apellido}
                     </p>

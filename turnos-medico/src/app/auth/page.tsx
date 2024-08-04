@@ -3,13 +3,16 @@
 import styles from "./loginpage.module.css";
 import { useState } from "react";
 import { signInWithGoogle } from "../firebase/providers";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { FirebaseAuth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
+import { checkAuth } from "./checkAuth";
 
 export default function LoginPage() {
   const router = useRouter();
 
   const [credentials, setCredentials] = useState({
-    name: "",
+    email: "",
     password: "",
   });
 
@@ -24,6 +27,39 @@ export default function LoginPage() {
 
   function handleGoogleLogin() {
     signInWithGoogle();
+  }
+
+  async function handleLogin(e: any) {
+    e.preventDefault();
+    try {
+      const userLogin = await signInWithEmailAndPassword(
+        FirebaseAuth,
+        credentials.email,
+        credentials.password
+      );
+
+      console.log(userLogin);
+      const { uid } = userLogin.user;
+
+      const bodyData = {
+        uid,
+      };
+
+      // checkAuth();
+      return;
+      const response = await fetch("http://localhost:4000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyData),
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -42,7 +78,12 @@ export default function LoginPage() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form
+          className="space-y-6"
+          action="#"
+          method="POST"
+          onSubmit={(e) => handleLogin(e)}
+        >
           <div>
             <label
               // for="email"

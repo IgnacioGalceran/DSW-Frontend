@@ -1,9 +1,9 @@
 "use client";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { FirebaseAuth } from "@/app/firebase/config";
 import styles from "./registerpage.module.css";
 import { useState } from "react";
-import { FirebaseAuth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 
 const page = () => {
@@ -55,6 +55,7 @@ const page = () => {
           body: JSON.stringify(bodyData),
         }
       );
+
       const data = await response.json();
       console.log(data);
     } catch (error) {
