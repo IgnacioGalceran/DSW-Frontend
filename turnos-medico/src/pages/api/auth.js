@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
-import { FirebaseAuth } from "@/app/firebase/config";
+import { FirebaseAuth } from "@/firebase/config";
 
 export default async function login(req, res) {
   if (req.method === "POST") {

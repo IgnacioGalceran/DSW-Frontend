@@ -26,8 +26,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/firebase/config.ts",
-    "src/app/firebase/providers.ts",
+    "src/firebase/config.ts",
+    "src/firebase/providers.ts",
     "src/pages/api/auth.js"
   ],
   "exclude": ["node_modules"]

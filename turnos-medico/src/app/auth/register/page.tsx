@@ -1,11 +1,11 @@
 "use client";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { FirebaseAuth } from "@/app/firebase/config";
+import { FirebaseAuth } from "@/firebase/config";
 import styles from "./registerpage.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { API_URL } from "@/app/constants/const";
+import { API_URL } from "@/constants/const";
 
 const page = () => {
   const router = useRouter();

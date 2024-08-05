@@ -1,12 +1,12 @@
 "use client";
 import { FormEventHandler, useState } from "react";
-import { signInWithGoogle } from "../firebase/providers";
+import { signInWithGoogle } from "@/firebase/providers";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { FirebaseAuth } from "@/app/firebase/config";
+import { FirebaseAuth } from "@/firebase/config";
 import { useRouter } from "next/navigation";
 import styles from "./loginpage.module.css";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { API_URL } from "../constants/const";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { API_URL } from "../../constants/const";
 
 export default function LoginPage() {
   const initialState = useAppSelector((state: any) => state.auth);
