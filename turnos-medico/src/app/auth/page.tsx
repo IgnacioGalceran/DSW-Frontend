@@ -7,9 +7,17 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseAuth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 import { checkAuth } from "./checkAuth";
+import {useAppDispatch, useAppSelector} from '../store/hooks'
 
 export default function LoginPage() {
+  
+  const initialState = useAppSelector(state => state.auth)
+  
+  console.log(initialState)
+
   const router = useRouter();
+
+
 
   const [credentials, setCredentials] = useState({
     email: "",
