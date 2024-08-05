@@ -5,6 +5,7 @@ import { FirebaseAuth } from "@/app/firebase/config";
 import styles from "./registerpage.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { API_URL } from "@/app/constants/const";
 
 const page = () => {
   const router = useRouter();
@@ -45,16 +46,13 @@ const page = () => {
         dni: credentials.dni,
       };
 
-      const response = await fetch(
-        "http://localhost:4000/api/auth/registerPaciente",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json", // Especifica el tipo de contenido
-          },
-          body: JSON.stringify(bodyData),
-        }
-      );
+      const response = await fetch(`${API_URL}/auth/registerPaciente`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyData),
+      });
 
       const data = await response.json();
       console.log(data);

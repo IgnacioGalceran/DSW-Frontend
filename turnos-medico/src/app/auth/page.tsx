@@ -6,6 +6,7 @@ import { FirebaseAuth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 import styles from "./loginpage.module.css";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { API_URL } from "../constants/const";
 
 export default function LoginPage() {
   const initialState = useAppSelector((state: any) => state.auth);
@@ -25,7 +26,6 @@ export default function LoginPage() {
       ...credentials,
       [event.target.name]: event.target.value,
     });
-    console.log(credentials);
   };
 
   function handleGoogleLogin() {
@@ -40,7 +40,7 @@ export default function LoginPage() {
         password: credentials.password,
       };
 
-      const response = await fetch("http://localhost:3000/api/auth", {
+      const response = await fetch(`${API_URL}/auth`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,6 +49,8 @@ export default function LoginPage() {
       });
 
       const data = await response.json();
+
+      localStorage.setItem("token", data.token);
       console.log(data);
     } catch (error) {
       console.log(error);

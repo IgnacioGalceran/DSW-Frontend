@@ -1,13 +1,11 @@
 "use client";
 import useFind from "@/app/hooks/useFind";
 import styles from "./medicos.module.css";
-import Loader from "../components/Loader";
+import Loader from "../../components/Loader";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { RootState } from "../../store/store";
 
 export default function ListaMedicos() {
-
-
   const { data: medicos, loading } = useFind<Medicos>("medicos");
 
   return (

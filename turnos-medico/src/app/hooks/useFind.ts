@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { API_URL } from "../constants/const";
 
 export default function useFind<T>(entity: string) {
   const [data, setData] = useState<response<T>>({
@@ -11,7 +12,11 @@ export default function useFind<T>(entity: string) {
 
   const findData = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/api/${entity}`);
+      const response = await fetch(`${API_URL}/${entity}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const data = await response.json();
 
       setData(data);
