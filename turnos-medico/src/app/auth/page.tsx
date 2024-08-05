@@ -1,12 +1,10 @@
 "use client";
-
-import styles from "./loginpage.module.css";
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 import { signInWithGoogle } from "../firebase/providers";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseAuth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
-import { checkAuth } from "./checkAuth";
+import styles from "./loginpage.module.css";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,22 +30,12 @@ export default function LoginPage() {
   async function handleLogin(e: any) {
     e.preventDefault();
     try {
-      const userLogin = await signInWithEmailAndPassword(
-        FirebaseAuth,
-        credentials.email,
-        credentials.password
-      );
-
-      console.log(userLogin);
-      const { uid } = userLogin.user;
-
       const bodyData = {
-        uid,
+        email: credentials.email,
+        password: credentials.password,
       };
 
-      // checkAuth();
-      return;
-      const response = await fetch("http://localhost:4000/api/auth/login", {
+      const response = await fetch("http://localhost:3000/api/auth", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
