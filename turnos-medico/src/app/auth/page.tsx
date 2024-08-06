@@ -1,17 +1,17 @@
 "use client";
 import { FormEventHandler, useState } from "react";
 import { signInWithGoogle } from "@/firebase/providers";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { FirebaseAuth } from "@/firebase/config";
+
 import { useRouter } from "next/navigation";
 import styles from "./loginpage.module.css";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { API_URL } from "../../constants/const";
+import { API_URL, FRONT_URL } from "../../constants/const";
+import { useDispatch, useSelector } from "react-redux";
+import { checkingCredentials, login, logout } from "@/store/auth/authSlice";
 
 export default function LoginPage() {
-  const initialState = useAppSelector((state: any) => state.auth);
-
-  console.log(initialState);
+  const dispatch = useDispatch();
+  const { initialState, status } = useSelector((state: any) => state.auth);
+  // console.log(status);
 
   const router = useRouter();
 
@@ -34,13 +34,14 @@ export default function LoginPage() {
 
   async function handleLogin(e: any) {
     e.preventDefault();
+    dispatch(checkingCredentials());
     try {
       const bodyData = {
         email: credentials.email,
         password: credentials.password,
       };
 
-      const response = await fetch(`${API_URL}/auth`, {
+      const response = await fetch(`${FRONT_URL}/auth`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,11 +49,12 @@ export default function LoginPage() {
         body: JSON.stringify(bodyData),
       });
 
-      const data = await response.json();
-
-      localStorage.setItem("token", data.token);
-      console.log(data);
+      const result = await response.json();
+      console.log(result);
+      dispatch(login(result.result.data));
+      localStorage.setItem("token", result.token);
     } catch (error) {
+      // dispatch(logout());
       console.log(error);
     }
   }
