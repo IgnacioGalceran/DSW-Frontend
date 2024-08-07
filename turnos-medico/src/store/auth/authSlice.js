@@ -29,8 +29,8 @@ export const authSlice = createSlice({
         (state.displayName = null),
         (state.errorMessage = null);
     },
-    checkingCredentials: (state) => {
-      state.isLoading = true;
+    checkingCredentials: (state, action) => {
+      state.isLoading = action.payload;
     },
   },
 });

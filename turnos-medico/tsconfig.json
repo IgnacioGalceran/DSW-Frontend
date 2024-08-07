@@ -28,7 +28,8 @@
     ".next/types/**/*.ts",
     "src/firebase/config.ts",
     "src/firebase/providers.ts",
-    "src/pages/api/auth.js"
+    "src/pages/api/signIn.js",
+    "src/firebase/helper.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,5 +1,5 @@
 "use client";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { signInWithGoogle } from "@/firebase/providers";
 import { useRouter } from "next/navigation";
 import { API_URL, FRONT_URL } from "../../constants/const";
@@ -35,14 +35,14 @@ export default function LoginPage() {
 
   async function handleLogin(e: any) {
     e.preventDefault();
-    dispatch(checkingCredentials());
+    dispatch(checkingCredentials(true));
     try {
       const bodyData = {
         email: credentials.email,
         password: credentials.password,
       };
 
-      const response = await fetch(`${FRONT_URL}/auth`, {
+      const response = await fetch(`${FRONT_URL}/signIn`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

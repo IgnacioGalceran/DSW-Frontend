@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { getAuth, signOut } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "@/store/auth/authSlice";
 import { useRouter } from "next/navigation";
@@ -11,6 +12,16 @@ const Header = () => {
   const { isAuth } = useSelector((state: any) => state.auth);
 
   const handleLogout = () => {
+    const auth = getAuth();
+
+    signOut(auth)
+      .then(() => {
+        console.log("deslogeado");
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+
     dispatch(logout());
     localStorage.removeItem("token");
     router.push("/auth");
@@ -20,7 +31,7 @@ const Header = () => {
     <header className={styles.header}>
       <ul className={styles.ul}>
         <li></li>
-        {isAuth && <li onClick={handleLogout}>Logout</li>}
+        {isAuth && <li onClick={() => handleLogout()}>Logout</li>}
       </ul>
     </header>
   );

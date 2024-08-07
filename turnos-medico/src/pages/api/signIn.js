@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import { signInWithEmailAndPassword, getAuth, signOut } from "firebase/auth";
 import { FirebaseAuth } from "@/firebase/config";
 import { API_URL } from "@/constants/const";
 
@@ -28,7 +28,7 @@ export default async function login(req, res) {
       const userData = await getUserData(userLogin.user.uid, data.token);
       userData.data.email = userLogin.user.email;
       res.status(200).json({
-        message: "Usuario Logeado correctamente",
+        message: "Usuario logeado correctamente",
         result: {
           token: data.token,
           data: userData.data,
@@ -36,7 +36,9 @@ export default async function login(req, res) {
         error: false,
       });
     } catch (error) {
-      res.status(400).json(`User not found, ${error.message}`);
+      res
+        .status(400)
+        .json({ message: error.message, result: null, error: true });
     }
   } else {
     res.setHeader("Allow", ["POST"]);
