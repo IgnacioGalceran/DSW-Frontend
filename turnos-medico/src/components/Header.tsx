@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { getAuth, signOut } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "@/store/auth/authSlice";
 import { useRouter, usePathname } from "next/navigation";
 import { headerList } from "@/constants/paths";
+import { signOut } from "@/firebase/helper";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/app/styles/header.module.css";
@@ -16,17 +16,8 @@ const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleLogout = () => {
-    const auth = getAuth();
-
-    signOut(auth)
-      .then(() => {
-        console.log("deslogeado");
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-
+  const handleLogout = async () => {
+    await signOut();
     dispatch(logout());
     localStorage.removeItem("token");
     router.push("/auth");

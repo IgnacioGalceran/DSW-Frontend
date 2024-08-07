@@ -1,8 +1,6 @@
 import { HeaderList } from "@/types/headerList";
 import { FRONT_URL } from "./const";
 
-console.log(FRONT_URL);
-
 export const headerList: HeaderList[] = [
   {
     path: `/`,

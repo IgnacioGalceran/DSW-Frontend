@@ -1,4 +1,4 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onIdTokenChanged } from "firebase/auth";
 import { FirebaseAuth } from "@/firebase/config";
 
 export default async function isAuthenticated(req, res) {
@@ -8,7 +8,7 @@ export default async function isAuthenticated(req, res) {
   }
 
   try {
-    onAuthStateChanged(FirebaseAuth, async (user) => {
+    onIdTokenChanged(FirebaseAuth, async (user) => {
       if (user) {
         res.status(200).json({
           message: "Usuario logeado",
