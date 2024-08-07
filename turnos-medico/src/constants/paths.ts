@@ -7,6 +7,10 @@ export const headerList: HeaderList[] = [
     title: "Principal",
   },
   {
+    path: `/pages/turnos`,
+    title: "Turnos",
+  },
+  {
     path: `/pages/medicos`,
     title: "Médicos",
   },
