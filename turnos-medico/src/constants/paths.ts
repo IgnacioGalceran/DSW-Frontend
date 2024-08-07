@@ -5,23 +5,23 @@ console.log(FRONT_URL);
 
 export const headerList: HeaderList[] = [
   {
-    path: `http://localhost:3000/`,
+    path: `/`,
     title: "Principal",
   },
   {
-    path: `http://localhost:3000/pages/medicos`,
+    path: `/pages/medicos`,
     title: "Médicos",
   },
   {
-    path: `http://localhost:3000/pages/pacientes`,
+    path: `/pages/pacientes`,
     title: "Pacientes",
   },
   {
-    path: `http://localhost:3000/pages/especialidades`,
+    path: `/pages/especialidades`,
     title: "Especialidades",
   },
   {
-    path: `http://localhost:3000/pages/roles`,
+    path: `/pages/roles`,
     title: "Roles",
   },
 ];
