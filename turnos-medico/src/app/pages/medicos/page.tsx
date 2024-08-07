@@ -1,9 +1,8 @@
 "use client";
+import { Medicos } from "./type";
 import useFind from "@/hooks/useFind";
-import styles from "./medicos.module.css";
 import Loader from "../../../components/Loader";
-// import { useSelector } from "react-redux";
-// import { RootState } from "../../store/store";
+import styles from "./medicos.module.css";
 
 export default function ListaMedicos() {
   const { data: medicos, loading } = useFind<Medicos>("medicos");

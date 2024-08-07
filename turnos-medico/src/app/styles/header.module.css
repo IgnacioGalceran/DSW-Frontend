@@ -16,6 +16,7 @@
 
 .ul li {
   cursor: pointer;
+  padding: 0 10px;
 }
 
 .ul li:hover {

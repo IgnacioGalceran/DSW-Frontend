@@ -1,5 +1,9 @@
-type Medicos = {
+import { Especialidades } from "../especialidades/type";
+
+export type Medicos = {
   id: string;
+  uid: string;
+  rol: string;
   nombre: string;
   apellido: string;
   telefono: string;
