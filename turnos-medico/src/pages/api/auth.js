@@ -28,7 +28,7 @@ export default async function login(req, res) {
       const userData = await getUserData(userLogin.user.uid, data.token);
       userData.data.email = userLogin.user.email;
       res.status(200).json({
-        message: "Solicitud recibida correctamente",
+        message: "Usuario Logeado correctamente",
         result: {
           token: data.token,
           data: userData.data,

@@ -21,7 +21,7 @@ export const authSlice = createSlice({
         (state.displayName = `${action.payload.nombre} ${action.payload.apellido}`),
         (state.errorMessage = null);
     },
-    logout: (state, payload) => {
+    logout: (state) => {
       (state.isAuth = false),
         (state.isLoading = false),
         (state.uid = null),

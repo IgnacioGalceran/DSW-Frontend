@@ -10,7 +10,7 @@ export default function ListaMedicos() {
 
   return (
     <>
-      <div className="h-screen overflow-auto max-h-dvh">
+      <div className="overflow-auto">
         <div>
           <h1 className="font-sans text-3xl text-center p-10">
             Lista de Médicos
