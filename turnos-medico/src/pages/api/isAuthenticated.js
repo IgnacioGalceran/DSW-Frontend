@@ -1,5 +1,6 @@
 import { onIdTokenChanged } from "firebase/auth";
 import { FirebaseAuth } from "@/firebase/config";
+import { API_URL } from "../../constants/const";
 
 const getUserData = async (uid, token) => {
   const response = await fetch(`${API_URL}/auth/getUserData/${uid}`, {

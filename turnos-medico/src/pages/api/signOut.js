@@ -18,7 +18,7 @@ export default async function signOutHandler(req, res) {
       error: false,
     });
   } catch (error) {
-    console.error("Error signing out:", error);
+    console.error("Error al deslogear:", error);
     res.status(500).json({
       message: error.message,
       result: null,

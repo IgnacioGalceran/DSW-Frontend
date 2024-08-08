@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { signInWithGoogle } from "@/firebase/providers";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "@/firebase/helper";
 import Loader from "@/components/Loader";
 import styles from "./login.module.css";
@@ -15,7 +15,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
-
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const changeUser = (event: any) => {
@@ -32,7 +32,7 @@ export default function LoginPage() {
 
   async function handleLogin(e: any) {
     e.preventDefault();
-    await signIn(credentials);
+    await signIn(credentials, dispatch, router);
   }
 
   return (

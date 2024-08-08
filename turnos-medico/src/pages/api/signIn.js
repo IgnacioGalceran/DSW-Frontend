@@ -17,7 +17,7 @@ const getUserData = async (uid, token) => {
 export default async function signIn(req, res) {
   if (req.method === "POST") {
     const { email, password } = req.body;
-    console.log(req.body);
+
     try {
       const userLogin = await signInWithEmailAndPassword(
         FirebaseAuth,

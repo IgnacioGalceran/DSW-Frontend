@@ -19,12 +19,14 @@ export const tokenListener = async () => {
   }
 };
 
-export const signIn = async (credentials: {
-  email: string;
-  password: string;
-}) => {
-  const dispatch = useDispatch();
-  const router = useRouter();
+export const signIn = async (
+  credentials: {
+    email: string;
+    password: string;
+  },
+  dispatch: any,
+  router: any
+) => {
   dispatch(checkingCredentials(true));
 
   try {
@@ -32,7 +34,7 @@ export const signIn = async (credentials: {
       email: credentials.email,
       password: credentials.password,
     };
-
+    console.log("signin");
     const response = await fetch(`${FRONT_URL}/signIn`, {
       method: "POST",
       headers: {
@@ -42,6 +44,7 @@ export const signIn = async (credentials: {
     });
 
     const { result, error } = await response.json();
+    console.log(result);
     if (!error) {
       dispatch(login(result.data));
       localStorage.setItem("token", result.token);
