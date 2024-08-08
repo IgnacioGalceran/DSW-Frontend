@@ -11,6 +11,7 @@ export default async function signOutHandler(req, res) {
 
   try {
     await signOut(FirebaseAuth);
+
     res.status(200).json({
       message: "Usuario deslogeado",
       result: null,

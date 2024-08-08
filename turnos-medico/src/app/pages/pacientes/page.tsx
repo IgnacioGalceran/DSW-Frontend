@@ -4,7 +4,7 @@ import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
 import styles from "./pacientes.module.css";
 
-export default function ListaMedicos() {
+export default function ListaPacientes() {
   const { data: pacientes, loading } = useFind<Pacientes>("pacientes");
 
   return (

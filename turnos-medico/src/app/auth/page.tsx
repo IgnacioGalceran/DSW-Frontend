@@ -1,25 +1,22 @@
 "use client";
-import { FormEventHandler, useEffect, useState } from "react";
+import { useState } from "react";
 import { signInWithGoogle } from "@/firebase/providers";
 import { useRouter } from "next/navigation";
-import { API_URL, FRONT_URL } from "../../constants/const";
-import { useDispatch, useSelector } from "react-redux";
-import { checkingCredentials, login, logout } from "@/store/auth/authSlice";
-import styles from "./login.module.css";
+import { useSelector } from "react-redux";
+import { signIn } from "@/firebase/helper";
 import Loader from "@/components/Loader";
+import styles from "./login.module.css";
 
 export default function LoginPage() {
-  const dispatch = useDispatch();
   const { initialState, status, isLoading } = useSelector(
     (state: any) => state.auth
   );
-
-  const router = useRouter();
-
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
+
+  const router = useRouter();
 
   const changeUser = (event: any) => {
     useState;
@@ -35,31 +32,7 @@ export default function LoginPage() {
 
   async function handleLogin(e: any) {
     e.preventDefault();
-    dispatch(checkingCredentials(true));
-    try {
-      const bodyData = {
-        email: credentials.email,
-        password: credentials.password,
-      };
-
-      const response = await fetch(`${FRONT_URL}/signIn`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bodyData),
-      });
-
-      const { result, error } = await response.json();
-      if (!error) {
-        dispatch(login(result.data));
-        localStorage.setItem("token", result.token);
-        router.push("/pages/medicos");
-      }
-    } catch (error) {
-      // dispatch(logout());
-      console.log(error);
-    }
+    await signIn(credentials);
   }
 
   return (

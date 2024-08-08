@@ -1,6 +1,17 @@
 import { onIdTokenChanged } from "firebase/auth";
 import { FirebaseAuth } from "@/firebase/config";
 
+const getUserData = async (uid, token) => {
+  const response = await fetch(`${API_URL}/auth/getUserData/${uid}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return await response.json();
+};
+
 export default async function isAuthenticated(req, res) {
   if (req.method !== "GET") {
     res.status(405).json({ message: "Method not allowed" });
@@ -10,12 +21,17 @@ export default async function isAuthenticated(req, res) {
   try {
     onIdTokenChanged(FirebaseAuth, async (user) => {
       if (user) {
+        const data = await user?.getIdTokenResult();
+        const userData = await getUserData(user.uid, data.token);
+
+        console.log("isAuth");
+
         res.status(200).json({
           message: "Usuario logeado",
           result: {
             uid: user.uid,
             email: user.email,
-            displayName: user.displayName,
+            displayName: `${userData.data?.nombre} ${userData.data?.apellido}`,
             token: user.accessToken,
           },
           error: false,

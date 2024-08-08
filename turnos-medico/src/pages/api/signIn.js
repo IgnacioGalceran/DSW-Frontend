@@ -3,6 +3,7 @@ import { FirebaseAuth } from "@/firebase/config";
 import { API_URL } from "@/constants/const";
 
 const getUserData = async (uid, token) => {
+  console.log(uid);
   const response = await fetch(`${API_URL}/auth/getUserData/${uid}`, {
     method: "POST",
     headers: {
@@ -13,9 +14,10 @@ const getUserData = async (uid, token) => {
   return await response.json();
 };
 
-export default async function login(req, res) {
+export default async function signIn(req, res) {
   if (req.method === "POST") {
     const { email, password } = req.body;
+    console.log(req.body);
     try {
       const userLogin = await signInWithEmailAndPassword(
         FirebaseAuth,
@@ -24,9 +26,10 @@ export default async function login(req, res) {
       );
 
       const data = await userLogin.user?.getIdTokenResult();
-      console.log(data);
       const userData = await getUserData(userLogin.user.uid, data.token);
+
       userData.data.email = userLogin.user.email;
+
       res.status(200).json({
         message: "Usuario logeado correctamente",
         result: {

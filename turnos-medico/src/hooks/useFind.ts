@@ -18,6 +18,7 @@ export default function useFind<T>(entity: string) {
         },
       });
       const data = await response.json();
+      console.log(data);
 
       setData(data);
     } catch (error) {
@@ -30,6 +31,5 @@ export default function useFind<T>(entity: string) {
     findData();
   }, [entity]);
 
-  console.log(data);
   return { data, loading };
 }

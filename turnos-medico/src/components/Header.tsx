@@ -32,7 +32,7 @@ const Header = () => {
         {headerList.map((e, index: number) => {
           let ePath = e.path.split("/").filter(Boolean);
           let path = pathname?.split("/").filter(Boolean) || "";
-          console.log(ePath[ePath.length - 1] === path[path.length - 1]);
+
           return (
             <li
               key={index}
