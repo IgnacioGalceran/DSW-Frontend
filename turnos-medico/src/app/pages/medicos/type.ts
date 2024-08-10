@@ -1,16 +1,19 @@
 import { Especialidades } from "../especialidades/type";
+import { Roles } from "../roles/type";
 
 export type Medicos = {
-  id: string;
-  uid: string;
-  rol: string;
-  nombre: string;
-  apellido: string;
+  usuario: {
+    id: string;
+    uid: string;
+    nombre: string;
+    apellido: string;
+    tipoDni: string;
+  };
   telefono: string;
-  tipoDni: string;
   especialidad: Especialidades | null;
   horaDesde: string;
   horaHasta: string;
   matricula: string;
   diasAtencion: string;
+  rol: Roles;
 };

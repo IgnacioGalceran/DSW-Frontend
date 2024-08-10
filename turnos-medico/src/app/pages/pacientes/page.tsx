@@ -21,15 +21,15 @@ export default function ListaPacientes() {
             {pacientes.data?.map((paciente: Pacientes) => (
               <li
                 className={`w-4/5 md:w-1/4 py-5 rounded-md m-2 p-4 ${styles.sombra}`}
-                key={paciente.id}
+                key={paciente.usuario.id}
               >
                 <div className="min-w-0 gap-x-4">
                   <div className="min-w-0">
                     <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
-                      {paciente.nombre + " " + paciente.apellido}
+                      {`${paciente.usuario.nombre} ${paciente.usuario.apellido}`}
                     </p>
                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      {"Dni: " + paciente.dni}
+                      {"Dni: " + paciente.usuario.dni}
                     </p>
                   </div>
                 </div>

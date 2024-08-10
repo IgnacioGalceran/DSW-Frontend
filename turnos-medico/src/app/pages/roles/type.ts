@@ -1,7 +1,6 @@
 type Funciones = {
   id: string;
   nombre: string;
-  roles: Roles[];
 };
 
 export type Roles = {

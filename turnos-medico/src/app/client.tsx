@@ -15,8 +15,6 @@ export default function CheckAuth() {
         const user = await tokenListener();
         const token = localStorage.getItem("token");
 
-        console.log(user);
-
         if (token) {
           dispatch(login(user));
         }

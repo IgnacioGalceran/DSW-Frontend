@@ -21,12 +21,12 @@ export default function ListaMedicos() {
             {medicos.data?.map((medico: Medicos) => (
               <li
                 className={`w-4/5 md:w-1/4 py-5 rounded-md m-2 p-4 ${styles.sombra}`}
-                key={medico.id}
+                key={medico.usuario.id}
               >
                 <div className="min-w-0 gap-x-4">
                   <div className="min-w-0">
                     <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
-                      {medico.nombre + " " + medico.apellido}
+                      {medico.usuario.nombre + " " + medico.usuario.apellido}
                     </p>
                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                       {"Matrícula: " + medico.matricula}

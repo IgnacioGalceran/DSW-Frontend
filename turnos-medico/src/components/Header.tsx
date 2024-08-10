@@ -27,7 +27,7 @@ const Header = () => {
     <header className={styles.header}>
       <ul className={openHeader ? styles.openUl : ""}>
         <div className={styles.menu} onClick={() => setOpenHeader(!openHeader)}>
-          <Image src={"/menu-white.png"} width={30} height={30} alt="" />
+          <Image src="/assets/menu-white.png" alt="" width={30} height={30} />
         </div>
         {headerList.map((e, index: number) => {
           let ePath = e.path.split("/").filter(Boolean);
