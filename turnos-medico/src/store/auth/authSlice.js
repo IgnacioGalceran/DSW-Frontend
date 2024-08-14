@@ -32,6 +32,7 @@ export const authSlice = createSlice({
     checkingCredentials: (state, action) => {
       state.isLoading = action.payload;
     },
+    // renewToken: 
   },
 });
 

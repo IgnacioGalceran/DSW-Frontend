@@ -6,6 +6,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { API_URL } from "@/constants/const";
 import styles from "./register.module.css";
+import { validate } from "./validationsFields";
+
+
 
 const page = () => {
   const router = useRouter();
@@ -24,11 +27,15 @@ const page = () => {
       ...credentials,
       [event.target.name]: event.target.value,
     });
-    console.log(credentials);
+    // console.log(credentials);
   };
 
   const registerUser = async (e: any) => {
     e.preventDefault();
+    const  resultado  = await validate(credentials)
+    console.log(resultado)
+    return
+   
     try {
       const userData = await createUserWithEmailAndPassword(
         FirebaseAuth,

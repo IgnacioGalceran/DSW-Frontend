@@ -13,12 +13,12 @@ export default async function signOutHandler(req, res) {
     await signOut(FirebaseAuth);
 
     res.status(200).json({
-      message: "Usuario deslogeado",
+      message: "Usuario deslogueado",
       result: null,
       error: false,
     });
   } catch (error) {
-    console.error("Error al deslogear:", error);
+    console.error("Error al desloguear:", error);
     res.status(500).json({
       message: error.message,
       result: null,
