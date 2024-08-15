@@ -32,10 +32,9 @@ const page = () => {
 
   const registerUser = async (e: any) => {
     e.preventDefault();
-    const  resultado  = await validate(credentials)
-    console.log(resultado)
-    return
-   
+    await validate(credentials)
+    const displayName = `${credentials.name} ${credentials.lastname}`
+    console.log(displayName)
     try {
       const userData = await createUserWithEmailAndPassword(
         FirebaseAuth,
@@ -44,11 +43,10 @@ const page = () => {
       );
 
       const { uid } = userData.user;
-
+      
       const bodyData = {
         uid,
-        nombre: credentials.name,
-        apellido: credentials.lastname,
+        displayName,
         tipoDni: "DNI",
         dni: credentials.dni,
       };

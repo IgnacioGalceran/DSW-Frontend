@@ -1,14 +1,16 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { FirebaseAuth } from "./config";
+import { checkingCredentials, login, logout } from "@/store/auth/authSlice";
 
 const googleProvider = new GoogleAuthProvider();
 
-export const signInWithGoogle = async () => {
-  console.log("entra");
+export const signInWithGoogle = async (dispatch: any) => {
+  dispatch(checkingCredentials(true))
   try {
     const result = await signInWithPopup(FirebaseAuth, googleProvider);
     const { displayName, email, photoURL, uid } = result.user;
-    console.table({ displayName, email, photoURL, uid });
+    dispatch(login(result.user))
+    console.log({ displayName, email, photoURL, uid });
     return {
       ok: true,
       displayName,
@@ -17,6 +19,7 @@ export const signInWithGoogle = async () => {
       uid,
     };
   } catch (error) {
+    dispatch(logout())
     console.log(error);
   }
 };

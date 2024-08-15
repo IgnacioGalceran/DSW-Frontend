@@ -28,7 +28,7 @@ export default async function isAuthenticated(req, res) {
         console.log("isAuth");
 
         res.status(200).json({
-          message: "Usuario logeado",
+          message: "Usuario logueado",
           result: {
             uid: user.uid,
             email: user.email,
@@ -39,7 +39,7 @@ export default async function isAuthenticated(req, res) {
         });
       } else {
         res.status(401).json({
-          message: "Usuario no logeado",
+          message: "Usuario no logueado",
           result: null,
           error: true,
         });

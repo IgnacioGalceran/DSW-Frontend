@@ -1,7 +1,6 @@
 import { FRONT_URL } from "@/constants/const";
-import { checkingCredentials, login } from "@/store/auth/authSlice";
+import { checkingCredentials, login, logout } from "@/store/auth/authSlice";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
 
 export const tokenListener = async () => {
   try {
@@ -34,7 +33,6 @@ export const signIn = async (
       email: credentials.email,
       password: credentials.password,
     };
-    console.log("signin");
     const response = await fetch(`${FRONT_URL}/signIn`, {
       method: "POST",
       headers: {
@@ -55,6 +53,7 @@ export const signIn = async (
     console.log(error);
   }
 };
+
 
 export const signOut = async () => {
   try {
