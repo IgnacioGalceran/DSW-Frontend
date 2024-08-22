@@ -1,7 +1,7 @@
 "use client";
 import { tokenListener } from "@/firebase/helper";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { checkingCredentials, login } from "@/store/auth/authSlice";
 
 export default function CheckAuth() {

@@ -8,6 +8,9 @@ import Loader from "@/components/Loader";
 import styles from "./login.module.css";
 
 export default function LoginPage() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const { initialState, status, isLoading } = useSelector(
     (state: any) => state.auth
   );
@@ -15,9 +18,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
-  const dispatch = useDispatch();
-  const router = useRouter();
-
+  
   const changeUser = (event: any) => {
     setCredentials({
       ...credentials,
@@ -25,8 +26,9 @@ export default function LoginPage() {
     });
   };
 
-  function handleGoogleLogin() {
-    signInWithGoogle();
+  async function handleGoogleLogin(e:any) {
+    e.preventDefault()
+    await signInWithGoogle(dispatch)
   }
 
   async function handleLogin(e: any) {

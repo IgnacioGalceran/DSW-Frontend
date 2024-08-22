@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { API_URL } from "@/constants/const";
 import styles from "./register.module.css";
+import { validate } from "./validationsFields";
 
 const page = () => {
   const router = useRouter();
@@ -28,6 +29,9 @@ const page = () => {
 
   const registerUser = async (e: any) => {
     e.preventDefault();
+    await validate(credentials);
+    const displayName = `${credentials.name} ${credentials.lastname}`;
+    console.log(displayName);
     try {
       const userData = await createUserWithEmailAndPassword(
         FirebaseAuth,
@@ -39,8 +43,7 @@ const page = () => {
 
       const bodyData = {
         uid,
-        nombre: credentials.name,
-        apellido: credentials.lastname,
+        displayName,
         tipoDni: "DNI",
         dni: credentials.dni,
       };
