@@ -1,71 +1,122 @@
-import { FRONT_URL } from "@/constants/const";
-import { checkingCredentials, login } from "@/store/auth/authSlice";
+"use client";
+import { checkingCredentials, login, logout } from "@/store/auth/authSlice";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { FirebaseAuth } from "@/firebase/config";
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut as firebaseSignOut,
+} from "firebase/auth";
+import { API_URL } from "@/constants/const";
 
-export const tokenListener = async () => {
-  try {
-    const response = await fetch(`${FRONT_URL}/isAuthenticated`);
-    const { result, error } = await response.json();
-    console.log(result);
-    if (!error) {
-      localStorage.setItem("token", result.token);
-      return result;
-    } else {
-      localStorage.removeItem("token");
-    }
-  } catch (error) {
-    console.log(error);
+class NotFound extends Error {
+  code: number;
+
+  constructor(message: string, code: number) {
+    super(message);
+    this.code = code;
   }
+}
+
+export const tokenListener = async (dispatch: any) => {
+  return new Promise((resolve, reject) => {
+    onAuthStateChanged(
+      FirebaseAuth,
+      async (user: any) => {
+        if (user) {
+          const token = await user.getIdToken();
+          const userData = await getUserData(user.uid, token);
+          localStorage.setItem("token", token);
+
+          let displayName = `${userData.data.nombre} ${userData.data.apellido}`;
+
+          dispatch(
+            login({
+              uid: user.uid,
+              email: user.email,
+              displayName,
+            })
+          );
+
+          resolve(user);
+        } else {
+          localStorage.removeItem("token");
+          dispatch(logout());
+          resolve(null);
+        }
+      },
+      reject
+    );
+  });
 };
 
-export const signIn = async (
-  credentials: {
-    email: string;
-    password: string;
-  },
-  dispatch: any,
-  router: any
-) => {
+export const signIn = async (credentials: any, dispatch: any, router: any) => {
   dispatch(checkingCredentials(true));
 
   try {
-    const bodyData = {
-      email: credentials.email,
-      password: credentials.password,
-    };
-    console.log("signin");
-    const response = await fetch(`${FRONT_URL}/signIn`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bodyData),
-    });
+    const { email, password } = credentials;
+    const userCredential = await signInWithEmailAndPassword(
+      FirebaseAuth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    const token = await user.getIdToken();
 
-    const { result, error } = await response.json();
-    console.log(result);
-    if (!error) {
-      dispatch(login(result.data));
-      localStorage.setItem("token", result.token);
-      router.push("/pages/medicos");
-    }
+    const userData = await getUserData(user.uid, token);
+    localStorage.setItem("token", token);
+
+    let displayName = `${userData.data.nombre} ${userData.data.apellido}`;
+
+    dispatch(
+      login({
+        uid: user.uid,
+        email: user.email,
+        displayName,
+      })
+    );
+
+    router.push("/");
+    return user;
   } catch (error) {
-    // dispatch(logout());
-    console.log(error);
+    console.log("Error al iniciar sesión:", error);
+    dispatch(checkingCredentials(false));
   }
 };
 
-export const signOut = async () => {
+export const signOut = async (dispatch: any) => {
   try {
-    console.log("asd");
-    const response = await fetch(`${FRONT_URL}/signOut`);
-    const { result, error } = await response.json();
-    if (!error) {
-      localStorage.removeItem("token");
-      return;
-    }
+    await firebaseSignOut(FirebaseAuth);
+
+    localStorage.removeItem("token");
+    dispatch(logout());
   } catch (error) {
-    console.log(error);
+    console.log("Error al cerrar sesión:", error);
+  }
+};
+
+const getUserData = async (uid: string, token: string) => {
+  try {
+    const response = await fetch(`${API_URL}/auth/getUserData/${uid}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 404) {
+      throw new NotFound("Usuario no encontrado", 404);
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error: any) {
+    if (error.code === 404) {
+      throw new NotFound("Usuario no encontrado", 404);
+    } else {
+      throw new Error(error.message);
+    }
   }
 };

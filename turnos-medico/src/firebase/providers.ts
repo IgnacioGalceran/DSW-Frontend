@@ -4,7 +4,6 @@ import { FirebaseAuth } from "./config";
 const googleProvider = new GoogleAuthProvider();
 
 export const signInWithGoogle = async () => {
-  console.log("entra");
   try {
     const result = await signInWithPopup(FirebaseAuth, googleProvider);
     const { displayName, email, photoURL, uid } = result.user;

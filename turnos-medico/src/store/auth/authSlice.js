@@ -14,20 +14,20 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      (state.isAuth = true),
-        (state.isLoading = false),
-        (state.uid = action.payload.uid),
-        (state.email = action.payload.email),
-        (state.displayName = `${action.payload.nombre} ${action.payload.apellido}`),
-        (state.errorMessage = null);
+      state.isAuth = true;
+      state.isLoading = false;
+      state.uid = action.payload.uid;
+      state.email = action.payload.email;
+      state.displayName = action.payload.displayName;
+      state.errorMessage = null;
     },
     logout: (state) => {
-      (state.isAuth = false),
-        (state.isLoading = false),
-        (state.uid = null),
-        (state.email = null),
-        (state.displayName = null),
-        (state.errorMessage = null);
+      state.isAuth = false;
+      state.isLoading = false;
+      state.uid = null;
+      state.email = null;
+      state.displayName = null;
+      state.errorMessage = null;
     },
     checkingCredentials: (state, action) => {
       state.isLoading = action.payload;

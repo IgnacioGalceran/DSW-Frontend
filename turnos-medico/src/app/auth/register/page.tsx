@@ -24,7 +24,6 @@ const page = () => {
       ...credentials,
       [event.target.name]: event.target.value,
     });
-    console.log(credentials);
   };
 
   const registerUser = async (e: any) => {
@@ -55,10 +54,7 @@ const page = () => {
       });
 
       const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

@@ -1,0 +1,7 @@
+.container {
+}
+
+.imagenContainer {
+  display: flex;
+  justify-content: center;
+}

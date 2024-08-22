@@ -29,7 +29,7 @@
     "src/firebase/config.ts",
     "src/firebase/providers.ts",
     "src/pages/api/signIn.js",
-    "src/firebase/helper.js"
+    "src/firebase/helper.ts"
   ],
   "exclude": ["node_modules"]
 }

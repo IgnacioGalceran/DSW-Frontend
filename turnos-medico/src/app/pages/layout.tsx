@@ -17,8 +17,7 @@ function Layout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <CheckAuth />
-      {isAuth && <Header />}
+      <CheckAuth />;{isAuth && <Header />}
       {(isLoading || loading) && <Loader />}
       {isAuth && !isLoading && !loading && (
         <div className={styles.container}>{children}</div>

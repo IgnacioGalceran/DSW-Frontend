@@ -17,11 +17,15 @@ export default function useFind<T>(entity: string) {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
+      if (response.status === 498) {
+        console.log("token expirado");
+      }
       const data = await response.json();
-      console.log(data);
 
       setData(data);
     } catch (error) {
+      console.log("error: ", error);
     } finally {
       setLoading(false);
     }

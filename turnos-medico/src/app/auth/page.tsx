@@ -19,7 +19,6 @@ export default function LoginPage() {
   const router = useRouter();
 
   const changeUser = (event: any) => {
-    useState;
     setCredentials({
       ...credentials,
       [event.target.name]: event.target.value,

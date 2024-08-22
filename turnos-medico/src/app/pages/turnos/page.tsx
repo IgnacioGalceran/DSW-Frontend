@@ -2,6 +2,7 @@
 import { Turnos } from "./type";
 import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
+import Image from "next/image";
 import styles from "./turnos.module.css";
 
 export default function ListaTurnos() {
@@ -9,9 +10,18 @@ export default function ListaTurnos() {
 
   return (
     <>
-      <div className="overflow-auto">
+      <div className={styles.container}>
         <div>
           <h1 className="font-sans text-3xl text-center p-10">Turnos</h1>
+        </div>
+        <div className={styles.imagenContainer}>
+          <Image
+            src={"/assets/turnos.png"}
+            width={500}
+            height={500}
+            alt=""
+            className={styles.imagen}
+          />
         </div>
         {loading && <Loader />}
         <div>
