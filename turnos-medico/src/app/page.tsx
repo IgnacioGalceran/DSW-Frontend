@@ -6,6 +6,7 @@ import Loader from "@/components/Loader";
 import Header from "@/components/Header";
 import styles from "./page.module.css";
 import CheckAuth from "./client";
+import Landing from "@/components/Landing";
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,6 +26,7 @@ export default function Home() {
           <Header />
           <div className={styles.container}>
             <h1>Container</h1>
+            <Landing />
           </div>
         </>
       )}

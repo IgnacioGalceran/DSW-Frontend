@@ -9,9 +9,16 @@ import { Medicos } from "./type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./medicos.module.css";
+import useCRUD from "@/hooks/useCrud";
 
 export default function ListaMedicos() {
-  const { data: medicos, loading } = useFind<Medicos>("medicos");
+  const {
+    data: medicos,
+    loading,
+    insert,
+    update,
+    remove,
+  } = useCRUD<Medicos>("medicos");
   const [openForm, setOpenForm] = useState<boolean>(false);
 
   return (
