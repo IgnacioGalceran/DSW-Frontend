@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(42, 42, 42, 0.563);
+  z-index: 40;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-color: rgb(230, 235, 236);
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  height: 50%;
+  width: 90%;
+}
+
+.respuesta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+  height: 100%;
+}
+
+.mensaje {
+  font-size: 1.8rem;
+  font-weight: 700;
+  width: 80%;
+  text-align: center;
+  color: rgb(49, 55, 61);
+}
+
+.exclamation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid rgb(184, 179, 179);
+  background-color: #f7e6ad;
+  color: #3d3d3d;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.486);
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.si,
+.no {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  font-size: 2rem;
+  border: 1px solid rgb(184, 179, 179);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.486);
+}
+
+.si {
+  color: green;
+  background-color: rgb(210, 248, 200);
+}
+
+.no {
+  background-color: rgb(248, 200, 200);
+  color: rgb(148, 28, 28);
+}
+
+.si:hover,
+.no:hover {
+  opacity: 0.6;
+}
+
+@media only screen and (min-width: 800px) {
+  .modalContent {
+    height: 45%;
+    width: 38%;
+  }
+}

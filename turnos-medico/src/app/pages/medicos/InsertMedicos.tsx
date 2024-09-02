@@ -6,9 +6,14 @@ import { validateMedicos } from "./validations";
 import { Medicos } from "./type";
 import useCreate from "@/hooks/useCreate";
 import useForm from "@/hooks/useForm";
+import Confirma from "@/components/Confirmacion";
+import Input from "@/components/Input";
+import Select from "@/components/Select";
+import useCRUD from "@/hooks/useCrud";
 
 export default function InsertMedicos() {
-  const { insert } = useCreate("auth/registerMedico");
+  const [openConfirma, setOpenConfirma] = useState<boolean>(false);
+  const { insert } = useCRUD<Medicos>("medicos");
 
   const submitMedicos = async (
     value: Medicos & {
@@ -39,219 +44,111 @@ export default function InsertMedicos() {
     validateMedicos,
     submitMedicos
   );
-  const classLabel = "block text-gray-700 text-sm font-bold";
-  const classInputBase =
-    "shadow appearance-none border rounded w-full py-2 px-3 my-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline";
-  const classInputValid = "border-green-500";
-  const classInputError = "border-red-500";
+
   const classButton =
     "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 mt-5 px-4 text-lg rounded focus:outline-none focus:shadow-outline mx-auto block";
 
+  const handleConfirma = (e: any) => {
+    e.preventDefault();
+
+    setOpenConfirma(true);
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full sm:w-1/2 mx-auto"
-    >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="my-2">
-          <label className={classLabel}>Nombre Médico*</label>
-          <input
+    <>
+      {openConfirma && (
+        <Confirma
+          message="Está seguro que quiere agregar el médico"
+          open={openConfirma}
+          setOpenConfirma={setOpenConfirma}
+          handleConfirma={handleSubmit}
+        />
+      )}
+      <form
+        onSubmit={(e) => handleConfirma(e)}
+        className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full sm:w-1/2 mx-auto"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Input
             type="text"
             name="usuario.nombre"
-            value={values.usuario.nombre}
+            value={values.usuario?.nombre}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`${classInputBase} ${
-              errors["usuario.nombre"]
-                ? classInputError
-                : values.usuario.nombre && !errors["usuario.nombre"]
-                ? classInputValid
-                : ""
-            }`}
+            error={errors["usuario.nombre"]}
+            placeholder="Nombre del Médico*"
           />
-          <p
-            className={`text-red-500 text-xs italic ${
-              errors["usuario.nombre"] ? "visible" : "invisible"
-            }`}
-          >
-            {errors["usuario.nombre"] || "Placeholder"}
-          </p>
-        </div>
-        <div className="my-2">
-          <label className={classLabel}>Apellido Médico*</label>
-          <input
+          <Input
             type="text"
             name="usuario.apellido"
-            value={values.usuario.apellido}
+            value={values.usuario?.apellido}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`${classInputBase} ${
-              errors["usuario.apellido"]
-                ? classInputError
-                : values.usuario.apellido && !errors["usuario.apellido"]
-                ? classInputValid
-                : ""
-            }`}
+            error={errors["usuario.apellido"]}
+            placeholder="Apellido del Médico*"
           />
-          <p
-            className={`text-red-500 text-xs italic ${
-              errors["usuario.apellido"] ? "visible" : "invisible"
-            }`}
-          >
-            {errors["usuario.apellido"] || "Placeholder"}
-          </p>
-        </div>
-        <div className="my-2">
-          <label className={classLabel}>Tipo DNI</label>
-          <select
+          <Select
             name="usuario.tipoDni"
-            value={values.usuario.tipoDni}
+            value={values.usuario?.tipoDni}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`${classInputBase} ${
-              errors["usuario.tipoDni"]
-                ? classInputError
-                : values.usuario.tipoDni && !errors["usuario.tipoDni"]
-                ? classInputValid
-                : ""
-            }`}
-          >
-            <option value={""}>Seleccionar Tipo DNI</option>
-            <option value={"Dni"}>Dni</option>
-            <option value={"Pasaporte"}>Pasaporte</option>
-          </select>
-          <p
-            className={`text-red-500 text-xs italic ${
-              errors["usuario.tipoDni"] ? "visible" : "invisible"
-            }`}
-          >
-            {errors["usuario.tipoDni"] || "Placeholder"}
-          </p>
-        </div>
-        <div className="my-2">
-          <label className={classLabel}>Dni</label>
-          <input
+            options={[
+              { id: "Dni", nombre: "Dni" },
+              { id: "Pasaporte", nombre: "Pasaporte" },
+            ]}
+            error={errors["usuario.tipoDni"]}
+            placeholder="Tipo DNI"
+          />
+          <Input
             type="text"
             name="usuario.dni"
-            value={values.usuario.dni}
+            value={values.usuario?.dni}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`${classInputBase} ${
-              errors["usuario.dni"]
-                ? classInputError
-                : values.usuario.dni && !errors["usuario.dni"]
-                ? classInputValid
-                : ""
-            }`}
+            error={errors["usuario.dni"]}
+            placeholder="Dni del Médico*"
           />
-          <p
-            className={`text-red-500 text-xs italic ${
-              errors["usuario.dni"] ? "visible" : "invisible"
-            }`}
-          >
-            {errors["usuario.dni"] || "Placeholder"}
-          </p>
-        </div>
-        <div className="my-2">
-          <label className={classLabel}>Correo electrónico</label>
-          <input
-            type="text"
+          <Input
+            type="email"
             name="email"
             value={values.email}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`${classInputBase} ${
-              errors.email
-                ? classInputError
-                : values.email && !errors.email
-                ? classInputValid
-                : ""
-            }`}
+            error={errors["email"]}
+            placeholder="Correo electrónico*"
           />
-          <p
-            className={`text-red-500 text-xs italic ${
-              errors.email ? "visible" : "invisible"
-            }`}
-          >
-            {errors.email || "Placeholder"}
-          </p>
-        </div>
-        <div className="my-2">
-          <label className={classLabel}>Contraseña</label>
-          <input
-            type="password"
+          <Input
+            type="text"
             name="password"
             value={values.password}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`${classInputBase} ${
-              errors.password
-                ? classInputError
-                : values.password && !errors.password
-                ? classInputValid
-                : ""
-            }`}
+            error={errors["password"]}
+            placeholder="Contraseña*"
           />
-          <p
-            className={`text-red-500 text-xs italic ${
-              errors.password ? "visible" : "invisible"
-            }`}
-          >
-            {errors.password || "Placeholder"}
-          </p>
-        </div>
-        <div className="my-2">
-          <label className={classLabel}>Repetir contraseña</label>
-          <input
-            type="password"
+          <Input
+            type="text"
             name="repeatPassword"
             value={values.repeatPassword}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`${classInputBase} ${
-              errors.repeatPassword
-                ? classInputError
-                : values.repeatPassword && !errors.repeatPassword
-                ? classInputValid
-                : ""
-            }`}
+            error={errors["repeatPassword"]}
+            placeholder="Repetir contraseña*"
           />
-          <p
-            className={`text-red-500 text-xs italic ${
-              errors.repeatPassword ? "visible" : "invisible"
-            }`}
-          >
-            {errors.repeatPassword || "Placeholder"}
-          </p>
-        </div>
-        <div className="my-2">
-          <label className={classLabel}>Matrícula*</label>
-          <input
+          <Input
             type="text"
             name="matricula"
             value={values.matricula}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`${classInputBase} ${
-              errors.matricula
-                ? classInputError
-                : values.usuario.apellido && !errors.matricula
-                ? classInputValid
-                : ""
-            }`}
+            error={errors["matricula"]}
+            placeholder="Matrícula*"
           />
-          <p
-            className={`text-red-500 text-xs italic ${
-              errors.matricula ? "visible" : "invisible"
-            }`}
-          >
-            {errors.matricula || "Placeholder"}
-          </p>
         </div>
-      </div>
-      <button className={classButton} type="submit">
-        Cargar Médico
-      </button>
-    </form>
+        <button className={classButton} type="submit">
+          Cargar Médico
+        </button>
+      </form>
+    </>
   );
 }

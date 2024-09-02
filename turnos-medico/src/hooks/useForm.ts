@@ -94,6 +94,7 @@ function useForm<T>(
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(e, "useForm");
     e.preventDefault();
     const validationErrors = await validateForm(values, schema);
     setErrors(validationErrors);
