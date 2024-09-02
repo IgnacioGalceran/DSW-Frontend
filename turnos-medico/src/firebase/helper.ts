@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import { FirebaseAuth } from "@/firebase/config";
 import {
   signInWithEmailAndPassword,
-  onAuthStateChanged,
   signOut as firebaseSignOut,
+  onIdTokenChanged,
 } from "firebase/auth";
 import { API_URL } from "@/constants/const";
 
@@ -20,10 +20,13 @@ class NotFound extends Error {
 
 export const tokenListener = async (dispatch: any) => {
   return new Promise((resolve, reject) => {
-    onAuthStateChanged(
+    onIdTokenChanged(
       FirebaseAuth,
       async (user: any) => {
         if (user) {
+          let date = new Date();
+          console.log(Number(date) - 1000 * 60 * 60 * 3);
+          console.log(user.metadata.creationTime);
           const token = await user.getIdToken();
           const userData = await getUserData(user.uid, token);
           localStorage.setItem("token", token);
@@ -34,7 +37,7 @@ export const tokenListener = async (dispatch: any) => {
             login({
               uid: user.uid,
               email: user.email,
-              displayName,
+              displayName: "ignacio",
             })
           );
 

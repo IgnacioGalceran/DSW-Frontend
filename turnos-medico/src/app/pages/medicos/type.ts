@@ -3,17 +3,17 @@ import { Roles } from "../roles/type";
 
 export type Medicos = {
   usuario: {
-    id: string;
-    uid: string;
+    id?: string;
+    uid?: string;
     nombre: string;
     apellido: string;
+    dni: string;
     tipoDni: string;
+    rol?: Roles;
   };
-  telefono: string;
-  especialidad: Especialidades | null;
-  horaDesde: string;
-  horaHasta: string;
+  especialidad?: Especialidades | null;
+  horaDesde?: string;
+  horaHasta?: string;
   matricula: string;
-  diasAtencion: string;
-  rol: Roles;
+  diasAtencion?: string;
 };

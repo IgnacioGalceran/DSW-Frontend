@@ -6,7 +6,7 @@ import { checkingCredentials, login } from "@/store/auth/authSlice";
 
 export default function CheckAuth() {
   const dispatch = useDispatch();
-
+  console.log("client");
   useEffect(() => {
     const setupTokenListener = async () => {
       try {

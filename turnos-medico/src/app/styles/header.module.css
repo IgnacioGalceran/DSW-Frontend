@@ -50,7 +50,7 @@
   .header {
     justify-content: flex-end;
     background-color: rgb(21, 22, 24);
-    height: 50px;
+    height: 60px;
   }
 
   .header li {

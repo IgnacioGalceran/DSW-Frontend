@@ -5,12 +5,14 @@ import LoginPage from "./auth/page";
 import Loader from "@/components/Loader";
 import Header from "@/components/Header";
 import styles from "./page.module.css";
+import CheckAuth from "./client";
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const { isAuth, isLoading } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
+    console.log(isAuth);
     setLoading(false);
   }, []);
 

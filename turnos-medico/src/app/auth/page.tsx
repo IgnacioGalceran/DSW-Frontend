@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "@/firebase/helper";
 import Loader from "@/components/Loader";
 import styles from "./login.module.css";
+import CheckAuth from "../client";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
-  
+
   const changeUser = (event: any) => {
     setCredentials({
       ...credentials,
@@ -26,9 +27,9 @@ export default function LoginPage() {
     });
   };
 
-  async function handleGoogleLogin(e:any) {
-    e.preventDefault()
-    await signInWithGoogle(dispatch)
+  async function handleGoogleLogin(e: any) {
+    e.preventDefault();
+    await signInWithGoogle(dispatch);
   }
 
   async function handleLogin(e: any) {
