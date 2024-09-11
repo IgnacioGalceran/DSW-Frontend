@@ -10,9 +10,8 @@ export default function CheckAuth() {
   useEffect(() => {
     const setupTokenListener = async () => {
       try {
-        dispatch(checkingCredentials(true));
-        const user = await tokenListener(dispatch);
-        const token = localStorage.getItem("token");
+        // const user = await tokenListener(dispatch);
+        // const token = localStorage.getItem("token");
       } catch (error) {
         console.error("Error setting up token listener:", error);
       } finally {

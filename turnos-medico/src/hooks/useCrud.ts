@@ -11,7 +11,6 @@ export default function useCRUD<T>(entity: string) {
     message: "",
   });
   const [loading, setLoading] = useState<boolean>(true);
-  //   const { showToast } = useToast();
 
   const fetchData = async () => {
     setLoading(true);
@@ -47,8 +46,10 @@ export default function useCRUD<T>(entity: string) {
         // showToast(result.message, "OK", 4000);
         await fetchData();
       }
+      console.table(response, result);
       return result;
     } catch (error: any) {
+      console.log(error);
       return { error: true, message: error.message };
     }
   };

@@ -29,25 +29,27 @@ const page = () => {
   const registerUser = async (e: any) => {
     e.preventDefault();
     await validate(credentials);
-    const displayName = `${credentials.name} ${credentials.lastname}`;
-    console.log(displayName);
+    // const displayName = `${credentials.name} ${credentials.lastname}`;
     try {
-      const userData = await createUserWithEmailAndPassword(
-        FirebaseAuth,
-        credentials.email,
-        credentials.password
-      );
+      // const userData = await createUserWithEmailAndPassword(
+      //   FirebaseAuth,
+      //   credentials.email,
+      //   credentials.password
+      // );
 
-      const { uid } = userData.user;
+      // const { uid } = userData.user;
 
       const bodyData = {
-        uid,
-        displayName,
+        // uid,
+        name: credentials.name,
+        lastname: credentials.lastname,
         tipoDni: "DNI",
+        email: credentials.email,
+        password: credentials.password,
         dni: credentials.dni,
       };
 
-      const response = await fetch(`${API_URL}/auth/registerPaciente`, {
+      const response = await fetch(`${API_URL}/pacientes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
