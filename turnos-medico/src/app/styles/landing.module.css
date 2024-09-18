@@ -1,74 +1,89 @@
-.header{
-    display: flex;
-    min-height: 80px;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(242, 255, 205);
-} 
-.logo{
-    display: flex;
-    align-items: center;
-}   
-
-.logo img{
-    height: 50px;
-    margin-right: 10px;
-}   
-
-.menu{
-    position: absolute ;
-    left: 5%;
+.header {
+  display: flex;
+  min-height: 80px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(242, 255, 205);
+}
+.logo {
+  display: flex;
+  align-items: center;
 }
 
-.menu img{
-    height: 30px;
+.logo img {
+  height: 50px;
+  margin-right: 10px;
 }
 
-.header nav{
-    display: flex;
+.menu {
+  position: absolute;
+  left: 5%;
 }
 
-.navlink{
-    display: none;
-    margin-right: 20px;
-} 
-
-.navlink:hover{
-    color: rgb(134, 134, 134) 
-}
-.familyIMGcontainer{
-    width: 100%;
-    margin: 0;
-    padding: 0;
+.menu img {
+  height: 30px;
 }
 
-.familyIMG{
-    width: 100%;
-    height: auto;
+.header nav {
+  display: flex;
+}
+
+.navlink {
+  display: none;
+  margin-right: 20px;
+}
+
+.navlink:hover {
+  color: rgb(134, 134, 134);
+}
+
+.img {
+  height: 30vh;
+  width: 100vw;
+}
+
+.text {
+  text-align: center;
+  animation: fade-in-bottom 2s ease-out;
+}
+
+.title {
+  margin-bottom: 20px;
+  color: red;
+}
+
+.sliderBox li.active {
+  animation: fade-in-bottom 1s ease-out;
+}
+
+@keyframes fade-in-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 700px) {
+  .header {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .header nav {
+    padding: 10px 0px;
+    flex-direction: row;
+  }
+
+  .navlink {
     display: block;
-}
+  }
 
-@media (min-width:700px){
-    .header{
-        flex-direction: row;
-        justify-content: space-around;
-    }
-   
-    .header nav{
-        padding: 10px 0px;
-        flex-direction: row;
-
-    }
-
-    .navlink{
-        display: block;
-        /* flex-direction: column; */
-    }
-
-    .menu{
-        display: none;
-    }
-
-    
+  .menu {
+    display: none;
+  }
 }

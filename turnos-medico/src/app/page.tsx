@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import styles from "./page.module.css";
 import CheckAuth from "./client";
 import Landing from "@/components/Landing";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
