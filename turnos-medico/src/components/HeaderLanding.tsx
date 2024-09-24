@@ -14,12 +14,11 @@ export const HeaderLanding = () => {
             <Nav className="me-auto">
               <Nav.Link href="">¿Quiénes somos?</Nav.Link>
               <Nav.Link href="">Turnos</Nav.Link>
-              <Nav.Link href="">Especialides</Nav.Link>
+              <Nav.Link href="">Especialidades</Nav.Link>
             </Nav>
-            <Nav className="loginContainer">
-              <Nav.Link href="">Iniciar sesión</Nav.Link>
-              <Nav.Link eventKey={2} href="">
-                Registrarse
+            <Nav>
+              <Nav.Link href="" className={styles["nav-link"]}>
+                Portal - Pacientes
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

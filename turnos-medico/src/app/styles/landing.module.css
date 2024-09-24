@@ -21,13 +21,6 @@
   object-fit: cover;
 }
 
-/* .navbar-desktop {
-  display: none;
-}
-.navbar-mobile {
-  display: block;
-} */
-
 .text {
   /* text-align: center; */
   color: white;
@@ -43,7 +36,7 @@
   animation-timeline: --section;
   animation-name: fade-in-bottom;
 
-  animation-range: entry 25% cover 50%;
+  animation-range: entry 20% cover 35%;
   animation-fill-mode: both;
 }
 
