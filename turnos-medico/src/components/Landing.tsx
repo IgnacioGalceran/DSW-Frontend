@@ -156,6 +156,7 @@ export default function Landing() {
           necesites.
         </p>
       </section>
+      <footer></footer>
     </>
   );
 }

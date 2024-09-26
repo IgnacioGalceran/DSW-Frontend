@@ -7,59 +7,49 @@ import { useRouter } from "next/navigation";
 import { API_URL } from "@/constants/const";
 import styles from "./register.module.css";
 import { validate } from "./validationsFields";
+import useCRUD from "@/hooks/useCrud";
+import { Pacientes } from "@/app/pages/pacientes/type";
+import useForm from "@/hooks/useForm";
+import { validatePacientes } from "@/app/pages/pacientes/validations";
+import Input from "@/components/Input";
+import Select from "@/components/Select";
 
 const page = () => {
   const router = useRouter();
 
-  const [credentials, setCredentials] = useState({
-    name: "",
-    lastname: "",
-    dni: "",
-    email: "",
-    password: "",
-  });
+  const { insert } = useCRUD<Pacientes>("pacientes");
 
-  const changeUser = (event: any) => {
-    setCredentials({
-      ...credentials,
-      [event.target.name]: event.target.value,
-    });
+  const submitPaciente = async (
+    value: Pacientes & {
+      email: string;
+      password: string;
+      repeatPassword: string;
+    }
+  ) => {
+    await insert(value);
   };
 
-  const registerUser = async (e: any) => {
-    e.preventDefault();
-    await validate(credentials);
-    // const displayName = `${credentials.name} ${credentials.lastname}`;
-    try {
-      // const userData = await createUserWithEmailAndPassword(
-      //   FirebaseAuth,
-      //   credentials.email,
-      //   credentials.password
-      // );
+  const { values, errors, handleChange, handleBlur, handleSubmit } = useForm<
+    Pacientes & { email: string; password: string; repeatPassword: string }
+  >(
+    {
+      email: "",
+      password: "",
+      repeatPassword: "",
+      usuario: {
+        uid: "",
+        nombre: "",
+        apellido: "",
+        tipoDni: "",
+        dni: "",
+      },
+    },
+    validatePacientes,
+    submitPaciente
+  );
 
-      // const { uid } = userData.user;
-
-      const bodyData = {
-        // uid,
-        name: credentials.name,
-        lastname: credentials.lastname,
-        tipoDni: "DNI",
-        email: credentials.email,
-        password: credentials.password,
-        dni: credentials.dni,
-      };
-
-      const response = await fetch(`${API_URL}/pacientes`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bodyData),
-      });
-
-      const data = await response.json();
-    } catch (error) {}
-  };
+  const classButton =
+    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 mt-5 px-4 text-lg rounded focus:outline-none focus:shadow-outline mx-auto block";
 
   return (
     <div
@@ -81,129 +71,79 @@ const page = () => {
           className="space-y-2"
           action="#"
           method="POST"
-          onSubmit={(e) => registerUser(e)}
+          onSubmit={(e) => handleSubmit(e)}
         >
-          <div>
-            <label
-              // for="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Nombre
-            </label>
-            <div className="mt-2">
-              <input
-                id="name"
-                name="name"
-                type="text"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={changeUser}
-              />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Input
+              type="text"
+              name="usuario.nombre"
+              value={values.usuario?.nombre}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors["usuario.nombre"]}
+              placeholder="Nombre del Médico*"
+            />
+            <Input
+              type="text"
+              name="usuario.apellido"
+              value={values.usuario?.apellido}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors["usuario.apellido"]}
+              placeholder="Apellido del Médico*"
+            />
+            <Select
+              name="usuario.tipoDni"
+              value={values.usuario?.tipoDni}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              options={[
+                { id: "Dni", nombre: "Dni" },
+                { id: "Pasaporte", nombre: "Pasaporte" },
+              ]}
+              error={errors["usuario.tipoDni"]}
+              placeholder="Tipo DNI"
+            />
+            <Input
+              type="text"
+              name="usuario.dni"
+              value={values.usuario?.dni}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors["usuario.dni"]}
+              placeholder="Dni del Médico*"
+            />
+            <Input
+              type="email"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors["email"]}
+              placeholder="Correo electrónico*"
+            />
+            <Input
+              type="text"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors["password"]}
+              placeholder="Contraseña*"
+            />
+            <Input
+              type="text"
+              name="repeatPassword"
+              value={values.repeatPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors["repeatPassword"]}
+              placeholder="Repetir contraseña*"
+            />
           </div>
-          <div>
-            <label
-              // for="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Apellido
-            </label>
-            <div className="mt-2">
-              <input
-                id="lastname"
-                name="lastname"
-                type="text"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={changeUser}
-              />
-            </div>
-          </div>
-          <div>
-            <label
-              // for="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Numero de DNI
-            </label>
-            <div className="mt-2">
-              <input
-                id="dni"
-                name="dni"
-                type="number"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={changeUser}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label
-              // for="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Correo electrónico
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={changeUser}
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between">
-              <label
-                // type="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Contraseña
-              </label>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                // autocomplete="current-password"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={changeUser}
-              />
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center justify-between">
-              <label
-                // type="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Repite la contraseña
-              </label>
-            </div>
-            <div className="mt-2">
-              <input
-                id="repeatPassword"
-                name="password"
-                type="password"
-                // autocomplete="current-password"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={changeUser}
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Registrarse
-            </button>
-          </div>
+          <button className={classButton} type="submit">
+            Registrarse
+          </button>
         </form>
       </div>
     </div>

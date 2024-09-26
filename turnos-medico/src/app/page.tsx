@@ -19,19 +19,19 @@ export default function Home() {
   }, []);
 
   return (
-    <Landing />
-    // <>
-    //   {(isLoading || loading) && <Loader />}
-    //   {!isAuth && !isLoading && !loading && <Landing />}
-    //   {!isAuth && !isLoading && !loading && <LoginPage />}
-    //   {isAuth && !isLoading && !loading && (
-    //     <>
-    //       <Header />
-    //       <div className={styles.container}>
-    //         <h1>Container</h1>
-    //       </div>
-    //     </>
-    //   )}
-    // </>
+    // <Landing />
+    <>
+      {(isLoading || loading) && <Loader />}
+      {!isAuth && !isLoading && !loading && <Landing />}
+      {!isAuth && !isLoading && !loading && <LoginPage />}
+      {isAuth && !isLoading && !loading && (
+        <>
+          <Header />
+          <div className={styles.container}>
+            <h1>Container</h1>
+          </div>
+        </>
+      )}
+    </>
   );
 }

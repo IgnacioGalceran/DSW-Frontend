@@ -14,6 +14,15 @@ export const registerPaciente = Joi.object({
     .required(),
   dni: Joi.string().min(8).max(10).required(),
   // tipoDni: Joi.string().min(2).max(30).required(),
+  email: Joi.string()
+    .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+    .required()
+    .messages({
+      "string.empty": "El correo electrónico es requerido",
+      "string.pattern.base": "Debe proporcionar un correo electrónico válido",
+    }),
+  password: Joi.string().min(8).max(20).required(),
+  repeatPassword: Joi.string().min(8).max(20).required(),
 });
 
 export const validate = async (data: any) => {

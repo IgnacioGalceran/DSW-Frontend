@@ -22,7 +22,6 @@ export default function useCRUD<T>(entity: string) {
         },
       });
       const result = await response.json();
-      console.log(result);
       setData(result);
     } catch (error: any) {
       setData({ data: [], error: true, message: error.message });
@@ -42,6 +41,7 @@ export default function useCRUD<T>(entity: string) {
         body: JSON.stringify(form),
       });
       const result = await response.json();
+      console.log(result);
       if (!result.error) {
         // showToast(result.message, "OK", 4000);
         await fetchData();
