@@ -20,7 +20,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
 }) => {
   return (
-    <div className="my-2">
+    <div className="">
       <label className="block text-gray-700 text-sm font-bold">
         {placeholder}
       </label>
@@ -30,7 +30,7 @@ const Input: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        className={`shadow appearance-none border rounded w-full py-2 px-3 my-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+        className={`shadow appearance-none border rounded w-full py-2 px-3 mt-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
           error ? "border-red-500" : value ? "border-green-500" : ""
         }`}
         placeholder={placeholder}
