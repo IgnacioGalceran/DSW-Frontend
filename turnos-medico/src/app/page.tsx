@@ -10,21 +10,12 @@ import Landing from "@/components/Landing";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Home() {
-  const [loading, setLoading] = useState<boolean>(true);
   const { isAuth, isLoading } = useSelector((state: any) => state.auth);
-
-  useEffect(() => {
-    console.log(isAuth);
-    setLoading(false);
-  }, []);
-
   return (
-    // <Landing />
     <>
-      {(isLoading || loading) && <Loader />}
-      {!isAuth && !isLoading && !loading && <Landing />}
-      {!isAuth && !isLoading && !loading && <LoginPage />}
-      {isAuth && !isLoading && !loading && (
+      {isLoading && <Loader />}
+      {!isAuth && !isLoading && <Landing />}
+      {isAuth && !isLoading && (
         <>
           <Header />
           <div className={styles.container}>

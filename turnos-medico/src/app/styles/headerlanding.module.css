@@ -1,5 +1,18 @@
-.nav-link {
-  text-align: center;
-  margin: auto;
-  /* background-color: aqua; */
+/* .me-auto {
+  display: flex;
+  align-items: center;
+  background-color: aqua;
+
+} */
+
+
+.navbar-collapse .nav-portal{
+  display: none;
+}
+
+
+@media (min-width: 570px){
+  .navbar-collapse .nav-portal{
+    display: block;
+  }
 }

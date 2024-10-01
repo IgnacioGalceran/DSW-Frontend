@@ -7,29 +7,6 @@ export default function Landing() {
   return (
     <>
       <HeaderLanding />
-      {/* <header className={styles.header}>
-        <div className={styles.menu}>
-          <img src="/assets/menu-hamburguesa.png" />
-        </div>
-        <a href="#" className={styles.logo}>
-          <img src="/assets/turnoonline.png" alt="Logo de la pagina" />
-          <h2>Turnos médicos</h2>
-        </a>
-        <nav>
-          <a href="" className={styles.navlink}>
-            Inicio
-          </a>
-          <a href="" className={styles.navlink}>
-            ¿Quiénes somos?
-          </a>
-          <a href="" className={styles.navlink}>
-            Especialidades
-          </a>
-          <a href="" className={styles.navlink}>
-            Turnos
-          </a>
-        </nav>
-      </header> */}
       <Carousel fade indicators={false} controls={false} interval={5000}>
         <Carousel.Item>
           <div className={styles["img-container"]}>
@@ -68,9 +45,14 @@ export default function Landing() {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
+      <div className={styles.buttonPortal}>
+        <p>
+          Ingresá al <b>Portal</b>
+        </p>
+      </div>
 
       <section className={styles.customSection}>
-        <h2>¿Quiénes somos?</h2>
+        <h2 id="#somos">¿Quiénes somos?</h2>
         <div className={styles.divider}></div>
 
         <p>
@@ -91,7 +73,7 @@ export default function Landing() {
         </p>
       </section>
       <section className={styles.customSection}>
-        <h2>Especialidades Médicas a tu Alcance</h2>
+        <h2 id="#especialidad">Especialidades Médicas a tu Alcance</h2>
         <div className={styles.divider}></div>
         <p>
           En nuestra plataforma de turnos médicos, ofrecemos acceso rápido y
@@ -143,7 +125,7 @@ export default function Landing() {
         </ul>
       </section>
       <section className={styles.customSection}>
-        <h2>¿Cómo funciona?</h2>
+        <h2 id="#comofunciona">¿Cómo funciona?</h2>
         <div className={styles.divider}></div>
         <p>
           Selecciona la especialidad que necesitas, elige el profesional y la

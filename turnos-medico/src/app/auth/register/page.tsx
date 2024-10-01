@@ -68,7 +68,7 @@ const page = () => {
           method="POST"
           onSubmit={(e) => handleSubmit(e)}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-1">
             <Input
               type="text"
               name="usuario.nombre"
@@ -76,7 +76,7 @@ const page = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               error={errors["usuario.nombre"]}
-              placeholder="Nombre del Médico*"
+              placeholder="Nombre*"
             />
             <Input
               type="text"
@@ -85,7 +85,7 @@ const page = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               error={errors["usuario.apellido"]}
-              placeholder="Apellido del Médico*"
+              placeholder="Apellido*"
             />
             <Select
               name="usuario.tipoDni"
@@ -106,7 +106,7 @@ const page = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               error={errors["usuario.dni"]}
-              placeholder="Dni del Médico*"
+              placeholder="Número de DNI*"
             />
             <Input
               type="email"
