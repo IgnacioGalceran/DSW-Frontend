@@ -2,7 +2,7 @@
 
 import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InsertMedicos from "./InsertMedicos";
 import { DataMedico } from "./DataMedico";
 import { Medicos } from "./type";
@@ -13,6 +13,7 @@ import useCRUD from "@/hooks/useCrud";
 
 export default function ListaMedicos() {
   const {
+    fetchData,
     data: medicos,
     loading,
     insert,
@@ -20,6 +21,10 @@ export default function ListaMedicos() {
     remove,
   } = useCRUD<Medicos>("medicos");
   const [openForm, setOpenForm] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>

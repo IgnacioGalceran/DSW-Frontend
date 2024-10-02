@@ -2,7 +2,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { API_URL } from "../constants/const";
-// import { useToast } from "@/context/ToastContext";
 
 export default function useCRUD<T>(entity: string) {
   const [data, setData] = useState<response<T>>({
@@ -97,9 +96,5 @@ export default function useCRUD<T>(entity: string) {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [entity]);
-
-  return { data, loading, insert, update, remove };
+  return { data, fetchData, loading, insert, update, remove };
 }

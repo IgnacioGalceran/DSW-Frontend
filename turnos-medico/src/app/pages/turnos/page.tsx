@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Turnos } from "./type";
 import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
@@ -16,8 +16,16 @@ export default function ListaTurnos() {
 
   const [openForm, setOpenForm] = useState<boolean>(false);
 
-  const { data: especialidades, loading: loadingEspecialidades } =
-    useCRUD<Especialidades>("especialidades");
+  const {
+    fetchData,
+    data: especialidades,
+    loading: loadingEspecialidades,
+  } = useCRUD<Especialidades>("especialidades");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       {loading && <Loader />}

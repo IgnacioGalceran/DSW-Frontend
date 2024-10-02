@@ -2,7 +2,7 @@ import Joi from "joi";
 
 export const validateTurnos = Joi.object({
   fecha: Joi.date(),
-  especialidades: Joi.string().min(24).max(24).required(),
+  especialidad: Joi.string().min(24).max(24).required(),
 });
 
 export const validate = (data: any) => {
