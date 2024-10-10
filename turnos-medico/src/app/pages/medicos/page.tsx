@@ -20,6 +20,7 @@ export default function ListaMedicos() {
     update,
     remove,
   } = useCRUD<Medicos>("medicos");
+
   const [openForm, setOpenForm] = useState<boolean>(false);
 
   useEffect(() => {
