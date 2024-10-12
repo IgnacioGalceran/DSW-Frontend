@@ -6,13 +6,21 @@ import useForm from "@/hooks/useForm";
 import { validateEspecialidades } from "./validations";
 import Confirma from "@/components/Confirmacion";
 
-export const InsertEspecialidades = () => {
+export const InsertEspecialidades = ({
+  especialidad,
+}: {
+  especialidad: Especialidades | null;
+}) => {
+  console.log(especialidad);
   const [openConfirma, setOpenConfirma] = useState<boolean>(false);
 
-  const { insert } = useCRUD<Especialidades>("especialidades");
+  const [nombre, setNombre] = useState(especialidad ? especialidad.nombre : "");
+
+  const { insert, update } = useCRUD<Especialidades>("especialidades");
 
   const submitEspecialidades = async (value: Especialidades) => {
     await insert(value);
+    // setNombre("");
   };
 
   const { values, errors, handleChange, handleBlur, handleSubmit } =
@@ -38,7 +46,7 @@ export const InsertEspecialidades = () => {
     <>
       {openConfirma && (
         <Confirma
-          message="Está seguro que quiere agregar el médico"
+          message="Está seguro que quiere editar la especiali"
           open={openConfirma}
           setOpenConfirma={setOpenConfirma}
           handleConfirma={handleSubmit}

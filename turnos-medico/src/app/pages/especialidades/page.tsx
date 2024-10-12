@@ -3,7 +3,6 @@ import { Especialidades } from "./type";
 import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
 import styles from "./especialidades.module.css";
-import { InfoEspecialidad } from "@/components/InfoEspecialidad";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
@@ -13,15 +12,26 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { InsertEspecialidades } from "./InsertEspecialidades";
+import useCRUD from "@/hooks/useCrud";
 
-export default function ListaMedicos() {
+export default function ListaEspecialidades() {
   const { data: especialidades, loading } =
     useFind<Especialidades>("especialidades");
 
-  const [openForm, setOpenForm] = useState<boolean>(false);
+  // const { update } = useCRUD<Especialidades>("especialidades");
 
-  const handleClick = (e: any) => {
-    console.log(e.target);
+  const [openForm, setOpenForm] = useState<boolean>(false);
+  const [selectedEspecialidad, setSelectedEspecialidad] =
+    useState<Especialidades | null>(null);
+
+  const handleClickInsert = () => {
+    console.log(openForm);
+    setOpenForm(!openForm);
+  };
+
+  const handleClickUpdate = (esp: Especialidades) => {
+    setSelectedEspecialidad(esp);
+    setOpenForm(!openForm);
   };
 
   return (
@@ -44,13 +54,14 @@ export default function ListaMedicos() {
                   className={`rounded-md mx-2 p-4 ${styles.sombra}`}
                   key={especialidad.id}
                 >
-                  <div className="grid grid-cols-2" onClick={handleClick}>
+                  <div className="grid grid-cols-2">
                     <p className="capitalize text-sx font-semibold  inline m-2">
                       {especialidad.nombre}
                     </p>
                     <FontAwesomeIcon
                       icon={faPencil}
                       className="block h-5 w-5 mt-2 mb-2 mr-2 ml-auto "
+                      onClick={() => handleClickUpdate(especialidad)}
                     />
                   </div>
                 </li>
@@ -60,12 +71,14 @@ export default function ListaMedicos() {
         )}
 
         <div className="overflow-auto">
-          {openForm && <InsertEspecialidades />}
+          {openForm && (
+            <InsertEspecialidades especialidad={selectedEspecialidad} />
+          )}
           {
             <FontAwesomeIcon
               icon={openForm ? faArrowLeft : faPlus}
               className={openForm ? styles.hide : styles.insert}
-              onClick={() => setOpenForm(!openForm)}
+              onClick={() => handleClickInsert()}
             />
           }
         </div>
