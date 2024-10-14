@@ -4,7 +4,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FirebaseAuth } from "@/firebase/config";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { API_URL } from "@/constants/const";
 import styles from "./register.module.css";
 import { validate } from "./validationsFields";
 import useCRUD from "@/hooks/useCrud";
@@ -26,7 +25,11 @@ const page = () => {
       repeatPassword: string;
     }
   ) => {
-    await insert(value);
+    let result = await insert(value);
+
+    if (!result.error) {
+      router.push("/auth");
+    }
   };
 
   const { values, errors, handleChange, handleBlur, handleSubmit } = useForm<

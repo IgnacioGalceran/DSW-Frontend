@@ -1,0 +1,81 @@
+.toast {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  width: 300px;
+  height: 75px;
+  position: relative;
+  background-color: hsl(216, 19%, 15%, 0.9);
+  color: #1c1d1e;
+  padding: 10px 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  text-transform: capitalize;
+  animation: slideInUp 0.1s ease;
+}
+
+.procesando {
+  background-color: #ffa600a6;
+}
+
+.pagado {
+  background-color: #2f3b42df;
+  color: #fff;
+}
+
+.rechazado {
+  background-color: #cc6060b9;
+}
+
+.toastClose {
+  position: absolute;
+  top: 0px;
+  right: 6px;
+  background: none;
+  border: none;
+  color: #141414;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.toastProgressContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0 0 4px 4px;
+  overflow: hidden;
+}
+
+.toastProgress {
+  height: 100%;
+  width: 0;
+  transition: width 0.1s linear;
+}
+
+.rechazado .toastProgress {
+  background-color: #b44a19;
+}
+
+.procesando .toastProgress {
+  background-color: #b4aa19;
+}
+
+.pagado .toastProgress {
+  background-color: #3cae4d;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20%);
+  }
+  to {
+    transform: translateY(-10%);
+  }
+}

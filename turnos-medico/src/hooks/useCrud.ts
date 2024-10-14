@@ -2,6 +2,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { API_URL } from "../constants/const";
+import { useToast } from "@/context/ToastContext";
 
 export default function useCRUD<T>(entity: string) {
   const [data, setData] = useState<response<T>>({
@@ -10,6 +11,7 @@ export default function useCRUD<T>(entity: string) {
     message: "",
   });
   const [loading, setLoading] = useState<boolean>(true);
+  const { showToast } = useToast();
 
   const fetchData = async () => {
     setLoading(true);
@@ -42,10 +44,12 @@ export default function useCRUD<T>(entity: string) {
       const result = await response.json();
       console.log(result);
       if (!result.error) {
-        // showToast(result.message, "OK", 4000);
+        showToast(result.message, "OK", 4000);
         await fetchData();
+      } else {
+        showToast(result.message, "FAIL", 4000);
       }
-      console.table(response, result);
+
       return result;
     } catch (error: any) {
       console.log(error);
@@ -64,9 +68,12 @@ export default function useCRUD<T>(entity: string) {
         body: JSON.stringify(form),
       });
       const result = await response.json();
+
       if (!result.error) {
-        // showToast(result.message, "OK", 4000);
+        showToast(result.message, "OK", 4000);
         await fetchData();
+      } else {
+        showToast(result.message, "FAIL", 4000);
       }
 
       return result;
@@ -86,10 +93,14 @@ export default function useCRUD<T>(entity: string) {
         },
       });
       const result = await response.json();
+
       if (!result.error) {
-        // showToast(result.message, "OK", 4000);
+        showToast(result.message, "OK", 4000);
         await fetchData();
+      } else {
+        showToast(result.message, "FAIL", 4000);
       }
+
       return result;
     } catch (error: any) {
       return { error: true, message: error.message };

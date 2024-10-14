@@ -2,7 +2,8 @@ import { API_URL } from "@/constants/const";
 import { useState } from "react";
 import { FirebaseAuth } from "@/firebase/config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { validateMedicos } from "./validations";
+import { validateInsert } from "./validations/validateInsert";
+import { validateUpdate } from "./validations/validateUpdate";
 import { Medicos } from "./type";
 import useCreate from "@/hooks/useCreate";
 import useForm from "@/hooks/useForm";
@@ -11,9 +12,20 @@ import Input from "@/components/Input";
 import Select from "@/components/Select";
 import useCRUD from "@/hooks/useCrud";
 
-export default function InsertMedicos() {
+type FormValues = Medicos & {
+  email?: string;
+  password?: string;
+  repeatPassword?: string;
+};
+
+export default function InsertMedicos(props: {
+  initialValues?: any;
+  isUpdating: boolean;
+  setOpenForm: any;
+  insert: any;
+  update: any;
+}) {
   const [openConfirma, setOpenConfirma] = useState<boolean>(false);
-  const { insert } = useCRUD<Medicos>("medicos");
 
   const submitMedicos = async (
     value: Medicos & {
@@ -22,13 +34,36 @@ export default function InsertMedicos() {
       repeatPassword: string;
     }
   ) => {
-    await insert(value);
+    try {
+      if (props.isUpdating) {
+        await props.update(props.initialValues?.id, value);
+      } else {
+        await props.insert(value);
+      }
+      props.setOpenForm(false);
+    } catch (error) {
+      console.error("Error al enviar el médico:", error);
+    }
   };
 
-  const { values, errors, handleChange, handleBlur, handleSubmit } = useForm<
-    Medicos & { email: string; password: string; repeatPassword: string }
-  >(
-    {
+  const getInitialFormValues = (
+    initialValues: FormValues,
+    isUpdating: boolean
+  ): FormValues => {
+    if (isUpdating) {
+      return {
+        matricula: initialValues.matricula || "",
+        usuario: {
+          uid: initialValues.usuario?.uid || "",
+          nombre: initialValues.usuario?.nombre || "",
+          apellido: initialValues.usuario?.apellido || "",
+          tipoDni: initialValues.usuario?.tipoDni || "",
+          dni: initialValues.usuario?.dni || "",
+        },
+      };
+    }
+
+    return {
       email: "",
       password: "",
       repeatPassword: "",
@@ -40,9 +75,12 @@ export default function InsertMedicos() {
         tipoDni: "",
         dni: "",
       },
-    },
-    validateMedicos,
-    submitMedicos
+    };
+  };
+
+  const initialFormValues = getInitialFormValues(
+    props.initialValues,
+    props.isUpdating
   );
 
   const classButton =
@@ -53,6 +91,13 @@ export default function InsertMedicos() {
 
     setOpenConfirma(true);
   };
+
+  const { values, errors, handleChange, handleBlur, handleSubmit } =
+    useForm<FormValues>(
+      { ...initialFormValues },
+      props.isUpdating ? validateUpdate : validateInsert,
+      submitMedicos
+    );
 
   return (
     <>
@@ -68,6 +113,38 @@ export default function InsertMedicos() {
         onSubmit={(e) => handleConfirma(e)}
         className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full sm:w-1/2 mx-auto"
       >
+        {!props.isUpdating && (
+          <>
+            <Input
+              type="email"
+              name="email"
+              value={values.email || ""}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors["email"]}
+              placeholder="Correo electrónico*"
+            />
+            <Input
+              type="text"
+              name="password"
+              value={values.password || ""}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors["password"]}
+              placeholder="Contraseña*"
+            />
+            <Input
+              type="text"
+              name="repeatPassword"
+              value={values.repeatPassword || ""}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors["repeatPassword"]}
+              placeholder="Repetir contraseña*"
+            />
+          </>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             type="text"
@@ -108,33 +185,7 @@ export default function InsertMedicos() {
             error={errors["usuario.dni"]}
             placeholder="Dni del Médico*"
           />
-          <Input
-            type="email"
-            name="email"
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors["email"]}
-            placeholder="Correo electrónico*"
-          />
-          <Input
-            type="text"
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors["password"]}
-            placeholder="Contraseña*"
-          />
-          <Input
-            type="text"
-            name="repeatPassword"
-            value={values.repeatPassword}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors["repeatPassword"]}
-            placeholder="Repetir contraseña*"
-          />
+
           <Input
             type="text"
             name="matricula"

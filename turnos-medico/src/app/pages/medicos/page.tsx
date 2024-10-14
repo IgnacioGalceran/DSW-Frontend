@@ -20,6 +20,7 @@ export default function ListaMedicos() {
     update,
     remove,
   } = useCRUD<Medicos>("medicos");
+  const [dataUpdate, setDataUpdate] = useState<Medicos | undefined>(undefined);
   const [openForm, setOpenForm] = useState<boolean>(false);
 
   useEffect(() => {
@@ -35,8 +36,23 @@ export default function ListaMedicos() {
             {openForm ? "Registro de médico" : "Lista de Médicos"}
           </h1>
         </div>
-        {!openForm && <DataMedico medicos={medicos} />}
-        {openForm && <InsertMedicos />}
+        {!openForm && (
+          <DataMedico
+            medicos={medicos}
+            remove={remove}
+            setDataUpdate={setDataUpdate}
+            setOpenForm={setOpenForm}
+          />
+        )}
+        {openForm && (
+          <InsertMedicos
+            initialValues={dataUpdate}
+            isUpdating={dataUpdate ? true : false}
+            setOpenForm={setOpenForm}
+            insert={insert}
+            update={update}
+          />
+        )}
         {
           <FontAwesomeIcon
             icon={openForm ? faArrowLeft : faPlus}
