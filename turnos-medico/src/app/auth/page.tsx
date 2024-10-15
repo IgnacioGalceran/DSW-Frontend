@@ -3,13 +3,14 @@ import { useState } from "react";
 import { signInWithGoogle } from "@/firebase/providers";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn } from "@/firebase/helper";
 import Loader from "@/components/Loader";
 import styles from "./login.module.css";
 import CheckAuth from "../client";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
+  const { signIn } = useAuth();
   const router = useRouter();
 
   const { initialState, status, isLoading } = useSelector(
@@ -34,7 +35,7 @@ export default function LoginPage() {
 
   async function handleLogin(e: any) {
     e.preventDefault();
-    await signIn(credentials, dispatch, router);
+    await signIn(credentials);
   }
 
   return (

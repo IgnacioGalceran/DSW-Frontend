@@ -7,6 +7,7 @@ const initialState = {
   email: null,
   displayName: null,
   errorMessage: null,
+  rol: null,
 };
 
 export const authSlice = createSlice({
@@ -19,6 +20,8 @@ export const authSlice = createSlice({
       state.uid = action.payload.uid;
       state.email = action.payload.email;
       state.displayName = action.payload.displayName;
+      state.funciones = action.payload.funciones;
+      state.rol = action.payload.rol;
       state.errorMessage = null;
     },
     logout: (state) => {
@@ -28,6 +31,8 @@ export const authSlice = createSlice({
       state.email = null;
       state.displayName = null;
       state.errorMessage = null;
+      state.funciones = null;
+      state.rol = null;
     },
     checkingCredentials: (state, action) => {
       state.isLoading = action.payload;
