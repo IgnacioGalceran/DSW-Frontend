@@ -2,7 +2,7 @@
 
 import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InsertMedicos from "./InsertMedicos";
 import { DataMedico } from "./DataMedico";
 import { Medicos } from "./type";
@@ -13,13 +13,19 @@ import useCRUD from "@/hooks/useCrud";
 
 export default function ListaMedicos() {
   const {
+    fetchData,
     data: medicos,
     loading,
     insert,
     update,
     remove,
   } = useCRUD<Medicos>("medicos");
+  const [dataUpdate, setDataUpdate] = useState<Medicos | undefined>(undefined);
   const [openForm, setOpenForm] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -30,8 +36,23 @@ export default function ListaMedicos() {
             {openForm ? "Registro de médico" : "Lista de Médicos"}
           </h1>
         </div>
-        {!openForm && <DataMedico medicos={medicos} />}
-        {openForm && <InsertMedicos />}
+        {!openForm && (
+          <DataMedico
+            medicos={medicos}
+            remove={remove}
+            setDataUpdate={setDataUpdate}
+            setOpenForm={setOpenForm}
+          />
+        )}
+        {openForm && (
+          <InsertMedicos
+            initialValues={dataUpdate}
+            isUpdating={dataUpdate ? true : false}
+            setOpenForm={setOpenForm}
+            insert={insert}
+            update={update}
+          />
+        )}
         {
           <FontAwesomeIcon
             icon={openForm ? faArrowLeft : faPlus}
