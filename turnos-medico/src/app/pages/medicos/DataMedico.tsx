@@ -40,7 +40,7 @@ export const DataMedico = (props: {
         )}
         {props.medicos.data?.map((medico: Medicos) => (
           <li
-            className={`w-4/5 md:w-1/5 py-4 rounded-md m-2 ${styles.medicoCard}`}
+            className={`md:w-1/5 rounded-md m-2 ${styles.medicoCard}`}
             key={medico.usuario.id}
           >
             <div>
@@ -55,8 +55,7 @@ export const DataMedico = (props: {
                 </div>
               </div>
               <div className=" sm:flex sm:flex-col ">
-                <p className="text-sm leading-6 text-gray-900"></p>
-                <p className="mt-1 text-xs leading-5 text-gray-500">
+                <p className="mt-1 text-xs text-gray-500">
                   {medico.especialidad
                     ? "Especialidad: " + medico.especialidad?.nombre
                     : "Especialidad: Sin especialidad"}

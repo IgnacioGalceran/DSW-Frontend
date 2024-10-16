@@ -11,6 +11,7 @@ import Confirma from "@/components/Confirmacion";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import useCRUD from "@/hooks/useCrud";
+import { Especialidades } from "../especialidades/type";
 
 type FormValues = Medicos & {
   email?: string;
@@ -22,6 +23,7 @@ export default function InsertMedicos(props: {
   initialValues?: any;
   isUpdating: boolean;
   setOpenForm: any;
+  especialidades: Especialidades[];
   insert: any;
   update: any;
 }) {
@@ -53,6 +55,7 @@ export default function InsertMedicos(props: {
     if (isUpdating) {
       return {
         matricula: initialValues.matricula || "",
+        especialidad: initialValues.especialidad?.id.toString() || "",
         usuario: {
           uid: initialValues.usuario?.uid || "",
           nombre: initialValues.usuario?.nombre || "",
@@ -103,7 +106,11 @@ export default function InsertMedicos(props: {
     <>
       {openConfirma && (
         <Confirma
-          message="Está seguro que quiere agregar el médico"
+          message={
+            props.isUpdating
+              ? "Está seguro que quiere actualizar el médico?"
+              : "Está seguro que quiere agregar el médico"
+          }
           open={openConfirma}
           setOpenConfirma={setOpenConfirma}
           handleConfirma={handleSubmit}
@@ -113,39 +120,39 @@ export default function InsertMedicos(props: {
         onSubmit={(e) => handleConfirma(e)}
         className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full sm:w-1/2 mx-auto"
       >
-        {!props.isUpdating && (
-          <>
-            <Input
-              type="email"
-              name="email"
-              value={values.email || ""}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors["email"]}
-              placeholder="Correo electrónico*"
-            />
-            <Input
-              type="text"
-              name="password"
-              value={values.password || ""}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors["password"]}
-              placeholder="Contraseña*"
-            />
-            <Input
-              type="text"
-              name="repeatPassword"
-              value={values.repeatPassword || ""}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors["repeatPassword"]}
-              placeholder="Repetir contraseña*"
-            />
-          </>
-        )}
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {!props.isUpdating && (
+            <>
+              <Input
+                type="email"
+                name="email"
+                value={values.email || ""}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors["email"]}
+                placeholder="Correo electrónico*"
+              />
+              <Input
+                type="text"
+                name="password"
+                value={values.password || ""}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors["password"]}
+                placeholder="Contraseña*"
+              />
+              <Input
+                type="text"
+                name="repeatPassword"
+                value={values.repeatPassword || ""}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors["repeatPassword"]}
+                placeholder="Repetir contraseña*"
+              />
+            </>
+          )}
+
           <Input
             type="text"
             name="usuario.nombre"
@@ -185,7 +192,15 @@ export default function InsertMedicos(props: {
             error={errors["usuario.dni"]}
             placeholder="Dni del Médico*"
           />
-
+          <Select
+            name="especialidad"
+            value={values.especialidad}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            options={props.especialidades}
+            error={errors["especialidad"]}
+            placeholder="Especialidad"
+          />
           <Input
             type="text"
             name="matricula"
@@ -197,7 +212,7 @@ export default function InsertMedicos(props: {
           />
         </div>
         <button className={classButton} type="submit">
-          Cargar Médico
+          {props.isUpdating ? "Actualizar médico" : "Cargar médico"}
         </button>
       </form>
     </>

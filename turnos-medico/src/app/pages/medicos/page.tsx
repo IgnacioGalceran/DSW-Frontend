@@ -10,30 +10,41 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./medicos.module.css";
 import useCRUD from "@/hooks/useCrud";
+import { Especialidades } from "../especialidades/type";
 
 export default function ListaMedicos() {
   const {
-    fetchData,
+    fetchData: getMedicos,
     data: medicos,
     loading,
     insert,
     update,
     remove,
   } = useCRUD<Medicos>("medicos");
+  const {
+    fetchData: getEspecialidades,
+    data: especialidades,
+    loading: loadingEspecialidades,
+  } = useCRUD<Especialidades>("especialidades");
   const [dataUpdate, setDataUpdate] = useState<Medicos | undefined>(undefined);
   const [openForm, setOpenForm] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchData();
+    getMedicos();
+    getEspecialidades();
   }, []);
 
   return (
     <>
-      {loading && <Loader />}
+      {(loading || loadingEspecialidades) && <Loader />}
       <div className="overflow-auto">
         <div>
           <h1 className="font-sans text-3xl text-center p-10">
-            {openForm ? "Registro de médico" : "Lista de Médicos"}
+            {openForm
+              ? dataUpdate
+                ? "Actualización de Médico"
+                : "Creación de Médico"
+              : "Lista de Médicos"}
           </h1>
         </div>
         {!openForm && (
@@ -49,6 +60,7 @@ export default function ListaMedicos() {
             initialValues={dataUpdate}
             isUpdating={dataUpdate ? true : false}
             setOpenForm={setOpenForm}
+            especialidades={especialidades.data}
             insert={insert}
             update={update}
           />
@@ -57,7 +69,10 @@ export default function ListaMedicos() {
           <FontAwesomeIcon
             icon={openForm ? faArrowLeft : faPlus}
             className={openForm ? styles.hide : styles.insert}
-            onClick={() => setOpenForm(!openForm)}
+            onClick={() => {
+              setOpenForm(!openForm);
+              setDataUpdate(undefined);
+            }}
           />
         }
       </div>

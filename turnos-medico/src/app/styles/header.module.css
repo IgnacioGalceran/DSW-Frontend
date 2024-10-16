@@ -4,6 +4,7 @@
   left: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
   padding: 10px;
   background-color: rgb(21, 22, 24);
@@ -16,6 +17,12 @@
   gap: 0.2rem;
   max-height: 100px;
   transition: max-height 0.3s ease;
+  margin: 0;
+  height: fit-content;
+}
+
+.header a {
+  text-decoration: none;
 }
 
 .header li {

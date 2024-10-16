@@ -18,6 +18,10 @@ export const validateInsert = Joi.object({
     "string.empty": "Este campo no puede estar vacío",
     "any.required": "Este campo es requerido *",
   }),
+  especialidad: Joi.string().min(24).max(24).messages({
+    "string.min": "La longitud mínima es de 24 caracteres",
+    "string.max": "La longitud máxima es de 24 caracteres",
+  }),
   repeatPassword: Joi.string().min(8).max(20).required().messages({
     "string.min": "La longitud mínima es de 8 caracteres",
     "string.max": "La longitud máxima es de 20 caracteres",
