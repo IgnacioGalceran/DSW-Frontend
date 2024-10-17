@@ -45,7 +45,10 @@ const Confirma: React.FC<ModalConfirma> = ({
               <div className={confirma.buttonContainer}>
                 <button
                   className={confirma.si}
-                  onClick={(e) => handleConfirma(e)}
+                  onClick={(e) => {
+                    console.log("Botón Sí clicado");
+                    handleConfirma(e);
+                  }}
                 >
                   <FontAwesomeIcon icon={faCheck} />
                 </button>

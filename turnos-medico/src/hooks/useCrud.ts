@@ -32,6 +32,7 @@ export default function useCRUD<T>(entity: string) {
 
   const insert = async (form: T) => {
     try {
+      console.log("entra");
       const response = await fetch(`${API_URL}/${entity}`, {
         method: "POST",
         headers: {
@@ -54,7 +55,7 @@ export default function useCRUD<T>(entity: string) {
     }
   };
 
-  const update = async (id: number, form: T) => {
+  const update = async (id: string, form: string) => {
     try {
       const response = await fetch(`${API_URL}/${entity}/${id}`, {
         method: "PUT",

@@ -4,6 +4,7 @@ import useCreate from "./useCreate";
 
 interface UseFormReturn<T> {
   values: T;
+  setValues: any;
   errors: Record<string, string>;
   handleChange: (
     e:
@@ -81,7 +82,6 @@ function useForm<T>(
       nextElement.tagName === "BUTTON" &&
       nextElement.type === "submit"
     ) {
-      console.log("sale");
       return;
     }
 
@@ -94,11 +94,10 @@ function useForm<T>(
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(e, "useForm");
     e.preventDefault();
     const validationErrors = await validateForm(values, schema);
     setErrors(validationErrors);
-
+    console.log(validationErrors);
     if (Object.keys(validationErrors).length === 0 && isPasswordOK()) {
       await callbackFunction(values);
     }
@@ -131,6 +130,7 @@ function useForm<T>(
 
   return {
     values,
+    setValues,
     errors,
     handleChange,
     handleBlur,

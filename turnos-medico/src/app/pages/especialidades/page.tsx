@@ -26,6 +26,7 @@ export default function ListaEspecialidades() {
 
   const handleClickInsert = () => {
     console.log(openForm);
+    setSelectedEspecialidad(null);
     setOpenForm(!openForm);
   };
 

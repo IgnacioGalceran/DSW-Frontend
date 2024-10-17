@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Especialidades } from "./type";
 import useCRUD from "@/hooks/useCrud";
 import Input from "@/components/Input";
@@ -14,28 +14,41 @@ export const InsertEspecialidades = ({
   console.log(especialidad);
   const [openConfirma, setOpenConfirma] = useState<boolean>(false);
 
-  const [nombre, setNombre] = useState(especialidad ? especialidad.nombre : "");
-
   const { insert, update } = useCRUD<Especialidades>("especialidades");
 
   const submitEspecialidades = async (value: Especialidades) => {
-    await insert(value);
-    // setNombre("");
+    console.log("Submit values:", value);
+
+    // if (especialidad) {
+    //   await update(value.id, value.nombre); // Si estás editando
+    // } else {
+    //   await insert(value); // Si estás creando una nueva
+    // }
   };
 
-  const { values, errors, handleChange, handleBlur, handleSubmit } =
+  const { values, setValues, errors, handleChange, handleBlur, handleSubmit } =
     useForm<Especialidades>(
       {
-        id: "",
         nombre: "",
-        medicos: [],
       },
       validateEspecialidades,
       submitEspecialidades
     );
+
+  useEffect(() => {
+    if (especialidad) {
+      setValues({
+        nombre: especialidad.nombre,
+      });
+    } else {
+      setValues({
+        nombre: "",
+      });
+    }
+  }, [especialidad, setValues]);
+
   const handleConfirma = (e: any) => {
     e.preventDefault();
-
     setOpenConfirma(true);
   };
 
@@ -46,7 +59,7 @@ export const InsertEspecialidades = ({
     <>
       {openConfirma && (
         <Confirma
-          message="Está seguro que quiere editar la especiali"
+          message="Está seguro que quiere editar la especialidad?"
           open={openConfirma}
           setOpenConfirma={setOpenConfirma}
           handleConfirma={handleSubmit}
@@ -59,16 +72,16 @@ export const InsertEspecialidades = ({
         <div className="grid grid-cols-1 md:grid-cols-2 ">
           <Input
             type="text"
-            name="especialidad.nombre"
+            name="nombre"
             value={values.nombre}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={errors["usuario.nombre"]}
+            error={errors.nombre}
             placeholder="Nombre de la especialidad"
           />
         </div>
         <button className={classButton} type="submit">
-          Cargar especialidad
+          {especialidad ? "Editar especialidad" : "Cargar especialidad"}
         </button>
       </form>
     </>
