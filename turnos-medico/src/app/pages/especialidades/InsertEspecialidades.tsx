@@ -1,35 +1,45 @@
 import { useEffect, useState } from "react";
 import { Especialidades } from "./type";
-import useCRUD from "@/hooks/useCrud";
+import styles from "./especialidades.module.css";
 import Input from "@/components/Input";
 import useForm from "@/hooks/useForm";
 import { validateEspecialidades } from "./validations";
 import Confirma from "@/components/Confirmacion";
 
-export const InsertEspecialidades = ({
-  especialidad,
-}: {
-  especialidad: Especialidades | null;
+export const InsertEspecialidades = (props: {
+  initialValues: any;
+  isUpdating: boolean;
+  setOpenForm: any;
+  especialidad: any;
+  insert: any;
+  update: any;
+  remove: any;
 }) => {
+  const { especialidad } = props;
   console.log(especialidad);
   const [openConfirma, setOpenConfirma] = useState<boolean>(false);
-
-  const { insert, update } = useCRUD<Especialidades>("especialidades");
-
+  const { classButtonEdit, classButtonDelete } = styles;
   const submitEspecialidades = async (value: Especialidades) => {
-    console.log("Submit values:", value);
-
-    // if (especialidad) {
-    //   await update(value.id, value.nombre); // Si estás editando
-    // } else {
-    //   await insert(value); // Si estás creando una nueva
-    // }
+    try {
+      if (props.isUpdating) {
+        await props.update(props.initialValues?.id, value);
+      }
+      if (!props.isUpdating) {
+        await props.insert(value);
+      } else {
+      }
+      props.setOpenForm(false);
+    } catch (error) {
+      console.error("Error al enviar la especialidad :", error);
+    }
   };
 
   const { values, setValues, errors, handleChange, handleBlur, handleSubmit } =
     useForm<Especialidades>(
       {
+        id: "",
         nombre: "",
+        medicos: [],
       },
       validateEspecialidades,
       submitEspecialidades
@@ -38,7 +48,7 @@ export const InsertEspecialidades = ({
   useEffect(() => {
     if (especialidad) {
       setValues({
-        nombre: especialidad.nombre,
+        nombre: especialidad,
       });
     } else {
       setValues({
@@ -51,9 +61,6 @@ export const InsertEspecialidades = ({
     e.preventDefault();
     setOpenConfirma(true);
   };
-
-  const classButton =
-    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 mt-5 px-4 text-lg rounded focus:outline-none focus:shadow-outline mx-auto block";
 
   return (
     <>
@@ -80,9 +87,16 @@ export const InsertEspecialidades = ({
             placeholder="Nombre de la especialidad"
           />
         </div>
-        <button className={classButton} type="submit">
-          {especialidad ? "Editar especialidad" : "Cargar especialidad"}
-        </button>
+        <div className={styles.containerButtons}>
+          <button className={classButtonEdit} type="submit">
+            {especialidad ? "Editar" : "Cargar especialidad"}
+          </button>
+          {especialidad && (
+            <button className={classButtonDelete} type="submit">
+              Borrar
+            </button>
+          )}
+        </div>
       </form>
     </>
   );

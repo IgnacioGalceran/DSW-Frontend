@@ -4,6 +4,7 @@ import "./styles/globals.css";
 import { Providers } from "@/store/providers";
 import Header from "@/components/Header";
 import CheckAuth from "./client";
+import { ToastProvider } from "@/context/ToastContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <CheckAuth />
-          {children}
+          <ToastProvider>{children}</ToastProvider>
         </Providers>
       </body>
     </html>

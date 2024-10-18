@@ -17,10 +17,10 @@
   align-items: center;
   position: relative;
   background-color: rgb(230, 235, 236);
-  padding: 8px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  height: 50%;
+  height: fit-content;
   width: 90%;
 }
 
@@ -29,8 +29,9 @@
   flex-direction: column;
   justify-content: center;
   gap: 20px;
+  padding: 10px;
   align-items: center;
-  height: 100%;
+  height: fit-content;
 }
 
 .mensaje {
@@ -39,6 +40,17 @@
   width: 80%;
   text-align: center;
   color: rgb(49, 55, 61);
+}
+
+.closeButton {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  color: red;
+  width: 20px;
+  height: 20px;
+  font-weight: 800;
+  font-size: 1.5rem;
 }
 
 .exclamation {
@@ -66,7 +78,7 @@
 .no {
   width: 60px;
   height: 60px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   border-radius: 10px;
   font-size: 2rem;
   border: 1px solid rgb(184, 179, 179);
@@ -90,7 +102,7 @@
 
 @media only screen and (min-width: 800px) {
   .modalContent {
-    height: 45%;
+    height: fit-content;
     width: 38%;
   }
 }

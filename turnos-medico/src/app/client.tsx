@@ -1,17 +1,19 @@
 "use client";
-import { tokenListener } from "@/firebase/helper";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { checkingCredentials, login } from "@/store/auth/authSlice";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function CheckAuth() {
+  const [user, setUser] = useState<any>(null);
   const dispatch = useDispatch();
+  const { tokenListener } = useAuth();
   console.log("client");
+
   useEffect(() => {
     const setupTokenListener = async () => {
       try {
-        // const user = await tokenListener(dispatch);
-        // const token = localStorage.getItem("token");
+        await tokenListener(dispatch);
       } catch (error) {
         console.error("Error setting up token listener:", error);
       } finally {
@@ -20,7 +22,7 @@ export default function CheckAuth() {
     };
 
     setupTokenListener();
-  }, []);
+  }, [dispatch]);
 
   return null;
 }
