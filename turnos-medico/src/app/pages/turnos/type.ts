@@ -6,4 +6,5 @@ export type Turnos = {
   fecha: Date;
   medico: Medicos;
   paciente: Pacientes;
+  rango: string;
 };

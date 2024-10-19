@@ -5,6 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import styles from "@/app/styles/headerlanding.module.css";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 export const HeaderLanding = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ export const HeaderLanding = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Navbar collapseOnSelect expand="sm" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand href="">Turnos Médicos</Navbar.Brand>
@@ -37,6 +38,6 @@ export const HeaderLanding = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
+    </React.Fragment>
   );
 };

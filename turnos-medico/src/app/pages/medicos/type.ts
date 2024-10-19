@@ -11,9 +11,10 @@ export type Medicos = {
     tipoDni: string;
     rol?: Roles;
   };
+  id?: string;
   especialidad?: any;
   horaDesde?: string;
   horaHasta?: string;
   matricula: string;
-  diasAtencion?: string;
+  diasAtencion?: string[];
 };

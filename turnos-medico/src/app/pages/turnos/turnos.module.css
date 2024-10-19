@@ -1,6 +1,15 @@
+.turnosContainer {
+  padding: 0 20px;
+}
+
 .imagenContainer {
   display: flex;
   justify-content: center;
+}
+
+.form {
+  width: 100%;
+  margin: 20px 0;
 }
 
 .insert,
@@ -24,3 +33,38 @@
   color: white;
 }
 
+.medicosContainer {
+  width: 100%;
+  display: flex;
+  margin: 10px 0;
+  padding: 6px 20px;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.medicosContainer:hover {
+  background-color: #3f4141;
+  color: white;
+}
+
+.medicoCard {
+  width: 100%;
+}
+
+.medicosContainer p {
+  margin: 6px 0;
+  width: 100%;
+}
+
+.diasAtencion {
+  display: flex;
+  gap: 10px;
+  text-transform: capitalize;
+}
+
+@media only screen and (min-width: 800px) {
+  .medicosContainer {
+    width: 30%;
+    margin: 0;
+  }
+}

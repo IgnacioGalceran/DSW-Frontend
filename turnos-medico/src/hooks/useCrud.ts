@@ -23,6 +23,7 @@ export default function useCRUD<T>(entity: string) {
         },
       });
       const result = await response.json();
+
       setData(result);
     } catch (error: any) {
       setData({ data: [], error: true, message: error.message });
@@ -31,7 +32,7 @@ export default function useCRUD<T>(entity: string) {
     }
   };
 
-  const insert = async (form: T) => {
+  const insert = async (body: T) => {
     try {
       const response = await fetch(`${API_URL}/${entity}`, {
         method: "POST",
@@ -39,7 +40,7 @@ export default function useCRUD<T>(entity: string) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(body),
       });
       const result = await response.json();
       console.log(result);

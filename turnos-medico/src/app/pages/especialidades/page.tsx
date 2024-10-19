@@ -1,15 +1,23 @@
 "use client";
+import React, { useEffect } from "react";
 import { Especialidades } from "./type";
-import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
 import styles from "./especialidades.module.css";
+import useCRUD from "@/hooks/useCrud";
 
 export default function ListaMedicos() {
-  const { data: especialidades, loading } =
-    useFind<Especialidades>("especialidades");
+  const {
+    data: especialidades,
+    fetchData,
+    loading,
+  } = useCRUD<Especialidades>("especialidades");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
-    <>
+    <React.Fragment>
       <div className="overflow-auto">
         <div>
           <h1 className="font-sans text-3xl text-center p-10">
@@ -36,6 +44,6 @@ export default function ListaMedicos() {
           </ul>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }

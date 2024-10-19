@@ -86,6 +86,7 @@ export const useAuth = () => {
               dispatch(
                 login({
                   uid: user.uid,
+                  id: userData.data.id,
                   email: user.email,
                   displayName: `${userData.nombre} ${userData.apellido}`,
                   funciones: userData.data.rol.funciones,

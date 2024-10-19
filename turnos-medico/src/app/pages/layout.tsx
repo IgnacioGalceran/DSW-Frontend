@@ -6,6 +6,7 @@ import CheckAuth from "../client";
 import Header from "@/components/Header";
 import styles from "./layout.module.css";
 import Loader from "@/components/Loader";
+import React from "react";
 
 function Layout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -16,14 +17,14 @@ function Layout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <>
+    <React.Fragment>
       {isAuth && <Header />}
       {(isLoading || loading) && <Loader />}
       {isAuth && !isLoading && !loading && (
         <div className={styles.container}>{children}</div>
       )}
       {!isAuth && !isLoading && !loading && <LoginPage />}
-    </>
+    </React.Fragment>
   );
 }
 

@@ -5,13 +5,13 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { validateInsert } from "./validations/validateInsert";
 import { validateUpdate } from "./validations/validateUpdate";
 import { Medicos } from "./type";
-import useCreate from "@/hooks/useCreate";
 import useForm from "@/hooks/useForm";
 import Confirma from "@/components/Confirmacion";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import useCRUD from "@/hooks/useCrud";
 import { Especialidades } from "../especialidades/type";
+import React from "react";
 
 type FormValues = Medicos & {
   email?: string;
@@ -87,7 +87,7 @@ export default function InsertMedicos(props: {
   );
 
   const classButton =
-    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 mt-5 px-4 text-lg rounded focus:outline-none focus:shadow-outline mx-auto block";
+    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 mt-2 px-4 text-lg rounded focus:outline-none focus:shadow-outline mx-auto block";
 
   const handleConfirma = (e: any) => {
     e.preventDefault();
@@ -103,7 +103,7 @@ export default function InsertMedicos(props: {
     );
 
   return (
-    <>
+    <React.Fragment>
       {openConfirma && (
         <Confirma
           message={
@@ -122,7 +122,7 @@ export default function InsertMedicos(props: {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {!props.isUpdating && (
-            <>
+            <React.Fragment>
               <Input
                 type="email"
                 name="email"
@@ -150,7 +150,7 @@ export default function InsertMedicos(props: {
                 error={errors["repeatPassword"]}
                 placeholder="Repetir contraseña*"
               />
-            </>
+            </React.Fragment>
           )}
 
           <Input
@@ -215,6 +215,6 @@ export default function InsertMedicos(props: {
           {props.isUpdating ? "Actualizar médico" : "Cargar médico"}
         </button>
       </form>
-    </>
+    </React.Fragment>
   );
 }
