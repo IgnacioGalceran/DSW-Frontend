@@ -43,7 +43,7 @@ export default function useCRUD<T>(entity: string) {
         body: JSON.stringify(body),
       });
       const result = await response.json();
-      console.log(result);
+
       if (!result.error) {
         showToast(result.message, "OK", 4000);
         await fetchData();

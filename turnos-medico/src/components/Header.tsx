@@ -25,8 +25,6 @@ const Header = () => {
   const hasPermission = (roles: string[]): boolean => {
     let rolEncontrado = roles.find((role: string) => role === rol);
 
-    console.log(rolEncontrado);
-
     if (!rolEncontrado) return false;
 
     return true;

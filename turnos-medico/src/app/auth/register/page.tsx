@@ -33,10 +33,9 @@ const page = () => {
   };
 
   const { values, errors, handleChange, handleBlur, handleSubmit } = useForm<
-    Pacientes & { email: string; password: string; repeatPassword: string }
+    Pacientes & { password: string; repeatPassword: string }
   >(
     {
-      email: "",
       password: "",
       repeatPassword: "",
       usuario: {
@@ -45,6 +44,7 @@ const page = () => {
         apellido: "",
         tipoDni: "",
         dni: "",
+        email: "",
       },
     },
     validatePacientes,
@@ -114,7 +114,7 @@ const page = () => {
             <Input
               type="email"
               name="email"
-              value={values.email}
+              value={values.usuario.email}
               onChange={handleChange}
               onBlur={handleBlur}
               error={errors["email"]}

@@ -34,15 +34,16 @@
 }
 
 .medicosContainer {
-  width: 100%;
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   margin: 10px 0;
   padding: 6px 20px;
   height: fit-content;
   cursor: pointer;
 }
 
-.medicosContainer:hover {
+.medicoCard:hover {
   background-color: #3f4141;
   color: white;
 }
@@ -63,8 +64,8 @@
 }
 
 @media only screen and (min-width: 800px) {
-  .medicosContainer {
-    width: 30%;
-    margin: 0;
+  .medicoCard {
+    width: 46%;
+    margin: 0 10px;
   }
 }

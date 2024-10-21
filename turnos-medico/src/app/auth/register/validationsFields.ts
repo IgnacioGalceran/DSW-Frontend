@@ -26,10 +26,10 @@ export const registerPaciente = Joi.object({
 });
 
 export const validate = async (data: any) => {
-  // console.log(data)
   if (!data) return false;
+
   const { error } = registerPaciente.validate(data);
-  console.log(error);
+
   if (error) return false;
   return true;
 };

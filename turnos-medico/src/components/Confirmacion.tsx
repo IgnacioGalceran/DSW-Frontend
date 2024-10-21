@@ -15,6 +15,7 @@ const Confirma: React.FC<ModalConfirma> = ({
   setOpenConfirma,
   handleConfirma,
   message,
+  data = null,
 }) => {
   return (
     <React.Fragment>
@@ -31,7 +32,7 @@ const Confirma: React.FC<ModalConfirma> = ({
               className={confirma.closeButton}
               onClick={() => setOpenConfirma(false)}
             >
-              x
+              <FontAwesomeIcon icon={faXmark} />
             </button>
             <div className={confirma.respuestaContainer}>
               <div className={confirma.respuesta}>

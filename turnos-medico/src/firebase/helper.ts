@@ -25,8 +25,6 @@ export const tokenListener = async (dispatch: any) => {
       async (user: any) => {
         if (user) {
           let date = new Date();
-          console.log(Number(date) - 1000 * 60 * 60 * 3);
-          console.log(user.metadata.creationTime);
           const token = await user.getIdToken();
           const userData = await getUserData(user.uid, token);
           localStorage.setItem("token", token);

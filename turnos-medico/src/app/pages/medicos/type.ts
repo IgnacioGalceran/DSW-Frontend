@@ -10,6 +10,7 @@ export type Medicos = {
     dni: string;
     tipoDni: string;
     rol?: Roles;
+    email?: string;
   };
   id?: string;
   especialidad?: any;

@@ -2,12 +2,13 @@ import React from "react";
 
 interface SelectProps {
   name: string;
-  value: string | number;
+  value: string | number | string[] | undefined;
   onChange: React.ChangeEventHandler<HTMLSelectElement>;
   onBlur: React.FocusEventHandler<HTMLSelectElement>;
   options: Array<{ id: string | number; nombre: string }>;
   error?: string;
   placeholder?: string;
+  multiple?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -18,6 +19,7 @@ const Select: React.FC<SelectProps> = ({
   options,
   error,
   placeholder,
+  multiple = false,
 }) => {
   return (
     <div className="">
@@ -29,13 +31,14 @@ const Select: React.FC<SelectProps> = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        multiple={multiple}
         className={`shadow border rounded w-full py-2 px-3 mt-1 text-gray-700 focus:outline-none focus:shadow-outline cursor-pointer${
           error ? "border-red-500" : value ? "border-green-500" : ""
         }`}
       >
         <option value="">{placeholder}</option>
-        {options.map((option) => (
-          <option key={option.id} value={option.id}>
+        {options.map((option, index) => (
+          <option key={index} value={option.id}>
             {option.nombre}
           </option>
         ))}

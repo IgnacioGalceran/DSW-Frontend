@@ -37,6 +37,9 @@ export default function ListaPacientes() {
                     <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
                       {`${paciente.usuario.nombre} ${paciente.usuario.apellido}`}
                     </p>
+                    <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
+                      {`${paciente.usuario.email}`}
+                    </p>
                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                       {"Dni: " + paciente.usuario.dni}
                     </p>

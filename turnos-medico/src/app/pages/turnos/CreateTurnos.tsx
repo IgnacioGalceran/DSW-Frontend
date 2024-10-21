@@ -22,7 +22,6 @@ interface Turno {
 export default function InsertTurnos(props: {
   especialidades: response<Especialidades>;
 }) {
-  const [openConfirma, setOpenConfirma] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<{ open: boolean; data: any }>({
     open: false,
     data: null,
@@ -45,8 +44,6 @@ export default function InsertTurnos(props: {
     }
   }, [idEspecialidad]);
 
-  console.log(medicos);
-
   const { values, errors, handleChange, handleBlur, handleSubmit } =
     useForm<Turno>(
       { fecha: new Date(), especialidad: "", medico: "", paciente: "" },
@@ -60,22 +57,8 @@ export default function InsertTurnos(props: {
     handleChange(e);
   };
 
-  const handleConfirma = (e: any) => {
-    e.preventDefault();
-
-    setOpenConfirma(true);
-  };
-
   return (
     <React.Fragment>
-      {openConfirma && (
-        <Confirma
-          message="Está seguro que quiere agregar el turno"
-          open={openConfirma}
-          setOpenConfirma={setOpenConfirma}
-          handleConfirma={handleSubmit}
-        />
-      )}
       {openModal.open && (
         <ModalTurno
           openModal={openModal}
@@ -83,10 +66,7 @@ export default function InsertTurnos(props: {
           insert={insert}
         />
       )}
-      <form
-        onSubmit={(e) => handleConfirma(e)}
-        className={`${styles.form} bg-white shadow-md rounded px-8 py-6`}
-      >
+      <form className={`${styles.form} bg-white shadow-md rounded px-8 py-6`}>
         <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
           {props.especialidades?.data?.length > 0 && (
             <Select
@@ -101,10 +81,10 @@ export default function InsertTurnos(props: {
           )}
         </div>
         {medicos.data?.length > 0 && (
-          <div className={`${styles.medicosContainer} shadow-md rounded`}>
+          <div className={`${styles.medicosContainer}`}>
             {medicos.data?.map((medico, index) => (
               <div
-                className={styles.medicoCard}
+                className={`${styles.medicoCard}  shadow-md rounded py-2 px-4`}
                 key={index}
                 onClick={() => setOpenModal({ open: true, data: medico })}
               >

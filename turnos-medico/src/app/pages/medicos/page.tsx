@@ -38,7 +38,7 @@ export default function ListaMedicos() {
       {(loading || loadingEspecialidades) && <Loader />}
       <div className="overflow-auto">
         <div>
-          <h1 className="font-sans text-3xl text-center p-10">
+          <h1 className="text-2xl text-3xl text-center p-4">
             {openForm
               ? dataUpdate
                 ? "Actualización de Médico"

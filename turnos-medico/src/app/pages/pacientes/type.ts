@@ -9,5 +9,6 @@ export type Pacientes = {
     dni: string;
     tipoDni: string;
     rol?: Roles;
+    email: string;
   };
 };
