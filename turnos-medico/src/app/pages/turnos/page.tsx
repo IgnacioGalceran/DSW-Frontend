@@ -8,37 +8,48 @@ import { faArrowLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import InsertTurnos from "./CreateTurnos";
 import useCRUD from "@/hooks/useCrud";
 import { Especialidades } from "../especialidades/type";
+import { useSelector } from "react-redux";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import styles from "./turnos.module.css";
 
 export default function ListaTurnos() {
+  const { id } = useSelector((state: any) => state.auth);
   const {
-    fetchData,
+    fetchData: getEspecialidades,
     data: especialidades,
     loading: loadingEspecialidades,
   } = useCRUD<Especialidades>("especialidades");
   const [openForm, setOpenForm] = useState<boolean>(false);
+  const {
+    fetchData: getTurnos,
+    data: turnos,
+    loading: loadingTurnos,
+  } = useCRUD<Turnos>(`turnos/findTurnosByPaciente/${id}`);
+  const [date, setDate] = useState<Date | null>(new Date());
 
   useEffect(() => {
-    fetchData();
+    getEspecialidades();
+    getTurnos();
   }, []);
+
+  console.log(turnos);
 
   return (
     <React.Fragment>
       {loadingEspecialidades && <Loader />}
-      <div className={styles.turnosContainer}>
+      <div
+        className={
+          openForm ? styles.turnosContainerSinImagen : styles.turnosContainer
+        }
+      >
         {!openForm && (
           <React.Fragment>
-            <div>
-              <h1 className="font-sans text-3xl text-center p-10">Turnos</h1>
-            </div>
-            <div className={styles.imagenContainer}>
-              <Image
-                src={"/assets/turnos.png"}
-                width={500}
-                height={500}
-                alt=""
-                className={styles.imagen}
-              />
+            <div className={styles.container}>
+              <div className={styles.calendar}>
+                <Calendar value={date} />
+              </div>
+              <div className={styles.info}></div>
             </div>
           </React.Fragment>
         )}
