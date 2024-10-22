@@ -1,5 +1,11 @@
 .container {
   max-height: 100vh;
   height: 100vh;
-  padding-top: 60px;
+  padding-top: 50px;
+}
+
+@media only screen and (min-width: 800px) {
+  .container {
+    padding-top: 60px;
+  }
 }

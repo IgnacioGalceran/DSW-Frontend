@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import useForm from "@/hooks/useForm";
-import Confirma from "@/components/Confirmacion";
-import Input from "@/components/Input";
 import Select from "@/components/Select";
 import useCRUD from "@/hooks/useCrud";
 import { Turnos } from "./type";
@@ -21,6 +19,8 @@ interface Turno {
 
 export default function InsertTurnos(props: {
   especialidades: response<Especialidades>;
+  setOpenForm: any;
+  getTurnos: any;
 }) {
   const [openModal, setOpenModal] = useState<{ open: boolean; data: any }>({
     open: false,
@@ -34,9 +34,7 @@ export default function InsertTurnos(props: {
   } = useCRUD<Medicos>(`medicos/findMedicosbyEspecialidad/${idEspecialidad}`);
   const { insert } = useCRUD<Turnos>("turnos");
 
-  const submitTurnos = async (value: Turnos) => {
-    await insert(value);
-  };
+  const submitTurnos = async (value: Turnos) => {};
 
   useEffect(() => {
     if (idEspecialidad) {
@@ -64,6 +62,8 @@ export default function InsertTurnos(props: {
           openModal={openModal}
           setOpenModal={setOpenModal}
           insert={insert}
+          setOpenForm={props.setOpenForm}
+          getTurnos={props.getTurnos}
         />
       )}
       <form className={`${styles.form} bg-white shadow-md rounded px-8 py-6`}>

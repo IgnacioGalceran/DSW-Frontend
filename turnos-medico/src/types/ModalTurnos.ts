@@ -7,4 +7,6 @@ export type ModalTurnos = {
   };
   insert: any;
   setOpenModal: any;
+  setOpenForm: any;
+  getTurnos: any;
 };
