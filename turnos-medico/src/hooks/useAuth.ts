@@ -43,8 +43,6 @@ export const useAuth = () => {
       const token = await user.getIdToken();
       const userData = await getUserData(user.uid, token);
       localStorage.setItem("token", token);
-      document.cookie = `token=${token}; path=/; Secure; SameSite=Lax`;
-      document.cookie = `rol=${userData.data.rol.nombre}; path=/; Secure; SameSite=Lax`;
 
       if (!user || !userData) {
         return;
@@ -79,20 +77,17 @@ export const useAuth = () => {
             try {
               const token = await user.getIdToken();
               const userData = await getUserData(user.uid, token);
+
               localStorage.setItem("token", token);
-              document.cookie = `token=${token}; path=/; Secure; SameSite=Lax`;
-              document.cookie = `rol=${userData.data.rol.nombre}; path=/; Secure; SameSite=Lax`;
 
               if (!userData || !user) return;
-
-              console.log(userData);
 
               dispatch(
                 login({
                   uid: user.uid,
                   id: userData.data.id,
                   email: user.email,
-                  displayName: `${userData.nombre} ${userData.apellido}`,
+                  displayName: `${userData.data.nombre} ${userData.data.apellido}`,
                   funciones: userData.data.rol.funciones,
                   rol: userData.data.rol.nombre,
                 })
@@ -104,8 +99,6 @@ export const useAuth = () => {
             }
           } else {
             localStorage.removeItem("token");
-            document.cookie = `token=; path=/; Secure; SameSite=Lax; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-            document.cookie = `rol=; path=/; Secure; SameSite=Lax; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
             dispatch(logout());
             resolve(null);
           }
@@ -139,6 +132,10 @@ export const useAuth = () => {
       }
 
       const data = await response.json();
+
+      document.cookie = `token=${token}; path=/; Secure; SameSite=Lax`;
+      document.cookie = `rol=${data.data.rol.nombre}; path=/; Secure; SameSite=Lax`;
+      document.cookie = `verificado=${data.data.verificado}; path=/; Secure; SameSite=Lax`;
 
       return data;
     } catch (error: any) {

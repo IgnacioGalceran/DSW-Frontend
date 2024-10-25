@@ -16,16 +16,7 @@ function Layout({ children }: { children: ReactNode }) {
     setLoading(false);
   }, []);
 
-  return (
-    <React.Fragment>
-      {isAuth && <Header />}
-      {(isLoading || loading) && <Loader />}
-      {isAuth && !isLoading && !loading && (
-        <div className={styles.container}>{children}</div>
-      )}
-      {!isAuth && !isLoading && !loading && <LoginPage />}
-    </React.Fragment>
-  );
+  return <div className={styles.container}>{children}</div>;
 }
 
 export default Layout;

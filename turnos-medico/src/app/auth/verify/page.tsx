@@ -5,6 +5,8 @@ import { API_URL } from "@/constants/const";
 import Loader from "@/components/Loader";
 import { useToast } from "@/context/ToastContext";
 import styles from "./verify.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Verify = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -12,6 +14,7 @@ const Verify = () => {
   const { showToast } = useToast();
   const searchParams = useSearchParams();
   const router = useRouter();
+  if (searchParams) console.log(searchParams.get("continueUrl"));
 
   React.useEffect(() => {
     const verifyUser = async () => {
@@ -55,6 +58,12 @@ const Verify = () => {
       {loading && <Loader />}
       <div className={styles.titleContainer}>
         <h1 className={styles.title}>Turnos Médicos</h1>
+        {!searchParams?.get("continueUrl") && (
+          <h2 className={styles.subtitle}>
+            Para ingresar a la aplicación, usted primero debe verificar su
+            dirección de email.
+          </h2>
+        )}
         {loading && <h2 className={styles.subtitle}>Verificando usuario</h2>}
         {success && !loading && (
           <h2 className={styles.subtitle}>
@@ -62,6 +71,15 @@ const Verify = () => {
           </h2>
         )}
       </div>
+      {!searchParams?.get("continueUrl") && (
+        <FontAwesomeIcon
+          icon={faArrowLeft}
+          className={styles.goBack}
+          onClick={() => {
+            router.replace("/auth");
+          }}
+        />
+      )}
     </div>
   );
 };
