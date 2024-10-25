@@ -3,4 +3,5 @@ export type ModalConfirma = {
   open: boolean;
   setOpenConfirma: any;
   handleConfirma: any;
+  data?: any;
 };

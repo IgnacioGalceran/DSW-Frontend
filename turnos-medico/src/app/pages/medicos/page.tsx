@@ -1,6 +1,4 @@
 "use client";
-
-import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
 import { useEffect, useState } from "react";
 import InsertMedicos from "./InsertMedicos";
@@ -11,6 +9,7 @@ import { faArrowLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./medicos.module.css";
 import useCRUD from "@/hooks/useCrud";
 import { Especialidades } from "../especialidades/type";
+import React from "react";
 
 export default function ListaMedicos() {
   const {
@@ -38,11 +37,11 @@ export default function ListaMedicos() {
   }, []);
 
   return (
-    <>
+    <React.Fragment>
       {(loading || loadingEspecialidades) && <Loader />}
       <div className="overflow-auto">
         <div>
-          <h1 className="font-sans text-3xl text-center p-10">
+          <h1 className="text-2xl text-3xl text-center p-4">
             {openForm
               ? dataUpdate
                 ? "Actualización de Médico"
@@ -79,6 +78,6 @@ export default function ListaMedicos() {
           />
         }
       </div>
-    </>
+    </React.Fragment>
   );
 }

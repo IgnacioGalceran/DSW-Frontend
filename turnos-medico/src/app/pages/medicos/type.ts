@@ -10,10 +10,12 @@ export type Medicos = {
     dni: string;
     tipoDni: string;
     rol?: Roles;
+    email?: string;
   };
+  id?: string;
   especialidad?: any;
   horaDesde?: string;
   horaHasta?: string;
   matricula: string;
-  diasAtencion?: string;
+  diasAtencion?: string[];
 };

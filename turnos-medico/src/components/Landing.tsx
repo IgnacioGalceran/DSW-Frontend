@@ -1,11 +1,11 @@
 import styles from "@/app/styles/landing.module.css";
 import Carousel from "react-bootstrap/Carousel";
 import { HeaderLanding } from "./HeaderLanding";
-import { NavDropdown } from "react-bootstrap";
+import React from "react";
 
 export default function Landing() {
   return (
-    <>
+    <React.Fragment>
       <HeaderLanding />
       <Carousel fade indicators={false} controls={false} interval={5000}>
         <Carousel.Item>
@@ -139,6 +139,6 @@ export default function Landing() {
         </p>
       </section>
       <footer></footer>
-    </>
+    </React.Fragment>
   );
 }

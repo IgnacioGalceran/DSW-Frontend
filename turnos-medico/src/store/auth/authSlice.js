@@ -4,6 +4,7 @@ const initialState = {
   isAuth: false, // 'not-authenticated' , 'authenticated'
   isLoading: false,
   uid: null,
+  id: null,
   email: null,
   displayName: null,
   errorMessage: null,
@@ -18,6 +19,7 @@ export const authSlice = createSlice({
       state.isAuth = true;
       state.isLoading = false;
       state.uid = action.payload.uid;
+      state.id = action.payload.id;
       state.email = action.payload.email;
       state.displayName = action.payload.displayName;
       state.funciones = action.payload.funciones;
@@ -28,6 +30,7 @@ export const authSlice = createSlice({
       state.isAuth = false;
       state.isLoading = false;
       state.uid = null;
+      state.id = null;
       state.email = null;
       state.displayName = null;
       state.errorMessage = null;

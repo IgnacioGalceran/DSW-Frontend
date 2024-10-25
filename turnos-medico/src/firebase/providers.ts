@@ -10,7 +10,7 @@ export const signInWithGoogle = async (dispatch: any) => {
     const result = await signInWithPopup(FirebaseAuth, googleProvider);
     const { displayName, email, photoURL, uid } = result.user;
     dispatch(login(result.user));
-    console.log({ displayName, email, photoURL, uid });
+
     return {
       ok: true,
       displayName,

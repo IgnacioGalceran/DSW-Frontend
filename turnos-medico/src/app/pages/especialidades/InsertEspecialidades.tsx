@@ -9,7 +9,7 @@ import Confirma from "@/components/Confirmacion";
 export const InsertEspecialidades = (props: {
   isUpdating: boolean;
   setOpenForm: any;
-  especialidad: Especialidades;
+  especialidad: Especialidades | undefined;
   insert: any;
   update: any;
   remove: any;
@@ -27,7 +27,7 @@ export const InsertEspecialidades = (props: {
   const submitEspecialidades = async (value: Especialidades) => {
     try {
       if (props.isUpdating) {
-        await props.update(props.especialidad.id, value);
+        await props.update(props.especialidad?.id, value);
       }
       if (!props.isUpdating) {
         await props.insert(value);
@@ -38,7 +38,7 @@ export const InsertEspecialidades = (props: {
     }
   };
 
-  const deleteEspecialidad = async (id: string) => {
+  const deleteEspecialidad = async (id: string | undefined) => {
     await props.remove(id);
   };
 
@@ -80,7 +80,7 @@ export const InsertEspecialidades = (props: {
     setConfirmaState({
       open: true,
       message: "Estas seguro que quieres borrar la especialidad?",
-      onConfirm: () => deleteEspecialidad(especialidad.id),
+      onConfirm: () => deleteEspecialidad(especialidad?.id),
     });
   };
 

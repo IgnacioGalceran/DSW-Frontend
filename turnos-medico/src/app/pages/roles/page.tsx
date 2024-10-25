@@ -1,14 +1,19 @@
 "use client";
 import { Roles } from "./type";
-import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
 import styles from "./roles.module.css";
+import React, { useEffect } from "react";
+import useCRUD from "@/hooks/useCrud";
 
 export default function ListaRoles() {
-  const { data: roles, loading } = useFind<Roles>("roles");
+  const { fetchData, data: roles, loading } = useCRUD<Roles>("roles");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
-    <>
+    <React.Fragment>
       <div className="overflow-auto">
         <div>
           <h1 className="font-sans text-3xl text-center p-10">
@@ -35,6 +40,6 @@ export default function ListaRoles() {
           </ul>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }

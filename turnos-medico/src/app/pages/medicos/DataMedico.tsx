@@ -1,8 +1,7 @@
 "use client";
-import useFind from "@/hooks/useFind";
 import { Medicos } from "./type";
 import styles from "./medicos.module.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Confirma from "@/components/Confirmacion";
@@ -28,7 +27,7 @@ export const DataMedico = (props: {
   };
 
   return (
-    <>
+    <React.Fragment>
       <ul role="list" className="flex justify-center flex-row flex-wrap">
         {openConfirma && (
           <Confirma
@@ -82,6 +81,6 @@ export const DataMedico = (props: {
           </li>
         ))}
       </ul>
-    </>
+    </React.Fragment>
   );
 };

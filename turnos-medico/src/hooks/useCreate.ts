@@ -11,7 +11,6 @@ export default function useCreate<T>(entity: string) {
 
   const insert = async (form: T) => {
     try {
-      console.log(form, entity);
       setLoading(true);
 
       const response = await fetch(`${API_URL}/${entity}`, {
@@ -23,8 +22,6 @@ export default function useCreate<T>(entity: string) {
         body: JSON.stringify(form),
       });
       const data = await response.json();
-
-      console.log(data);
 
       setData(data);
     } catch (error: any) {

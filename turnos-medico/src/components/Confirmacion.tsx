@@ -1,14 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faExclamation,
-  faShoppingCart,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
 import { ModalConfirma } from "@/types/confirma";
 import confirma from "@/app/styles/confirma.module.css";
 
@@ -17,9 +15,10 @@ const Confirma: React.FC<ModalConfirma> = ({
   setOpenConfirma,
   handleConfirma,
   message,
+  data = null,
 }) => {
   return (
-    <>
+    <React.Fragment>
       {open && (
         <div
           className={confirma.container}
@@ -33,7 +32,7 @@ const Confirma: React.FC<ModalConfirma> = ({
               className={confirma.closeButton}
               onClick={() => setOpenConfirma(false)}
             >
-              x
+              <FontAwesomeIcon icon={faXmark} />
             </button>
             <div className={confirma.respuestaContainer}>
               <div className={confirma.respuesta}>
@@ -62,7 +61,7 @@ const Confirma: React.FC<ModalConfirma> = ({
           </div>
         </div>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const validateInsert = Joi.object({
+export const validateMedicos = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .min(6)
@@ -15,27 +15,6 @@ export const validateInsert = Joi.object({
   password: Joi.string().min(8).max(20).required().messages({
     "string.min": "La longitud mínima es de 8 caracteres",
     "string.max": "La longitud máxima es de 20 caracteres",
-    "string.empty": "Este campo no puede estar vacío",
-    "any.required": "Este campo es requerido *",
-  }),
-  especialidad: Joi.string()
-    .min(24)
-    .max(24)
-    .messages({
-      "string.min": "La longitud mínima es de 24 caracteres",
-      "string.max": "La longitud máxima es de 24 caracteres",
-    })
-    .allow(""),
-  diasAtencion: Joi.array().allow(""),
-  horaDesde: Joi.string().min(5).max(25).required().messages({
-    "string.min": "La longitud mínima es de 5 caracteres",
-    "string.max": "La longitud máxima es de 5 caracteres",
-    "string.empty": "Este campo no puede estar vacío",
-    "any.required": "Este campo es requerido *",
-  }),
-  horaHasta: Joi.string().min(5).max(25).required().messages({
-    "string.min": "La longitud mínima es de 5 caracteres",
-    "string.max": "La longitud máxima es de 5 caracteres",
     "string.empty": "Este campo no puede estar vacío",
     "any.required": "Este campo es requerido *",
   }),
@@ -78,3 +57,20 @@ export const validateInsert = Joi.object({
     }),
   }),
 });
+
+export const validate = (data: any) => {
+  if (!data) return { error: true, message: "Datos inválidos" };
+
+  const { error } = validateMedicos.validate(data, { abortEarly: false });
+
+  if (error) {
+    const errors = error.details.reduce((acc: any, curr: any) => {
+      const path = curr.path.join(".");
+      acc[path] = curr.message;
+      return acc;
+    }, {});
+    return { error: true, message: errors };
+  }
+
+  return { error: false, message: "" };
+};

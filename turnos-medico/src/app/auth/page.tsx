@@ -7,6 +7,7 @@ import Loader from "@/components/Loader";
 import styles from "./login.module.css";
 import CheckAuth from "../client";
 import { useAuth } from "@/hooks/useAuth";
+import React from "react";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export default function LoginPage() {
   }
 
   return (
-    <>
+    <React.Fragment>
       {isLoading && <Loader />}
       <div
         className={`${styles.claseTest} flex h-screen flex-col px-6 py-12 lg:px-8`}
@@ -158,6 +159,6 @@ export default function LoginPage() {
           </button>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }

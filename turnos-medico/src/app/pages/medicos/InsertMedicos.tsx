@@ -8,8 +8,8 @@ import Input from "@/components/Input";
 import Select from "@/components/Select";
 import useCRUD from "@/hooks/useCrud";
 import { Especialidades } from "../especialidades/type";
-import { validateUpdate } from "./validations/validateUpdate";
-import { validateInsert } from "./validations/validateInsert";
+import React from "react";
+import { dias, horas } from "@/constants/const";
 
 type FormValues = Medicos & {
   email?: string;
@@ -18,7 +18,7 @@ type FormValues = Medicos & {
 };
 
 export default function InsertMedicos(props: {
-  initialValues?: any;
+  initialValues: any;
   isUpdating: boolean;
   setOpenForm: any;
   especialidades: Especialidades[];
@@ -26,6 +26,28 @@ export default function InsertMedicos(props: {
   update: any;
 }) {
   const [openConfirma, setOpenConfirma] = useState<boolean>(false);
+  const [diasAtencion, setDiasAtencion] = useState(
+    props.initialValues
+      ? dias.map((dia) => {
+          return {
+            dia: dia,
+            isSelected: props.initialValues.diasAtencion?.some(
+              (diaValue: any) => diaValue === dia
+            )
+              ? true
+              : false,
+          };
+        })
+      : [
+          { dia: "Lunes", isSelected: false },
+          { dia: "Martes", isSelected: false },
+          { dia: "Miércoles", isSelected: false },
+          { dia: "Jueves", isSelected: false },
+          { dia: "Viernes", isSelected: false },
+          { dia: "Sábado", isSelected: false },
+          { dia: "Domingo", isSelected: false },
+        ]
+  );
 
   const submitMedicos = async (
     value: Medicos & {
@@ -35,6 +57,11 @@ export default function InsertMedicos(props: {
     }
   ) => {
     try {
+      let dias = diasAtencion
+        .filter((diaObj) => diaObj.isSelected)
+        .map((diaObj) => diaObj.dia);
+      value.diasAtencion = dias;
+
       if (props.isUpdating) {
         await props.update(props.initialValues?.id, value);
       } else {
@@ -54,6 +81,9 @@ export default function InsertMedicos(props: {
       return {
         matricula: initialValues.matricula || "",
         especialidad: initialValues.especialidad?.id.toString() || "",
+        diasAtencion: initialValues.diasAtencion || [],
+        horaDesde: initialValues.horaDesde || "",
+        horaHasta: initialValues.horaHasta || "",
         usuario: {
           uid: initialValues.usuario?.uid || "",
           nombre: initialValues.usuario?.nombre || "",
@@ -69,6 +99,9 @@ export default function InsertMedicos(props: {
       password: "",
       repeatPassword: "",
       matricula: "",
+      diasAtencion: [],
+      horaDesde: "",
+      horaHasta: "",
       usuario: {
         uid: "",
         nombre: "",
@@ -85,7 +118,7 @@ export default function InsertMedicos(props: {
   );
 
   const classButton =
-    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 mt-5 px-4 text-lg rounded focus:outline-none focus:shadow-outline mx-auto block";
+    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 mt-2 px-2 text-lg rounded focus:outline-none focus:shadow-outline mx-auto block";
 
   const handleConfirma = (e: any) => {
     e.preventDefault();
@@ -99,8 +132,33 @@ export default function InsertMedicos(props: {
       submitMedicos
     );
 
+  const handleDaySelect = (obj: { dia: string; isSelected: boolean }) => {
+    let diasAtencionObj = [...diasAtencion];
+
+    let diaIndex = diasAtencion.findIndex((diaObj) => obj.dia === diaObj.dia);
+
+    if (diaIndex !== -1) {
+      diasAtencionObj[diaIndex] = {
+        ...diasAtencionObj[diaIndex],
+        isSelected: !obj.isSelected,
+      };
+    }
+
+    setDiasAtencion(diasAtencionObj);
+  };
+
+  const getHoraEnEntero = (hora: string) => parseInt(hora.split(":")[0], 10);
+
+  const horasFiltradasHasta = horas.filter((hora) => {
+    if (!values.horaDesde) return true;
+    const horaDesdeEntero = getHoraEnEntero(values.horaDesde);
+    const horaActualEntero = getHoraEnEntero(hora.id);
+    const horaLimite = Math.min(horaDesdeEntero + 8, 23);
+    return horaActualEntero > horaDesdeEntero && horaActualEntero <= horaLimite;
+  });
+
   return (
-    <>
+    <React.Fragment>
       {openConfirma && (
         <Confirma
           message={
@@ -119,7 +177,7 @@ export default function InsertMedicos(props: {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {!props.isUpdating && (
-            <>
+            <React.Fragment>
               <Input
                 type="email"
                 name="email"
@@ -147,7 +205,7 @@ export default function InsertMedicos(props: {
                 error={errors["repeatPassword"]}
                 placeholder="Repetir contraseña*"
               />
-            </>
+            </React.Fragment>
           )}
 
           <Input
@@ -207,11 +265,58 @@ export default function InsertMedicos(props: {
             error={errors["matricula"]}
             placeholder="Matrícula*"
           />
+          <div>
+            <h2 className="block text-gray-700 text-sm font-bold">
+              Días de atención
+            </h2>
+            <div className="shadow appearance-none border rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer max-h-[140px] overflow-auto">
+              {diasAtencion.map((obj) => (
+                <p
+                  key={obj.dia}
+                  className={
+                    obj.isSelected
+                      ? "text-blue-700 bg-blue-100 p-1 m-0"
+                      : "text-black bg-white p-1 m-0"
+                  }
+                  onClick={() => handleDaySelect(obj)}
+                >
+                  {obj.dia}
+                </p>
+              ))}
+            </div>
+            <p
+              className={`text-red-500 text-xs italic ${
+                errors["diasAtencion"] ? "visible" : "invisible"
+              }`}
+              style={{ minHeight: "1.25rem" }}
+            >
+              {errors["diasAtencion"] || " "}
+            </p>
+          </div>
+          <Select
+            name="horaDesde"
+            value={values.horaDesde}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            options={horas}
+            error={errors.horaDesde}
+            placeholder="Hora desde"
+          />
+
+          <Select
+            name="horaHasta"
+            value={values.horaHasta}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            options={horasFiltradasHasta}
+            error={errors.horaHasta}
+            placeholder="Hora hasta"
+          />
         </div>
         <button className={classButton} type="submit">
           {props.isUpdating ? "Actualizar médico" : "Cargar médico"}
         </button>
       </form>
-    </>
+    </React.Fragment>
   );
 }

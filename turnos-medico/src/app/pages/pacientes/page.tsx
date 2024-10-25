@@ -1,14 +1,23 @@
 "use client";
 import { Pacientes } from "./type";
-import useFind from "@/hooks/useFind";
 import Loader from "../../../components/Loader";
 import styles from "./pacientes.module.css";
+import React, { useEffect } from "react";
+import useCRUD from "@/hooks/useCrud";
 
 export default function ListaPacientes() {
-  const { data: pacientes, loading } = useFind<Pacientes>("pacientes");
+  const {
+    fetchData,
+    data: pacientes,
+    loading,
+  } = useCRUD<Pacientes>("pacientes");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
-    <>
+    <React.Fragment>
       <div className="overflow-auto">
         <div>
           <h1 className="font-sans text-3xl text-center p-10">
@@ -28,6 +37,9 @@ export default function ListaPacientes() {
                     <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
                       {`${paciente.usuario.nombre} ${paciente.usuario.apellido}`}
                     </p>
+                    <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
+                      {`${paciente.usuario.email}`}
+                    </p>
                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                       {"Dni: " + paciente.usuario.dni}
                     </p>
@@ -38,6 +50,6 @@ export default function ListaPacientes() {
           </ul>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }
