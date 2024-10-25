@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import InsertTurnos from "./CreateTurnos";
 import useCRUD from "@/hooks/useCrud";
-import { Especialidades } from "../especialidades/type";
+import { Especialidades } from "../../pages/especialidades/type";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import styles from "./turnos.module.css";
@@ -66,7 +66,7 @@ export default function ListaTurnos() {
       )}
       <div
         className={
-          openForm ? styles.turnosContainerSinImagen : styles.turnosContainer
+          styles.turnosContainer
         }
       >
         {!openForm && (
@@ -76,8 +76,8 @@ export default function ListaTurnos() {
                 Lista de turnos
               </h1>
               <div className={styles.calendar}>
-                {turnos.data.length &&
-                  turnos.data.map((turno, index) => {
+                {turnos.data?.length ?
+                  turnos.data?.map((turno, index) => {
                     let date = moment(turno.fecha).locale("es");
 
                     return (
@@ -88,18 +88,13 @@ export default function ListaTurnos() {
                         <div>{turno.rango}</div>
                         <div>{turno.medico.especialidad.nombre}</div>
                         <FontAwesomeIcon
-                          icon={faEdit}
-                          className={styles.edit}
-                          onClick={() => {}}
-                        />
-                        <FontAwesomeIcon
                           icon={faTrash}
                           className={styles.trash}
                           onClick={() => confirmaDelete(turno.id)}
                         />
                       </div>
                     );
-                  })}
+                  }) : <h2>Aún no posee turnos</h2>}
               </div>
             </div>
           </React.Fragment>
@@ -110,7 +105,6 @@ export default function ListaTurnos() {
           className={openForm ? styles.hide : styles.insert}
           onClick={() => setOpenForm(!openForm)}
         />
-      </div>
       {openForm && (
         <InsertTurnos
           especialidades={especialidades}
@@ -118,6 +112,7 @@ export default function ListaTurnos() {
           getTurnos={getTurnos}
         />
       )}
+      </div>
     </React.Fragment>
   );
 }

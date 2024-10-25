@@ -10,7 +10,7 @@ export default function useCRUD<T>(entity: string) {
     error: false,
     message: "",
   });
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const { showToast } = useToast();
 
   const fetchData = async () => {

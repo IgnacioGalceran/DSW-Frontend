@@ -1,5 +1,5 @@
-import { Medicos } from "../medicos/type";
-import { Pacientes } from "../pacientes/type";
+import { Medicos } from "../../pages/medicos/type";
+import { Pacientes } from "../../pages/pacientes/type";
 
 export type Turnos = {
   id: string;

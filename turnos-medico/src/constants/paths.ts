@@ -2,15 +2,17 @@ import { HeaderList } from "@/types/headerList";
 import { FRONT_URL } from "./const";
 
 export const headerList: HeaderList[] = [
+   //Perfil
   {
     path: `/`,
-    title: "Principal",
+    title: "Perfil",
     rol: ["Administrador", "Medico", "Paciente"],
   },
+  //Administrador
   {
     path: `/pages/turnos`,
     title: "Turnos",
-    rol: ["Administrador", "Medico", "Paciente"],
+    rol: ["Administrador"],
   },
   {
     path: `/pages/medicos`,
@@ -26,5 +28,17 @@ export const headerList: HeaderList[] = [
     path: `/pages/especialidades`,
     title: "Especialidades",
     rol: ["Administrador"],
+  },
+  //Paciente
+  {
+    path: `/paciente/turnos`,
+    title: "Turnos",
+    rol: ["Paciente"],
+  },
+  //Medico
+  {
+    path: `/medico/turnos`,
+    title: "Turnos",
+    rol: ["Medico"],
   },
 ];

@@ -8,6 +8,7 @@ interface SelectProps {
   options: Array<{ id: string | number; nombre: string }>;
   error?: string;
   placeholder?: string;
+  className?: string;
   multiple?: boolean;
 }
 
@@ -19,6 +20,7 @@ const Select: React.FC<SelectProps> = ({
   options,
   error,
   placeholder,
+  className,
   multiple = false,
 }) => {
   return (
@@ -32,7 +34,7 @@ const Select: React.FC<SelectProps> = ({
         onChange={onChange}
         onBlur={onBlur}
         multiple={multiple}
-        className={`shadow border rounded w-full py-2 px-3 mt-1 text-gray-700 focus:outline-none focus:shadow-outline cursor-pointer${
+        className={`shadow border rounded w-full py-2 px-3 mt-1 text-gray-700 focus:outline-none focus:shadow-outline cursor-pointer ${className} ${
           error ? "border-red-500" : value ? "border-green-500" : ""
         }`}
       >

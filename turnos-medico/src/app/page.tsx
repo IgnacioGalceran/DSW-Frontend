@@ -10,7 +10,7 @@ import Landing from "@/components/Landing";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 
-export default function Home() {
+export default function Perfil() {
   const { isAuth, isLoading } = useSelector((state: any) => state.auth);
   return (
     <React.Fragment>

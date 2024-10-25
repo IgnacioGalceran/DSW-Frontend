@@ -4,8 +4,8 @@ import Select from "@/components/Select";
 import useCRUD from "@/hooks/useCrud";
 import { Turnos } from "./type";
 import { validateTurnos } from "./validations";
-import { Medicos } from "../medicos/type";
-import { Especialidades } from "../especialidades/type";
+import { Medicos } from "../../pages/medicos/type";
+import { Especialidades } from "../../pages/especialidades/type";
 import React from "react";
 import styles from "./turnos.module.css";
 import ModalTurno from "./ModalTurno";
@@ -66,7 +66,7 @@ export default function InsertTurnos(props: {
           getTurnos={props.getTurnos}
         />
       )}
-      <form className={`${styles.form} bg-white shadow-md rounded px-8 py-6`}>
+      <form className={`${styles.form} shadow-md rounded px-8 py-6`}>
         <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
           {props.especialidades?.data?.length > 0 && (
             <Select
@@ -74,8 +74,8 @@ export default function InsertTurnos(props: {
               value={values.especialidad}
               onChange={getValueEspecialidad}
               onBlur={handleBlur}
+              className={"bg-[#eeeeeec5]"}
               options={props.especialidades.data}
-              // error={} //
               placeholder="Elegir especialidad"
             />
           )}

@@ -5,6 +5,9 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut as firebaseSignOut,
+  sendEmailVerification,
+  getAuth,
+  User,
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { API_URL } from "@/constants/const";
@@ -146,5 +149,21 @@ export const useAuth = () => {
     }
   };
 
-  return { signOut, signIn, tokenListener };
+  const sendVerificationEmail = async (usuario: User) => {
+    const actionCodeSettings = {
+      url: `http://localhost:3000/pages/verify/?uid=${usuario.uid}`,
+      handleCodeInApp: true,
+    };
+
+    try {
+      if (usuario) {
+        await sendEmailVerification(usuario, actionCodeSettings);
+        console.log("Correo de verificación enviado");
+      }
+    } catch (error) {
+      console.error("Error al enviar el correo de verificación:", error);
+    }
+  };
+
+  return { signOut, signIn, tokenListener, sendVerificationEmail };
 };

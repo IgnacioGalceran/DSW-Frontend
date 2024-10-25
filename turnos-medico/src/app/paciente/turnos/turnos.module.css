@@ -1,0 +1,214 @@
+.turnosContainer,
+.turnosContainerSinImagen {
+  display: flex;
+  justify-content: center;
+}
+
+.turnosContainer {
+  background-image: url(/assets/turnos.jpg);
+  background-size: cover;
+  height: 100%;
+}
+
+.container {
+  height: 90%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: #80808069;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin-top: 20px;
+}
+
+.form {
+  width: 80%;
+  height: fit-content;
+  margin: 20px 0;
+  background-color: #d6d5d562;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.insert,
+.hide {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 14px 14px;
+  border-radius: 10px;
+  z-index: 100;
+  font-weight: 700;
+  font-size: 1.4rem;
+  background-color: #4193ff;
+  color: #262727;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.486);
+  cursor: pointer;
+}
+
+.hide {
+  background-color: rgb(27, 29, 31);
+  color: white;
+}
+
+.medicosContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 10px 0;
+  padding: 6px 20px;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.medicoCard:hover {
+  background-color: #3f4141;
+  color: white;
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 96%;
+  height: 96%;
+  max-height: 98%;
+  border-radius: 10px;
+  color: rgb(34, 33, 33);
+  overflow: auto;
+}
+
+.turnoCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  margin: 15px;
+  width: 75%;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-transform: capitalize;
+  background-color: #262727af;
+}
+
+.turnoCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.turnoCard div {
+  font-size: 14px;
+  padding: 10px 0;
+}
+
+.turnoCard div:first-child {
+  font-size: 24px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgb(103, 172, 149);
+  border-bottom: white;
+}
+
+.turnoCard div:nth-child(2) {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8); /* Color del día de la semana */
+}
+
+.turnoCard div:nth-child(3) {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 1); /* Color del día del mes */
+}
+
+.turnoCard div:last-child {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6); /* Color del rango de turno */
+}
+
+.title {
+  font-weight: 800;
+}
+
+.medicoCard {
+  background-color: rgba(255, 255, 255, 0.842);
+  width: 100%;
+}
+
+.medicosContainer p {
+  margin: 6px 0;
+  width: 100%;
+}
+
+.diasAtencion {
+  display: flex;
+  gap: 10px;
+  text-transform: capitalize;
+}
+
+.edit,
+.trash {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 1.2rem;
+}
+
+.edit {
+  color: rgb(74, 131, 172);
+}
+
+.trash {
+  color: rgb(250, 108, 108);
+  right: 48px;
+}
+
+.edit:hover,
+.trash:hover {
+  opacity: 0.6;
+}
+
+@media only screen and (min-width: 800px) {
+  .medicoCard {
+    width: 46%;
+    margin: 0 10px;
+  }
+
+  .calendar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .turnoCard {
+    width: 25%;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    margin: 30px 0;
+  }
+}
+
+@media only screen and (min-width: 1300px) {
+  .form {
+    width: 60%;
+  }
+
+  .medicoCard {
+    width: 30%;
+  }
+}

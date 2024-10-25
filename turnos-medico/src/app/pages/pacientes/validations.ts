@@ -1,17 +1,6 @@
 import Joi from "joi";
 
 export const validatePacientes = Joi.object({
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
-    .min(6)
-    .max(50)
-    .required()
-    .messages({
-      "string.min": "La longitud mínima es de 6 caracteres",
-      "string.max": "La longitud máxima es de 50 caracteres",
-      "string.empty": "Este campo no puede estar vacío",
-      "any.required": "Este campo es requerido *",
-    }),
   password: Joi.string().min(8).max(20).required().messages({
     "string.min": "La longitud mínima es de 8 caracteres",
     "string.max": "La longitud máxima es de 20 caracteres",
@@ -35,6 +24,17 @@ export const validatePacientes = Joi.object({
     apellido: Joi.string().min(2).max(30).required().messages({
       "string.min": "La longitud mínima es de 2 caracteres",
       "string.max": "La longitud máxima es de 30 caracteres",
+      "string.empty": "Este campo no puede estar vacío",
+      "any.required": "Este campo es requerido *",
+    }),
+    email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .min(6)
+    .max(50)
+    .required()
+    .messages({
+      "string.min": "La longitud mínima es de 6 caracteres",
+      "string.max": "La longitud máxima es de 50 caracteres",
       "string.empty": "Este campo no puede estar vacío",
       "any.required": "Este campo es requerido *",
     }),
