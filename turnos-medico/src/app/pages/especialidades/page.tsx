@@ -52,7 +52,6 @@ export default function ListaEspecialidades() {
         <div className="overflow-auto">
           {openForm && (
             <InsertEspecialidades
-              initialValues={dataUpdate}
               isUpdating={dataUpdate ? true : false}
               setOpenForm={setOpenForm}
               especialidad={dataUpdate}

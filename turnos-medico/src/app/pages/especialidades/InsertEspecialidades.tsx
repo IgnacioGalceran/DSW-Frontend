@@ -7,31 +7,39 @@ import { validateEspecialidades } from "./validations";
 import Confirma from "@/components/Confirmacion";
 
 export const InsertEspecialidades = (props: {
-  initialValues: any;
   isUpdating: boolean;
   setOpenForm: any;
-  especialidad: any;
+  especialidad: Especialidades;
   insert: any;
   update: any;
   remove: any;
 }) => {
   const { especialidad } = props;
-  console.log(especialidad);
-  const [openConfirma, setOpenConfirma] = useState<boolean>(false);
+
+  const [confirmaState, setConfirmaState] = useState<any>({
+    open: false,
+    message: "",
+    onConfirm: undefined,
+  });
+
   const { classButtonEdit, classButtonDelete } = styles;
+
   const submitEspecialidades = async (value: Especialidades) => {
     try {
       if (props.isUpdating) {
-        await props.update(props.initialValues?.id, value);
+        await props.update(props.especialidad.id, value);
       }
       if (!props.isUpdating) {
         await props.insert(value);
-      } else {
       }
       props.setOpenForm(false);
     } catch (error) {
       console.error("Error al enviar la especialidad :", error);
     }
+  };
+
+  const deleteEspecialidad = async (id: string) => {
+    await props.remove(id);
   };
 
   const { values, setValues, errors, handleChange, handleBlur, handleSubmit } =
@@ -48,7 +56,7 @@ export const InsertEspecialidades = (props: {
   useEffect(() => {
     if (especialidad) {
       setValues({
-        nombre: especialidad,
+        nombre: especialidad.nombre,
       });
     } else {
       setValues({
@@ -59,17 +67,39 @@ export const InsertEspecialidades = (props: {
 
   const handleConfirma = (e: any) => {
     e.preventDefault();
-    setOpenConfirma(true);
+    setConfirmaState({
+      open: true,
+      message: especialidad
+        ? "Estas seguro de confirmar los cambios?"
+        : "Estas seguro de cargar una nueva especialidad?",
+      onConfirm: handleSubmit,
+    });
+  };
+
+  const handleDelete = () => {
+    setConfirmaState({
+      open: true,
+      message: "Estas seguro que quieres borrar la especialidad?",
+      onConfirm: () => deleteEspecialidad(especialidad.id),
+    });
+  };
+
+  const setOpenConfirma = (open: boolean) => {
+    setConfirmaState({
+      open: false,
+      message: "",
+      onConfirm: undefined,
+    });
   };
 
   return (
     <>
-      {openConfirma && (
+      {confirmaState.open && (
         <Confirma
-          message="Está seguro que quiere editar la especialidad?"
-          open={openConfirma}
+          message={confirmaState.message}
+          open={confirmaState.open}
           setOpenConfirma={setOpenConfirma}
-          handleConfirma={handleSubmit}
+          handleConfirma={confirmaState.onConfirm}
         />
       )}
       <form
@@ -92,7 +122,11 @@ export const InsertEspecialidades = (props: {
             {especialidad ? "Editar" : "Cargar especialidad"}
           </button>
           {especialidad && (
-            <button className={classButtonDelete} type="submit">
+            <button
+              className={classButtonDelete}
+              onClick={handleDelete}
+              type="button"
+            >
               Borrar
             </button>
           )}

@@ -7,7 +7,7 @@ import Confirma from "@/components/Confirmacion";
 
 export const DataEspecialidades = (props: {
   especialidades: response<Especialidades>;
-  setDataUpdate: any;
+  setDataUpdate: (e: Especialidades) => void;
   setOpenForm: any;
 }) => {
   return (
@@ -29,7 +29,7 @@ export const DataEspecialidades = (props: {
                 icon={faEdit}
                 className="block h-5 w-5 mt-2 mb-2 mr-2 ml-auto "
                 onClick={() => {
-                  props.setDataUpdate(especialidad.nombre);
+                  props.setDataUpdate(especialidad);
                   props.setOpenForm(true);
                 }}
               />

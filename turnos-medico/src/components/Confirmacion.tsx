@@ -46,7 +46,6 @@ const Confirma: React.FC<ModalConfirma> = ({
                 <button
                   className={confirma.si}
                   onClick={(e) => {
-                    console.log("Botón Sí clicado");
                     handleConfirma(e);
                   }}
                 >
