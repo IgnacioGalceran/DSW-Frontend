@@ -20,12 +20,15 @@ export default function ListaMedicos() {
     update,
     remove,
   } = useCRUD<Medicos>("medicos");
+
   const {
     fetchData: getEspecialidades,
     data: especialidades,
     loading: loadingEspecialidades,
   } = useCRUD<Especialidades>("especialidades");
+
   const [dataUpdate, setDataUpdate] = useState<Medicos | undefined>(undefined);
+
   const [openForm, setOpenForm] = useState<boolean>(false);
 
   useEffect(() => {
@@ -42,7 +45,7 @@ export default function ListaMedicos() {
             {openForm
               ? dataUpdate
                 ? "Actualización de Médico"
-                : "Creación de Médico"
+                : "Registrar Médico"
               : "Lista de Médicos"}
           </h1>
         </div>

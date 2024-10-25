@@ -64,11 +64,7 @@ export default function ListaTurnos() {
           handleConfirma={handleDelete}
         />
       )}
-      <div
-        className={
-          styles.turnosContainer
-        }
-      >
+      <div className={styles.turnosContainer}>
         {!openForm && (
           <React.Fragment>
             <div className={styles.container}>
@@ -76,7 +72,7 @@ export default function ListaTurnos() {
                 Lista de turnos
               </h1>
               <div className={styles.calendar}>
-                {turnos.data?.length ?
+                {turnos.data?.length ? (
                   turnos.data?.map((turno, index) => {
                     let date = moment(turno.fecha).locale("es");
 
@@ -94,7 +90,10 @@ export default function ListaTurnos() {
                         />
                       </div>
                     );
-                  }) : <h2>Aún no posee turnos</h2>}
+                  })
+                ) : (
+                  <h2>Aún no posee turnos</h2>
+                )}
               </div>
             </div>
           </React.Fragment>
@@ -105,13 +104,13 @@ export default function ListaTurnos() {
           className={openForm ? styles.hide : styles.insert}
           onClick={() => setOpenForm(!openForm)}
         />
-      {openForm && (
-        <InsertTurnos
-          especialidades={especialidades}
-          setOpenForm={setOpenForm}
-          getTurnos={getTurnos}
-        />
-      )}
+        {openForm && (
+          <InsertTurnos
+            especialidades={especialidades}
+            setOpenForm={setOpenForm}
+            getTurnos={getTurnos}
+          />
+        )}
       </div>
     </React.Fragment>
   );

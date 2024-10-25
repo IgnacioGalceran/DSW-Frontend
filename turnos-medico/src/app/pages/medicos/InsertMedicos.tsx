@@ -1,9 +1,6 @@
-import { API_URL } from "@/constants/const";
 import { useState } from "react";
 import { FirebaseAuth } from "@/firebase/config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { validateInsert } from "./validations/validateInsert";
-import { validateUpdate } from "./validations/validateUpdate";
 import { Medicos } from "./type";
 import useForm from "@/hooks/useForm";
 import Confirma from "@/components/Confirmacion";
@@ -125,7 +122,6 @@ export default function InsertMedicos(props: {
 
   const handleConfirma = (e: any) => {
     e.preventDefault();
-
     setOpenConfirma(true);
   };
 

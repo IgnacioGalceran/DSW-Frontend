@@ -1,49 +1,77 @@
 "use client";
-import React, { useEffect } from "react";
 import { Especialidades } from "./type";
-import Loader from "../../../components/Loader";
 import styles from "./especialidades.module.css";
+import Loader from "../../../components/Loader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import { InsertEspecialidades } from "./InsertEspecialidades";
 import useCRUD from "@/hooks/useCrud";
+import { DataEspecialidades } from "./DataEspecialidades";
 
-export default function ListaMedicos() {
+export default function ListaEspecialidades() {
   const {
+    fetchData: getEspecialidades,
     data: especialidades,
-    fetchData,
-    loading,
+    loading: loadingEspecialidades,
+    insert,
+    update,
+    remove,
   } = useCRUD<Especialidades>("especialidades");
 
+  const [dataUpdate, setDataUpdate] = useState<Especialidades | undefined>(
+    undefined
+  );
+
+  const [openForm, setOpenForm] = useState<boolean>(false);
+
   useEffect(() => {
-    fetchData();
+    getEspecialidades();
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <div className="overflow-auto">
         <div>
           <h1 className="font-sans text-3xl text-center p-10">
-            Lista de Especialidades
+            {openForm
+              ? dataUpdate
+                ? "Editar especialidad"
+                : "Registrar especialidad"
+              : "Lista de Especialidades"}
           </h1>
         </div>
-        {loading && <Loader />}
-        <div>
-          <ul role="list" className="flex justify-center flex-row flex-wrap">
-            {especialidades.data?.map((especialidad: Especialidades) => (
-              <li
-                className={`w-4/5 md:w-1/4 py-5 rounded-md m-2 p-4 ${styles.sombra}`}
-                key={especialidad.id}
-              >
-                <div className="min-w-0 gap-x-4">
-                  <div className="min-w-0">
-                    <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
-                      {especialidad.nombre}
-                    </p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+        {loadingEspecialidades && <Loader />}
+        {!openForm && (
+          <DataEspecialidades
+            especialidades={especialidades}
+            setDataUpdate={setDataUpdate}
+            setOpenForm={setOpenForm}
+          />
+        )}
+        <div className="overflow-auto">
+          {openForm && (
+            <InsertEspecialidades
+              isUpdating={dataUpdate ? true : false}
+              setOpenForm={setOpenForm}
+              especialidad={dataUpdate}
+              insert={insert}
+              update={update}
+              remove={remove}
+            />
+          )}
+          {
+            <FontAwesomeIcon
+              icon={openForm ? faArrowLeft : faPlus}
+              className={openForm ? styles.hide : styles.insert}
+              onClick={() => {
+                setOpenForm(!openForm);
+                setDataUpdate(undefined);
+              }}
+            />
+          }
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }

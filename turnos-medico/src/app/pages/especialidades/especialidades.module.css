@@ -5,3 +5,72 @@
 .sombra {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
+.containerButtons {
+  display: flex;
+  margin: 0;
+}
+.classButtonEdit {
+  background-color: #3b82f6;
+  color: #ffffff;
+  font-weight: bold;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1.125rem;
+  border-radius: 0.375rem;
+  outline: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.classButtonEdit:hover {
+  background-color: #1e40af;
+}
+.classButtonEdit:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+.classButtonDelete {
+  background-color: #ef4444;
+  color: #ffffff;
+  font-weight: bold;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1.125rem;
+  border-radius: 0.375rem;
+  outline: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.classButtonDelete:hover {
+  background-color: #dc2626;
+}
+
+.classButtonDelete:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.5);
+}
+
+.insert,
+.hide {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 14px 14px;
+  border-radius: 10px;
+  z-index: 100;
+  font-weight: 700;
+  font-size: 1.4rem;
+  background-color: #4193ff;
+  color: #262727;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.486);
+  cursor: pointer;
+}
+
+.hide {
+  background-color: rgb(27, 29, 31);
+  color: white;
+}

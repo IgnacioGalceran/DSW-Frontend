@@ -38,6 +38,7 @@ export const useAuth = () => {
         email,
         password
       );
+      console.log(userCredential);
       const user = userCredential.user;
       const token = await user.getIdToken();
       const userData = await getUserData(user.uid, token);
