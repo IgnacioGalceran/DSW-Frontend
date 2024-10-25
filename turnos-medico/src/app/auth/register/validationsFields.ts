@@ -29,12 +29,12 @@ export const registerPaciente = Joi.object({
       "any.required": "Este campo es requerido *",
     }),
     email: Joi.string()
-    .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
-    .required()
-    .messages({
-      "string.empty": "El correo electrónico es requerido",
-      "string.pattern.base": "Debe proporcionar un correo electrónico válido",
-    }),
+      .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+      .required()
+      .messages({
+        "string.empty": "El correo electrónico es requerido",
+        "string.pattern.base": "Debe proporcionar un correo electrónico válido",
+      }),
   }),
 });
 
