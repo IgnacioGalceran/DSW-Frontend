@@ -23,37 +23,39 @@ export default function ListaTurnos() {
 
   return (
     <React.Fragment>
-      {(loadingTurnos) && <Loader />}
-      <div
-        className={
-          styles.turnosContainer
-        }
-      >
-        
-          <React.Fragment>
-            <div className={styles.container}>
-              <h1 className={`${styles.title} text-gray-900 text-2xl m-2`}>
-                Lista de turnos
-              </h1>
-              <div className={styles.calendar}>
-                {turnos.data?.length ?
-                  turnos.data?.map((turno, index) => {
-                    let date = moment(turno.fecha).locale("es");
+      {loadingTurnos && <Loader />}
+      <div className={styles.turnosContainer}>
+        <React.Fragment>
+          <div className={styles.container}>
+            <h1 className={`${styles.title} text-gray-900 text-2xl m-2`}>
+              Lista de turnos
+            </h1>
+            <div className={styles.calendar}>
+              {turnos.data?.length ? (
+                turnos.data?.map((turno, index) => {
+                  let date = moment(turno.fecha).locale("es");
 
-                    return (
-                      <div className={styles.turnoCard} key={index}>
-                        <div>{date.format("MMMM")}</div>
-                        <div>{date.format("dddd")}</div>
-                        <div>{date.format("DD")}</div>
-                        <div>{turno.rango}</div>
-                        <div>Paciente: {turno.paciente.usuario.nombre} {turno.paciente.usuario.apellido}</div>
+                  return (
+                    <div className={styles.turnoCard} key={index}>
+                      <div>{date.format("MMMM")}</div>
+                      <div>{date.format("dddd")}</div>
+                      <div>{date.format("DD")}</div>
+                      <div>
+                        {turno.inicio} - {turno.fin}
                       </div>
-                    );
-                  }) : <h2>Aún no posee turnos</h2>}
-              </div>
+                      <div>
+                        Paciente: {turno.paciente.usuario.nombre}{" "}
+                        {turno.paciente.usuario.apellido}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <h2>Aún no posee turnos</h2>
+              )}
             </div>
-          </React.Fragment>
-
+          </div>
+        </React.Fragment>
       </div>
     </React.Fragment>
   );

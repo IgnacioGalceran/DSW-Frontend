@@ -83,7 +83,9 @@ export default function ListaTurnos() {
                         <div>{date.format("MMMM")}</div>
                         <div>{date.format("dddd")}</div>
                         <div>{date.format("DD")}</div>
-                        <div>{turno.rango}</div>
+                        <div>
+                          {turno.inicio} - {turno.fin}
+                        </div>
                         <div>{turno.medico.especialidad.nombre}</div>
                         <FontAwesomeIcon
                           icon={faTrash}
