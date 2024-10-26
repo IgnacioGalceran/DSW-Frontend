@@ -26,7 +26,7 @@ export default function ListaTurnos() {
     fetchData: getEspecialidades,
     data: especialidades,
     loading: loadingEspecialidades,
-  } = useCRUD<Especialidades>("especialidades");
+  } = useCRUD<Especialidades>("especialidades/findEspecialidadesWithMedicos");
   const [openForm, setOpenForm] = useState<boolean>(false);
   const { update, remove, loading: loadingT } = useCRUD<Turnos>(`turnos`);
   const {
@@ -34,6 +34,8 @@ export default function ListaTurnos() {
     data: turnos,
     loading: loadingTurnos,
   } = useCRUD<Turnos>(`turnos/findTurnosByPaciente/${id}`);
+
+  console.log(especialidades);
 
   useEffect(() => {
     getEspecialidades();

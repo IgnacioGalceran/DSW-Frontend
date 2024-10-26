@@ -9,11 +9,18 @@ export function middleware(request: NextRequest) {
   const verificado = request.cookies.get("verificado");
   const url = request.nextUrl;
 
+  console.log(rol);
+
   if (url.pathname === "/landing" || url.pathname.startsWith("/auth")) {
     return NextResponse.next();
   }
 
-  if (verificado && !JSON.parse(verificado?.value) && token !== null) {
+  if (
+    verificado &&
+    !JSON.parse(verificado?.value) &&
+    token !== null &&
+    rol?.value === "Paciente"
+  ) {
     return NextResponse.redirect(new URL("/auth/firebase-action", request.url));
   }
 

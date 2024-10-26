@@ -10,6 +10,8 @@ import useCRUD from "@/hooks/useCrud";
 import { Especialidades } from "../especialidades/type";
 import React from "react";
 import { dias, horas } from "@/constants/const";
+import { validateInsert } from "./validations/validateInsert";
+import { validateUpdate } from "./validations/validateUpdate";
 
 type FormValues = Medicos & {
   email?: string;

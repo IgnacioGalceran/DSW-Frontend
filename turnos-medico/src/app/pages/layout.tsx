@@ -16,7 +16,12 @@ function Layout({ children }: { children: ReactNode }) {
     setLoading(false);
   }, []);
 
-  return <div className={styles.container}>{children}</div>;
+  return (
+    <React.Fragment>
+      <Header />
+      <div className={styles.container}>{children}</div>
+    </React.Fragment>
+  );
 }
 
 export default Layout;
