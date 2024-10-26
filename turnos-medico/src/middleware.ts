@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
   }
 
   if (verificado && !JSON.parse(verificado?.value) && token !== null) {
-    return NextResponse.redirect(new URL("/auth/verify", request.url));
+    return NextResponse.redirect(new URL("/auth/firebase-action", request.url));
   }
 
   if (!token) {

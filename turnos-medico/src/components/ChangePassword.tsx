@@ -1,16 +1,14 @@
 "use client";
 import React from "react";
-import { Pacientes } from "@/app/pages/pacientes/type";
 import useForm from "@/hooks/useForm";
 import Input from "@/components/Input";
-import styles from "./changepassword.module.css";
-import { changePasswordValidation } from "./validation";
-import { useRouter, useSearchParams } from "next/navigation";
+import Joi from "joi";
+import { useRouter } from "next/navigation";
 import { confirmPasswordReset, getAuth } from "firebase/auth";
 import { useToast } from "@/context/ToastContext";
+import styles from "@/app/styles/changepassword.module.css";
 
-const page = () => {
-  const searchParams = useSearchParams();
+const ChangePassword = ({ searchParams }: any) => {
   const router = useRouter();
   const { showToast } = useToast();
   const changePassword = async (value: {
@@ -32,6 +30,11 @@ const page = () => {
       showToast("Código de restablecimiento no válido.", "FAIL", 3000);
     }
   };
+
+  const changePasswordValidation = Joi.object({
+    password: Joi.string().min(8).max(20).required(),
+    repeatPassword: Joi.string().min(8).max(20).required(),
+  });
 
   const { values, errors, handleChange, handleBlur, handleSubmit } = useForm<{
     password: string;
@@ -96,4 +99,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ChangePassword;

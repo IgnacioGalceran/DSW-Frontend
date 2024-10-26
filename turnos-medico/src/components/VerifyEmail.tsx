@@ -1,20 +1,21 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { API_URL } from "@/constants/const";
 import Loader from "@/components/Loader";
 import { useToast } from "@/context/ToastContext";
-import styles from "./verify.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import styles from "@/app/styles/verify.module.css";
 
-const Verify = () => {
+const VerifyEmail = ({ searchParams }: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean | null>(null);
   const { showToast } = useToast();
-  const searchParams = useSearchParams();
   const router = useRouter();
   if (searchParams) console.log(searchParams.get("continueUrl"));
+
+  console.log(searchParams);
 
   React.useEffect(() => {
     const verifyUser = async () => {
@@ -84,4 +85,4 @@ const Verify = () => {
   );
 };
 
-export default Verify;
+export default VerifyEmail;
