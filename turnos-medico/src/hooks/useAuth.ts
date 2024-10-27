@@ -61,8 +61,18 @@ export const useAuth = () => {
       router.push("/");
 
       return user;
-    } catch (error) {
-      console.log("Error al iniciar sesión:", error);
+    } catch (error: any) {
+      console.log(error.message);
+      if (error.message === "Firebase: Error (auth/invalid-credential).") {
+        throw new Error("Datos de usuario incorrectos");
+      }
+
+      if (
+        error.message ===
+        "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests)."
+      ) {
+        throw new Error("Acceso limitado debido a varios intentos fallidos.");
+      }
     } finally {
       dispatch(checkingCredentials(false));
     }

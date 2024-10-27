@@ -12,10 +12,12 @@ import Input from "@/components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FirebaseAuth } from "@/firebase/config";
+import { useToast } from "@/context/ToastContext";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const { signIn } = useAuth();
+  const { showToast } = useToast();
   const router = useRouter();
   const [resetPassword, setResetPassword] = useState<boolean>(false);
 
@@ -51,13 +53,23 @@ export default function LoginPage() {
 
   async function handleLogin(e: any) {
     e.preventDefault();
-    await signIn(credentials);
+    try {
+      await signIn(credentials);
+    } catch (error: any) {
+      console.log(error);
+      showToast(error.message, "FAIL", 3000);
+    }
   }
 
   const handleSendChangePasswordEmail = async (e: any) => {
     console.log(resetPasswordEmail.email);
     e.preventDefault();
-    await sendPasswordResetEmail(FirebaseAuth, resetPasswordEmail.email);
+    try {
+      await sendPasswordResetEmail(FirebaseAuth, resetPasswordEmail.email);
+      showToast("Email enviado correctamente", "OK", 3000);
+    } catch (error: any) {
+      showToast(error.message, "FAIL", 3000);
+    }
   };
 
   return (

@@ -7,7 +7,7 @@
   align-items: center;
   width: 100%;
   padding: 10px;
-  background-color: rgb(21, 22, 24);
+  background-color: rgba(25, 25, 26, 0.795);
   box-shadow: 0 0 10px rgba(63, 63, 63, 0.1), 0 4px 8px rgba(71, 71, 71, 0.2);
   z-index: 100;
 }
@@ -21,13 +21,8 @@
   height: fit-content;
 }
 
-.header a {
-  text-decoration: none;
-}
-
 .header li {
   display: none;
-  color: aliceblue;
 }
 
 .header ul.openUl {
@@ -46,17 +41,24 @@
 }
 
 .header li:hover {
-  color: rgb(223, 71, 71);
+  color: rgb(52, 175, 149);
 }
 
-.active {
-  color: rgb(223, 71, 71);
+.header li {
+  color: white;
+}
+
+.header .active {
+  color: rgb(52, 175, 149);
+}
+
+.signOut {
+  color: rgb(248, 107, 107);
 }
 
 @media only screen and (min-width: 800px) {
   .header {
     justify-content: flex-end;
-    background-color: rgb(21, 22, 24);
     height: 60px;
   }
 

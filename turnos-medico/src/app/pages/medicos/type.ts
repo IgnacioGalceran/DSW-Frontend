@@ -1,5 +1,4 @@
 import { Especialidades } from "../especialidades/type";
-import { Roles } from "../roles/type";
 
 export type Medicos = {
   usuario: {
@@ -9,7 +8,7 @@ export type Medicos = {
     apellido: string;
     dni: string;
     tipoDni: string;
-    rol?: Roles;
+    rol?: any;
     email?: string;
   };
   id?: string;
