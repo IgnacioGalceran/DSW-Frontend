@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import styles from "./layout.module.css";
 import Loader from "@/components/Loader";
 import React from "react";
+import { UserProfile } from "./perfil/page";
 
 function Layout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);

@@ -32,6 +32,7 @@ const page = () => {
       value.password
     );
     value.usuario.uid = registeredUser.user.uid;
+
     let result = await insert(value);
 
     if (!result.error) {

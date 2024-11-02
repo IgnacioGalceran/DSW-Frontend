@@ -58,6 +58,7 @@ export const useAuth = () => {
           rol: userData.data.rol.nombre,
         })
       );
+      console.log(login);
       router.push("/");
 
       return user;

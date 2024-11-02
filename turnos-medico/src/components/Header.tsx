@@ -8,10 +8,11 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "@/app/styles/header.module.css";
 import { useAuth } from "@/hooks/useAuth";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faBars } from "@fortawesome/free-solid-svg-icons";
 const Header = () => {
   const [openHeader, setOpenHeader] = useState<boolean>(false);
-  const { isAuth, rol } = useSelector((state: any) => state.auth);
+  const { isAuth, rol, displayName } = useSelector((state: any) => state.auth);
   const { signOut } = useAuth();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -30,34 +31,46 @@ const Header = () => {
     return true;
   };
 
+  console.log(displayName);
+
   return (
     <header className={styles.header}>
       <ul className={openHeader ? styles.openUl : ""}>
         <div className={styles.menu} onClick={() => setOpenHeader(!openHeader)}>
-          <Image src="/assets/menu-white.png" alt="" width={30} height={30} />
+          <FontAwesomeIcon icon={faBars} className={styles.img} />
         </div>
+
         {headerList.map((e, index: number) => {
-          if (!hasPermission(e.rol)) return;
+          if (!hasPermission(e.rol)) return null;
 
           let ePath = e.path.split("/").filter(Boolean);
           let path = pathname?.split("/").filter(Boolean) || "";
 
           return (
-            <li
-              key={index}
-              className={
-                ePath[ePath.length - 1] === path[path.length - 1]
-                  ? styles.active
-                  : ""
-              }
-              onClick={() => setOpenHeader(false)}
-            >
-              <Link href={e.path}>{e.title}</Link>
-            </li>
+            <>
+              <nav>
+                <li
+                  key={index}
+                  className={
+                    ePath[ePath.length - 1] === path[path.length - 1]
+                      ? styles.active
+                      : ""
+                  }
+                  onClick={() => setOpenHeader(false)}
+                >
+                  <Link href={e.path}>{e.title}</Link>
+                </li>
+              </nav>
+              {/* <hr /> */}
+            </>
           );
         })}
 
-        {isAuth && <li onClick={() => handleLogout()}>Logout</li>}
+        {isAuth && (
+          <li style={{ cursor: "pointer" }} onClick={() => handleLogout()}>
+            Cerrar sesión
+          </li>
+        )}
       </ul>
     </header>
   );
