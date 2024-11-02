@@ -34,7 +34,6 @@ export default function useCRUD<T>(entity: string) {
 
   const insert = async (body: T) => {
     try {
-      console.log("entra");
       const response = await fetch(`${API_URL}/${entity}`, {
         method: "POST",
         headers: {

@@ -2,7 +2,7 @@
 import Header from "@/components/Header";
 import styles from "./page.module.css";
 import React from "react";
-import { UserProfile } from "./paciente/perfil/page";
+import { DataProfile } from "./paciente/perfil/page";
 
 export default function Perfil() {
   return (
@@ -11,7 +11,7 @@ export default function Perfil() {
         <Header />
 
         <div className={styles.container}>
-          <UserProfile />
+          <DataProfile />
         </div>
       </React.Fragment>
     </React.Fragment>
