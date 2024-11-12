@@ -22,9 +22,36 @@ export default function useCRUD<T>(entity: string) {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
       const result = await response.json();
 
       setData(result);
+    } catch (error: any) {
+      setData({ data: [], error: true, message: error.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchDataById = async (id: any) => {
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/${entity}/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const result = await response.json();
+      console.log(result);
+      if (!response.ok) {
+        throw new Error(result.message || "Error fetching data");
+      }
+
+      setData(result);
+      return result;
     } catch (error: any) {
       setData({ data: [], error: true, message: error.message });
     } finally {
@@ -58,7 +85,7 @@ export default function useCRUD<T>(entity: string) {
     }
   };
 
-  const update = async (id: string, form: string) => {
+  const update = async (id: string, form: any) => {
     try {
       const response = await fetch(`${API_URL}/${entity}/${id}`, {
         method: "PUT",
@@ -80,7 +107,7 @@ export default function useCRUD<T>(entity: string) {
       return result;
     } catch (error: any) {
       console.log(error);
-      return { error: true, message: error.message };
+      return { data: {}, error: true, message: error.message };
     }
   };
 
@@ -108,5 +135,5 @@ export default function useCRUD<T>(entity: string) {
     }
   };
 
-  return { data, fetchData, loading, insert, update, remove };
+  return { data, fetchData, fetchDataById, loading, insert, update, remove };
 }

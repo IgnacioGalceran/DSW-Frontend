@@ -31,19 +31,17 @@ export const useAuth = () => {
 
   const signIn = async (credentials: any) => {
     try {
-      dispatch(checkingCredentials(true));
       const { email, password } = credentials;
       const userCredential = await signInWithEmailAndPassword(
         FirebaseAuth,
         email,
         password
       );
-      console.log(userCredential);
       const user = userCredential.user;
       const token = await user.getIdToken();
       const userData = await getUserData(user.uid, token);
       localStorage.setItem("token", token);
-
+      dispatch(checkingCredentials(true));
       if (!user || !userData) {
         return;
       }
@@ -52,13 +50,15 @@ export const useAuth = () => {
         login({
           uid: user.uid,
           id: userData.data.id,
+          tipoDni: userData.data.tipoDni,
+          dni: userData.data.dni,
           email: user.email,
-          displayName: `${userData.nombre} ${userData.apellido}`,
+          displayName: `${userData.data.nombre} ${userData.data.apellido}`,
           funciones: userData.data.rol.funciones,
           rol: userData.data.rol.nombre,
         })
       );
-      console.log(login);
+
       router.push("/");
 
       return user;

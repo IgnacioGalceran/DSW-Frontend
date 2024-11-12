@@ -96,7 +96,7 @@ function useForm<T>(
     e.preventDefault();
     const validationErrors = await validateForm(values, schema);
     setErrors(validationErrors);
-    console.log(validationErrors);
+
     if (Object.keys(validationErrors).length === 0 && isPasswordOK()) {
       await callbackFunction(values);
     }
@@ -107,6 +107,9 @@ function useForm<T>(
     value: any,
     schema: ObjectSchema<T>
   ) => {
+    if (!schema.extract(name)) {
+      return {};
+    }
     const fieldSchema = Joi.object({ [name]: schema.extract(name) });
     const { error } = fieldSchema.validate({ [name]: value });
     if (error) {

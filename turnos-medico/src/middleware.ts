@@ -24,6 +24,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/auth/firebase-action", request.url));
   }
 
+  if (
+    url.pathname === "/" &&
+    verificado &&
+    JSON.parse(verificado?.value) &&
+    token !== null &&
+    rol?.value === "Paciente"
+  ) {
+    return NextResponse.redirect(new URL("/paciente/turnos", request.url));
+  }
+
   if (!token) {
     return NextResponse.redirect(new URL("/landing", request.url));
   }

@@ -10,9 +10,7 @@ export default function Perfil() {
       <React.Fragment>
         <Header />
 
-        <div className={styles.container}>
-          <DataProfile />
-        </div>
+        <div className={styles.container}></div>
       </React.Fragment>
     </React.Fragment>
   );

@@ -31,8 +31,6 @@ const Header = () => {
     return true;
   };
 
-  console.log(displayName);
-
   return (
     <header className={styles.header}>
       <ul className={openHeader ? styles.openUl : ""}>
@@ -61,7 +59,6 @@ const Header = () => {
                   <Link href={e.path}>{e.title}</Link>
                 </li>
               </nav>
-              {/* <hr /> */}
             </>
           );
         })}
