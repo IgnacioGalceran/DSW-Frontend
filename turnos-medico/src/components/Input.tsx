@@ -3,7 +3,7 @@ import React from "react";
 interface InputProps {
   type: string;
   name: string;
-  value: string | number;
+  value: string | undefined;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   error?: string;
