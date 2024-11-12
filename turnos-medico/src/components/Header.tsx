@@ -1,15 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "@/store/auth/authSlice";
 import { useRouter, usePathname } from "next/navigation";
 import { headerList } from "@/constants/paths";
-import Link from "next/link";
-import Image from "next/image";
-import styles from "@/app/styles/header.module.css";
 import { useAuth } from "@/hooks/useAuth";
+import styles from "@/app/styles/header.module.css";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faSignOut } from "@fortawesome/free-solid-svg-icons";
+
 const Header = () => {
   const [openHeader, setOpenHeader] = useState<boolean>(false);
   const { isAuth, rol, displayName } = useSelector((state: any) => state.auth);
@@ -45,27 +44,26 @@ const Header = () => {
           let path = pathname?.split("/").filter(Boolean) || "";
 
           return (
-            <>
-              <nav>
-                <li
-                  key={index}
-                  className={
-                    ePath[ePath.length - 1] === path[path.length - 1]
-                      ? styles.active
-                      : ""
-                  }
-                  onClick={() => setOpenHeader(false)}
-                >
-                  <Link href={e.path}>{e.title}</Link>
-                </li>
-              </nav>
-            </>
+            <li
+              key={index}
+              className={
+                ePath[ePath.length - 1] === path[path.length - 1]
+                  ? styles.active
+                  : ""
+              }
+              onClick={() => {
+                setOpenHeader(false);
+                router.replace(e.path);
+              }}
+            >
+              <FontAwesomeIcon icon={e.icon} />
+            </li>
           );
         })}
 
         {isAuth && (
-          <li style={{ cursor: "pointer" }} onClick={() => handleLogout()}>
-            Cerrar sesión
+          <li onClick={() => handleLogout()}>
+            <FontAwesomeIcon icon={faSignOut} className={styles.signOut} />
           </li>
         )}
       </ul>

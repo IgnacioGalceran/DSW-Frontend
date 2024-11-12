@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useRouter } from "next/navigation";
-import { FirebaseAuth } from "@/firebase/config";
 import { signInWithGoogle } from "@/firebase/providers";
 
 import Loader from "@/components/Loader";
@@ -14,9 +13,12 @@ import { useAuth } from "@/hooks/useAuth";
 
 import { RecoveryAccount } from "./recoveryAccount/page";
 
+import { useToast } from "@/context/ToastContext";
+
 export default function LoginPage() {
   const dispatch = useDispatch();
   const { signIn } = useAuth();
+  const { showToast } = useToast();
   const router = useRouter();
 
   const { initialState, status, isLoading } = useSelector(
@@ -45,7 +47,12 @@ export default function LoginPage() {
 
   async function handleLogin(e: any) {
     e.preventDefault();
-    await signIn(credentials);
+    try {
+      await signIn(credentials);
+    } catch (error: any) {
+      console.log(error);
+      showToast(error.message, "FAIL", 3000);
+    }
   }
 
   return (

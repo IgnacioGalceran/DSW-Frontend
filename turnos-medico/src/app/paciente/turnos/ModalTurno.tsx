@@ -73,20 +73,19 @@ const ModalTurno: React.FC<ModalTurnos> = ({
     });
   };
 
-  const doesAttend = (dia: string) => {
-    let attend: boolean | undefined = openModal.data.diasAtencion?.some(
-      (diaAtencion) =>
-        diaAtencion.toLowerCase().trim() === dia.toLowerCase().trim()
+  const doesAttend = (dia: string) =>
+    Boolean(
+      openModal.data.diasAtencion?.some(
+        (diaAtencion) =>
+          diaAtencion.toLowerCase().trim() === dia.toLowerCase().trim()
+      )
     );
-
-    return attend;
-  };
 
   console.log(turnos.data);
 
   function generateHours(
-    horaInicial: string,
-    horaFinal: string,
+    horaInicial: string | undefined,
+    horaFinal: string | undefined,
     startDate: Date,
     index: number,
     now: moment.Moment
@@ -192,6 +191,12 @@ const ModalTurno: React.FC<ModalTurnos> = ({
                 {moment(date.endDate).locale("es").format("MMMM Y")}
               </h2>
             </div>
+            <h1 className={modal.title}>
+              {openModal.data.usuario.nombre} {openModal.data.usuario.apellido}
+            </h1>
+            <h2 className={modal.subtitle}>
+              Especialidad: {openModal.data.especialidad.nombre}
+            </h2>
             <div className={modal.turnoContainer}>
               {array.map((a, indexDay) => {
                 let attend = doesAttend(
@@ -200,7 +205,18 @@ const ModalTurno: React.FC<ModalTurnos> = ({
                     .locale("es")
                     .format("dddd")
                 );
+                let ranges!: string[];
                 const now = moment();
+                if (attend) {
+                  ranges = generateHours(
+                    openModal.data.horaDesde,
+                    openModal.data.horaHasta,
+                    date.startDate,
+                    indexDay,
+                    now
+                  );
+                }
+
                 return (
                   <div
                     className={`${modal.dia} ${attend && modal.can}`}
@@ -214,15 +230,8 @@ const ModalTurno: React.FC<ModalTurnos> = ({
                     </h2>
                     {attend ? (
                       <React.Fragment>
-                        {openModal.data.horaDesde &&
-                          openModal.data.horaHasta &&
-                          generateHours(
-                            openModal.data.horaDesde,
-                            openModal.data.horaHasta,
-                            date.startDate,
-                            indexDay,
-                            now
-                          ).map((range, index) => (
+                        {ranges.length > 0 ? (
+                          ranges.map((range, index) => (
                             <div
                               key={index}
                               className={modal.range}
@@ -238,7 +247,12 @@ const ModalTurno: React.FC<ModalTurnos> = ({
                             >
                               {range}
                             </div>
-                          ))}
+                          ))
+                        ) : (
+                          <p className="text-white-700 text-l p-3 font-bold normal-case">
+                            Ya no hay horarios disponibles
+                          </p>
+                        )}
                       </React.Fragment>
                     ) : (
                       <p className="text-gray-700 text-l p-3 font-bold normal-case">
