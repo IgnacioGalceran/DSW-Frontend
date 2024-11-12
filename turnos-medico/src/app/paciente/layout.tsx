@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import styles from "./layout.module.css";
 import Loader from "@/components/Loader";
 import React from "react";
+import { DataProfile } from "./perfil/page";
 
 function Layout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -20,9 +21,7 @@ function Layout({ children }: { children: ReactNode }) {
     <React.Fragment>
       {isAuth && <Header />}
       {(isLoading || loading) && <Loader />}
-      {isAuth && !isLoading && !loading && (
-        <div className={styles.container}>{children}</div>
-      )}
+      {isAuth && !isLoading && !loading && <DataProfile />}
       {!isAuth && !isLoading && !loading && <LoginPage />}
     </React.Fragment>
   );

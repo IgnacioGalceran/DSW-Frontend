@@ -39,7 +39,7 @@ const Select: React.FC<SelectProps> = ({
         }`}
       >
         <option value="">{placeholder}</option>
-        {options.map((option, index) => (
+        {options?.map((option, index) => (
           <option key={index} value={option.id}>
             {option.nombre}
           </option>

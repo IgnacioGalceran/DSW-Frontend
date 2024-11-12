@@ -6,9 +6,9 @@ export type Pacientes = {
     uid?: string;
     nombre: string;
     apellido: string;
-    dni: string;
-    tipoDni: string;
+    dni?: string;
+    tipoDni?: string;
     rol?: Roles;
-    email: string;
+    email?: string;
   };
 };

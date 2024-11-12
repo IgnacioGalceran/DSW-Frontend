@@ -1,19 +1,20 @@
 .header {
   position: fixed;
   top: 0;
-  left: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: flex-end;
   width: 100%;
   padding: 10px;
-  background-color: rgba(25, 25, 26, 0.795);
+  height: auto;
+  background-color: rgb(222, 255, 244);
   box-shadow: 0 0 10px rgba(63, 63, 63, 0.1), 0 4px 8px rgba(71, 71, 71, 0.2);
   z-index: 100;
 }
 
 .header ul {
   display: flex;
+  justify-content: flex-end;
   gap: 0.2rem;
   max-height: 100px;
   transition: max-height 0.3s ease;
@@ -21,17 +22,40 @@
   height: fit-content;
 }
 
+.header nav {
+  margin: 0;
+}
+
+.header a {
+  text-decoration: none;
+}
+
 .header li {
   display: none;
+  /* background-color: bisque; */
+
+  color: rgb(17, 17, 17);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.img {
+  width: 30px;
+  height: 30px;
 }
 
 .header ul.openUl {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   gap: 30px;
+  margin: 0;
+  width: 100%;
   align-items: center;
-  height: calc(100vh);
   max-height: calc(100vh);
+}
+.header .menu {
+  margin-left: auto;
 }
 
 .openUl li {
@@ -41,24 +65,17 @@
 }
 
 .header li:hover {
-  color: rgb(52, 175, 149);
+  color: rgb(128, 123, 123);
 }
 
-.header li {
-  color: white;
-}
-
-.header .active {
-  color: rgb(52, 175, 149);
-}
-
-.signOut {
-  color: rgb(248, 107, 107);
+.active {
+  color: rgb(128, 123, 123);
 }
 
 @media only screen and (min-width: 800px) {
   .header {
     justify-content: flex-end;
+    background-color: rgb(222, 255, 244);
     height: 60px;
   }
 

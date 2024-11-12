@@ -7,16 +7,14 @@ import styles from "@/app/styles/headerlanding.module.css";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export const HeaderLanding = () => {
-  const router = useRouter();
-
+export const HeaderLanding = (props: { router: any }) => {
   const handlePortalClick = (e: any) => {
     e.preventDefault();
-    router.push("/auth");
+    props.router.push("/auth");
   };
 
   return (
-    <React.Fragment>
+    <>
       <Navbar collapseOnSelect expand="sm" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand href="">Turnos Médicos</Navbar.Brand>
@@ -38,6 +36,6 @@ export const HeaderLanding = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </React.Fragment>
+    </>
   );
 };

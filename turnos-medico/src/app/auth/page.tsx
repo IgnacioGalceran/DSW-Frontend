@@ -1,17 +1,18 @@
 "use client";
+import React from "react";
 import { useState } from "react";
-import { signInWithGoogle } from "@/firebase/providers";
-import { sendPasswordResetEmail } from "firebase/auth";
-import { useRouter } from "next/navigation";
+
 import { useDispatch, useSelector } from "react-redux";
+
+import { useRouter } from "next/navigation";
+import { signInWithGoogle } from "@/firebase/providers";
+
 import Loader from "@/components/Loader";
 import styles from "./login.module.css";
 import { useAuth } from "@/hooks/useAuth";
-import React from "react";
-import Input from "@/components/Input";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FirebaseAuth } from "@/firebase/config";
+
+import { RecoveryAccount } from "./recoveryAccount/page";
+
 import { useToast } from "@/context/ToastContext";
 
 export default function LoginPage() {
@@ -19,18 +20,17 @@ export default function LoginPage() {
   const { signIn } = useAuth();
   const { showToast } = useToast();
   const router = useRouter();
-  const [resetPassword, setResetPassword] = useState<boolean>(false);
 
   const { initialState, status, isLoading } = useSelector(
     (state: any) => state.auth
   );
-  const [resetPasswordEmail, setResetPasswordEmail] = useState({
-    email: "",
-  });
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
+
+  const [resetPassword, setResetPassword] = useState<boolean>(false);
 
   const changeUser = (event: any) => {
     setCredentials({
@@ -39,16 +39,10 @@ export default function LoginPage() {
     });
   };
 
-  const changeResetPasswordEmail = (event: any) => {
-    setResetPasswordEmail({
-      ...resetPasswordEmail,
-      [event.target.name]: event.target.value,
-    });
-  };
-
   async function handleGoogleLogin(e: any) {
     e.preventDefault();
     await signInWithGoogle(dispatch);
+    router.push("/");
   }
 
   async function handleLogin(e: any) {
@@ -61,29 +55,18 @@ export default function LoginPage() {
     }
   }
 
-  const handleSendChangePasswordEmail = async (e: any) => {
-    console.log(resetPasswordEmail.email);
-    e.preventDefault();
-    try {
-      await sendPasswordResetEmail(FirebaseAuth, resetPasswordEmail.email);
-      showToast("Email enviado correctamente", "OK", 3000);
-    } catch (error: any) {
-      showToast(error.message, "FAIL", 3000);
-    }
-  };
-
   return (
     <React.Fragment>
       {isLoading && <Loader />}
       {!resetPassword && (
         <div
-          className={`${styles.claseTest} flex h-screen flex-col px-6 py-12 lg:px-8`}
+          className={`${styles.claseTest}  flex h-screen flex-col px-6 py-12 lg:px-8`}
         >
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
-              className="mx-auto h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
+              className="mx-auto h-24 w-24 sm:h-30 sm:w-30 md:h-40 md:w-40 lg:h-56 lg:w-56"
+              src="/assets/turnos.png"
+              alt="Logo"
             />
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Inicio de sesión - Turnos médicos
@@ -127,10 +110,7 @@ export default function LoginPage() {
                     className="text-sm"
                     onClick={() => setResetPassword(true)}
                   >
-                    <a
-                      href="#"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
-                    >
+                    <a className="font-semibold text-indigo-600 hover:text-indigo-500">
                       ¿Olvidó su contraseña?
                     </a>
                   </div>
@@ -198,32 +178,10 @@ export default function LoginPage() {
         </div>
       )}
       {resetPassword && (
-        <form
-          className={styles.resetPassword}
-          action="#"
-          method="POST"
-          onSubmit={(e) => handleSendChangePasswordEmail(e)}
-        >
-          <Input
-            placeholder="Email de recuperación"
-            type="email"
-            name="email"
-            value={resetPasswordEmail.email}
-            onChange={changeResetPasswordEmail}
-          />
-
-          <button
-            type="submit"
-            className="flex justify-center rounded-md bg-sky-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-800 focus-visible:outline-offset-2"
-          >
-            Enviar email
-          </button>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            className={styles.goBack}
-            onClick={() => setResetPassword(false)}
-          />
-        </form>
+        <RecoveryAccount
+          resetPassword={resetPassword}
+          setResetPassword={setResetPassword}
+        />
       )}
     </React.Fragment>
   );

@@ -1,12 +1,25 @@
-import styles from "@/app/styles/landing.module.css";
-import Carousel from "react-bootstrap/Carousel";
-import { HeaderLanding } from "./HeaderLanding";
+"use client";
+
 import React from "react";
+import { useRouter } from "next/navigation";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import Carousel from "react-bootstrap/Carousel";
+import styles from "@/app/styles/landing.module.css";
+
+import { HeaderLanding } from "./HeaderLanding";
 
 export default function Landing() {
+  const router = useRouter();
+
+  const onClickPortal = (e: any) => {
+    e.preventDefault();
+    router.push("/auth");
+  };
+
   return (
-    <React.Fragment>
-      <HeaderLanding />
+    <>
+      <HeaderLanding router={router} />
       <Carousel fade indicators={false} controls={false} interval={5000}>
         <Carousel.Item>
           <div className={styles["img-container"]}>
@@ -45,7 +58,7 @@ export default function Landing() {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-      <div className={styles.buttonPortal}>
+      <div className={styles.buttonPortal} onClick={onClickPortal}>
         <p>
           Ingresá al <b>Portal</b>
         </p>
@@ -139,6 +152,6 @@ export default function Landing() {
         </p>
       </section>
       <footer></footer>
-    </React.Fragment>
+    </>
   );
 }

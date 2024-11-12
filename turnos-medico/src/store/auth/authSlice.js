@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isAuth: false, // 'not-authenticated' , 'authenticated'
+  isAuth: false,
   isLoading: false,
   uid: null,
   id: null,
+  tipoDni: null,
+  dni: null,
   email: null,
   displayName: null,
   errorMessage: null,
@@ -20,6 +22,8 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.uid = action.payload.uid;
       state.id = action.payload.id;
+      state.tipoDni = action.payload.tipoDni;
+      state.dni = action.payload.dni;
       state.email = action.payload.email;
       state.displayName = action.payload.displayName;
       state.funciones = action.payload.funciones;
@@ -31,6 +35,8 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.uid = null;
       state.id = null;
+      state.tipoDni = null;
+      state.dni = null;
       state.email = null;
       state.displayName = null;
       state.errorMessage = null;
@@ -40,7 +46,6 @@ export const authSlice = createSlice({
     checkingCredentials: (state, action) => {
       state.isLoading = action.payload;
     },
-    // renewToken:
   },
 });
 

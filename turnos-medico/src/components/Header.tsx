@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter, usePathname } from "next/navigation";
 import { headerList } from "@/constants/paths";
 import { useAuth } from "@/hooks/useAuth";
-import Image from "next/image";
 import styles from "@/app/styles/header.module.css";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   const [openHeader, setOpenHeader] = useState<boolean>(false);
-  const { isAuth, rol } = useSelector((state: any) => state.auth);
+  const { isAuth, rol, displayName } = useSelector((state: any) => state.auth);
   const { signOut } = useAuth();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -34,10 +34,11 @@ const Header = () => {
     <header className={styles.header}>
       <ul className={openHeader ? styles.openUl : ""}>
         <div className={styles.menu} onClick={() => setOpenHeader(!openHeader)}>
-          <Image src="/assets/menu-white.png" alt="" width={30} height={30} />
+          <FontAwesomeIcon icon={faBars} className={styles.img} />
         </div>
+
         {headerList.map((e, index: number) => {
-          if (!hasPermission(e.rol)) return;
+          if (!hasPermission(e.rol)) return null;
 
           let ePath = e.path.split("/").filter(Boolean);
           let path = pathname?.split("/").filter(Boolean) || "";
