@@ -1,13 +1,11 @@
 "use client";
 import { ReactNode, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import LoginPage from "../auth/page";
-import CheckAuth from "../client";
+
 import Header from "@/components/Header";
 import styles from "./layout.module.css";
 import Loader from "@/components/Loader";
 import React from "react";
-import { DataProfile } from "./perfil/page";
 
 function Layout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -19,10 +17,8 @@ function Layout({ children }: { children: ReactNode }) {
 
   return (
     <React.Fragment>
-      {isAuth && <Header />}
-      {(isLoading || loading) && <Loader />}
-      {isAuth && !isLoading && !loading && <DataProfile />}
-      {!isAuth && !isLoading && !loading && <LoginPage />}
+      <Header />
+      <div className={styles.container}>{children}</div>
     </React.Fragment>
   );
 }

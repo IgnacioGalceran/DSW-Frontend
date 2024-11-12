@@ -53,7 +53,7 @@ const Header = () => {
               }
               onClick={() => {
                 setOpenHeader(false);
-                router.replace(e.path);
+                router.push(e.path);
               }}
             >
               <FontAwesomeIcon icon={e.icon} />
