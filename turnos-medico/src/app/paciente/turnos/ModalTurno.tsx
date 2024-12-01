@@ -43,7 +43,8 @@ const ModalTurno: React.FC<ModalTurnos> = ({
     data: turnos,
     loading: loadingTurnos,
   } = useCRUD<Turnos>(
-    `turnos/findTurnosOcupadosByMedicoByDates/${openModal?.data?.id}?startDate=${date.startDate}&endDate=${date.endDate}`
+    `turnos/findTurnosOcupadosByMedicoByDates/${openModal?.data?.id}?startDate=${date.startDate}&endDate=${date.endDate}`,
+    false
   );
 
   useEffect(() => {

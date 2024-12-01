@@ -26,14 +26,17 @@ export default function ListaTurnos() {
     fetchData: getEspecialidades,
     data: especialidades,
     loading: loadingEspecialidades,
-  } = useCRUD<Especialidades>("especialidades/findEspecialidadesWithMedicos");
+  } = useCRUD<Especialidades>(
+    "especialidades/findEspecialidadesWithMedicos",
+    false
+  );
   const [openForm, setOpenForm] = useState<boolean>(false);
   const { update, remove, loading: loadingT } = useCRUD<Turnos>(`turnos`);
   const {
     fetchData: getTurnos,
     data: turnos,
     loading: loadingTurnos,
-  } = useCRUD<Turnos>(`turnos/findTurnosByPaciente/${id}`);
+  } = useCRUD<Turnos>(`turnos/findTurnosByPaciente/${id}`, false);
 
   console.log(especialidades);
 

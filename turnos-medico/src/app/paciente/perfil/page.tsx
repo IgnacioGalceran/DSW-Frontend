@@ -1,3 +1,5 @@
+"use client";
+
 import ListaPacientes from "@/app/pages/pacientes/page";
 import { Pacientes } from "@/app/pages/pacientes/type";
 import { validatePacientes } from "@/app/pages/pacientes/validations";
@@ -12,14 +14,19 @@ import styles from "../../pages/pacientes/pacientes.module.css";
 import { validateUpdateProfile } from "./validations";
 import Select from "@/components/Select";
 
-export const DataProfile = () => {
-  const { data, loading, update, fetchDataById } =
-    useCRUD<Pacientes>("pacientes");
+const DataProfile = () => {
+  const { data, loading, fetchDataById } = useCRUD<Pacientes>("pacientes");
+  const { loading: loadingProfile, update } = useCRUD<Pacientes>(
+    "pacientes/udtprofile",
+    false
+  );
+
   const dispatch = useDispatch();
 
   const {
     displayName,
     id: userId,
+    uid,
     tipoDni,
     dni,
     login,
@@ -36,8 +43,10 @@ export const DataProfile = () => {
   const submitDataUpdate = async (value: Pacientes) => {
     try {
       console.log("submitDataUpdate", value);
+      console.log("uid", uid);
 
-      await update(userId, value);
+      await update(uid, value);
+
       dispatch(
         login({
           displayName: `${nombre} ${apellido}`,
@@ -102,7 +111,7 @@ export const DataProfile = () => {
   // }, [displayName, setValues]);
   return (
     <>
-      {loading && <Loader />}
+      {(loadingProfile || loading) && <Loader />}
 
       {openConfirma && (
         <Confirma
@@ -172,3 +181,5 @@ export const DataProfile = () => {
     </>
   );
 };
+
+export default DataProfile;

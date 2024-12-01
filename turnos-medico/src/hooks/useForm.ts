@@ -85,7 +85,7 @@ function useForm<T>(
     }
 
     const validationErrors = await validateField(name, value, schema);
-    console.log(validationErrors);
+    // console.log(validationErrors);
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: validationErrors[name] || "",

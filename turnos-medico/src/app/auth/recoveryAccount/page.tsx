@@ -30,7 +30,6 @@ export const RecoveryAccount = ({
   };
 
   const handleSendChangePasswordEmail = async (e: any) => {
-    console.log(resetPasswordEmail.email);
     e.preventDefault();
     await sendPasswordResetEmail(FirebaseAuth, resetPasswordEmail.email);
   };

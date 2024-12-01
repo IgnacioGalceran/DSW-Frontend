@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
   const verificado = request.cookies.get("verificado");
   const url = request.nextUrl;
 
-  console.log(rol);
+  // console.log(rol);
 
   if (url.pathname === "/landing" || url.pathname.startsWith("/auth")) {
     return NextResponse.next();

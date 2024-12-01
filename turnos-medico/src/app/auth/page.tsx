@@ -48,6 +48,7 @@ export default function LoginPage() {
   async function handleLogin(e: any) {
     e.preventDefault();
     try {
+      console.log("credentials", credentials);
       await signIn(credentials);
     } catch (error: any) {
       console.log(error);

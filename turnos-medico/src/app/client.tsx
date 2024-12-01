@@ -8,7 +8,7 @@ export default function CheckAuth() {
   const [user, setUser] = useState<any>(null);
   const dispatch = useDispatch();
   const { tokenListener } = useAuth();
-  console.log("client");
+  // console.log("client");
 
   useEffect(() => {
     const setupTokenListener = async () => {

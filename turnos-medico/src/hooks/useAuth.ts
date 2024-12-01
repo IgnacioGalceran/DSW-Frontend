@@ -42,6 +42,8 @@ export const useAuth = () => {
       const userData = await getUserData(user.uid, token);
       localStorage.setItem("token", token);
       dispatch(checkingCredentials(true));
+      console.log("userData", userData);
+      console.log("user", user);
       if (!user || !userData) {
         return;
       }

@@ -8,7 +8,7 @@ const FirebaseAction = () => {
   const searchParams = useSearchParams();
 
   if (searchParams) console.log(searchParams.get("mode"));
-  console.log(searchParams?.size);
+  // console.log(searchParams?.size);
 
   return (
     <React.Fragment>

@@ -7,9 +7,10 @@
   width: 100%;
   padding: 10px;
   height: auto;
-  background-color: rgb(222, 255, 244);
+  background-color: rgba(22, 26, 25, 0.741);
   box-shadow: 0 0 10px rgba(63, 63, 63, 0.1), 0 4px 8px rgba(71, 71, 71, 0.2);
   z-index: 100;
+  
 }
 
 .header ul {
@@ -36,6 +37,14 @@
 
   color: rgb(17, 17, 17);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.icons{ 
+  color: white ;
+}
+
+.signOut{
+  color: rgb(250, 108, 108);
 }
 
 .img {
@@ -75,7 +84,7 @@
 @media only screen and (min-width: 800px) {
   .header {
     justify-content: flex-end;
-    background-color: rgb(222, 255, 244);
+    background-color: rgba(22, 26, 25, 0.741);
     height: 60px;
   }
 
