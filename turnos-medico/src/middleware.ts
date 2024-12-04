@@ -28,10 +28,15 @@ export function middleware(request: NextRequest) {
     url.pathname === "/" &&
     verificado &&
     JSON.parse(verificado?.value) &&
-    token !== null &&
-    rol?.value === "Paciente"
+    token !== null
   ) {
+    if (rol?.value === "Paciente")
     return NextResponse.redirect(new URL("/paciente/turnos", request.url));
+    else if (rol?.value === "Medico") {
+      return NextResponse.redirect(new URL("/medico/turnos", request.url));
+    } else if (rol?.value === "Administrador") {
+      return NextResponse.redirect(new URL("/pages/turnos", request.url));
+    }
   }
 
   if (!token) {

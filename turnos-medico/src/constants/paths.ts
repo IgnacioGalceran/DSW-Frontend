@@ -10,11 +10,29 @@ import {
 
 export const headerList: HeaderList[] = [
   //Perfil
+  // {
+  //   path: `/`,
+  //   title: "Perfil",
+  //   icon: faUser,
+  //   rol: ["Administrador", "Medico", "Paciente"],
+  // },
   {
-    path: `/`,
+    path: `/paciente/perfil`,
     title: "Perfil",
     icon: faUser,
-    rol: ["Administrador", "Medico", "Paciente"],
+    rol: ["Paciente"],
+  },
+  {
+    path: `/medico/perfil`,
+    title: "Perfil",
+    icon: faUser,
+    rol: ["Medico"],
+  },
+  {
+    path: `/pages/perfil`,
+    title: "Perfil",
+    icon: faUser,
+    rol: ["Administrador"],
   },
   //Administrador
   // {

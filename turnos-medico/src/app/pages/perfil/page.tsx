@@ -1,7 +1,5 @@
-"use client"
-import ListaPacientes from "@/app/pages/pacientes/page";
+"use client";
 import { Pacientes } from "@/app/pages/pacientes/type";
-import { validatePacientes } from "@/app/pages/pacientes/validations";
 import Confirma from "@/components/Confirmacion";
 import Input from "@/components/Input";
 import Loader from "@/components/Loader";
@@ -12,10 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "../../pages/pacientes/pacientes.module.css";
 import { validateUpdateProfile } from "./validations";
 import Select from "@/components/Select";
+import { Medicos } from "@/app/pages/medicos/type";
+import { Usuarios } from "@/types/usuarios";
 
 const DataProfile = () => {
-  const { data, loading, update, fetchDataById } =
-    useCRUD<Pacientes>("pacientes");
+  const { data, loading, update, fetchDataById } = useCRUD<Usuarios>("usuarios");
   const dispatch = useDispatch();
 
   const {
@@ -51,11 +50,11 @@ const DataProfile = () => {
     }
   };
 
-  const nombre = displayName?.split(" ")[0];
-  const apellido = displayName?.split(" ")[1];
+  const nombre: string = displayName?.split(" ")[0];
+  const apellido: string = displayName?.split(" ")[1];
 
   const { values, setValues, errors, handleChange, handleBlur, handleSubmit } =
-    useForm<Pacientes>(
+    useForm<Medicos>(
       {
         usuario: {
           nombre: nombre,
@@ -63,6 +62,7 @@ const DataProfile = () => {
           tipoDni: tipoDni,
           dni: dni,
         },
+        diasAtencion: 
       },
       validateUpdateProfile,
       submitDataUpdate
