@@ -1,5 +1,3 @@
-import { Roles } from "../roles/type";
-
 export type Pacientes = {
   usuario: {
     id?: string;
@@ -8,7 +6,6 @@ export type Pacientes = {
     apellido: string;
     dni?: string;
     tipoDni?: string;
-    rol?: Roles;
-    email?: string;
+    email: string;
   };
 };

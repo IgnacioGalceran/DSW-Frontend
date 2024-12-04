@@ -13,6 +13,8 @@ export default function useCRUD<T>(entity: string) {
   const [loading, setLoading] = useState<boolean>(false);
   const { showToast } = useToast();
 
+  console.log(API_URL);
+
   const fetchData = async () => {
     setLoading(true);
     try {

@@ -33,7 +33,9 @@ const page = () => {
     );
     value.usuario.uid = registeredUser.user.uid;
 
-    let result = await insert(value);
+    const {password, repeatPassword, ...restValue} = value;
+
+    let result = await insert(restValue);
 
     if (!result.error) {
       await sendVerificationEmail(registeredUser.user);
