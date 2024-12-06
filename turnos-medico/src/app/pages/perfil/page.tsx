@@ -14,7 +14,8 @@ import { Medicos } from "@/app/pages/medicos/type";
 import { Usuarios } from "@/types/usuarios";
 
 const DataProfile = () => {
-  const { data, loading, update, fetchDataById } = useCRUD<Usuarios>("usuarios");
+  const { data, loading, update, fetchDataById } =
+    useCRUD<Usuarios>("usuarios");
   const dispatch = useDispatch();
 
   const {
@@ -54,53 +55,17 @@ const DataProfile = () => {
   const apellido: string = displayName?.split(" ")[1];
 
   const { values, setValues, errors, handleChange, handleBlur, handleSubmit } =
-    useForm<Medicos>(
+    useForm<Usuarios>(
       {
-        usuario: {
-          nombre: nombre,
-          apellido: apellido,
-          tipoDni: tipoDni,
-          dni: dni,
-        },
-        diasAtencion: 
+        nombre: nombre,
+        apellido: apellido,
+        tipoDni: tipoDni,
+        dni: dni,
       },
       validateUpdateProfile,
       submitDataUpdate
     );
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const response = await fetchDataById(userId);
-      const { nombre, apellido, tipoDni, dni } = response.data.usuario;
-      if (response) {
-        setValues((prevValues: any) => ({
-          ...prevValues,
-          usuario: {
-            nombre: nombre || "",
-            apellido: apellido || "",
-            tipoDni: tipoDni || "",
-            dni: dni || "",
-          },
-        }));
-      }
-    };
-
-    if (userId) {
-      fetchUserData();
-    }
-  }, [userId, setValues]);
-
-  // useEffect(() => {
-  //   setValues((prevValues: any) => ({
-  //     ...prevValues,
-  //     usuario: {
-  //       ...prevValues.usuario,
-  //       nombre: displayName?.split(" ")[0] || "",
-  //       apellido: displayName?.split(" ")[1] || "",
-  //     },
-
-  //   }));
-  // }, [displayName, setValues]);
   return (
     <>
       {loading && <Loader />}
@@ -113,7 +78,7 @@ const DataProfile = () => {
           handleConfirma={handleSubmit}
         />
       )}
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-10">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mt-4">
           Perfil
         </h2>
@@ -126,7 +91,7 @@ const DataProfile = () => {
           <Input
             type="text"
             name="usuario.nombre"
-            value={values.usuario?.nombre}
+            value={values.nombre}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.nombre"]}
@@ -135,7 +100,7 @@ const DataProfile = () => {
           <Input
             type="text"
             name="usuario.apellido"
-            value={values.usuario?.apellido}
+            value={values.apellido}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.apellido"]}
@@ -143,7 +108,7 @@ const DataProfile = () => {
           />
           <Select
             name="usuario.tipoDni"
-            value={values.usuario?.tipoDni}
+            value={values.tipoDni}
             onChange={handleChange}
             onBlur={handleBlur}
             options={[
@@ -157,7 +122,7 @@ const DataProfile = () => {
           <Input
             type="text"
             name="usuario.dni"
-            value={values.usuario.dni}
+            value={values.dni}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.dni"]}

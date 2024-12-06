@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "../constants/const";
 
-export default function useFind<T>(entity: string) {
+export default function useFind<T>(entity: string, id?: string) {
   const [data, setData] = useState<response<T>>({
     data: [],
     error: false,
@@ -12,7 +12,8 @@ export default function useFind<T>(entity: string) {
 
   const findData = async () => {
     try {
-      const response = await fetch(`${API_URL}/${entity}`, {
+      const url = id ? `${API_URL}/${entity}/${id}` : `${API_URL}/${entity}`
+      const response = await fetch(`${url}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

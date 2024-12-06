@@ -68,19 +68,20 @@ export default function InsertTurnos(props: {
       )}
       <form className={`${styles.form} shadow-md rounded px-8 py-6`}>
         <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-          {props.especialidades?.data?.length > 0 && (
-            <Select
-              name="especialidad"
-              value={values.especialidad}
-              onChange={getValueEspecialidad}
-              onBlur={handleBlur}
-              className={"bg-[#eeeeeec5]"}
-              options={props.especialidades.data}
-              placeholder="Elegir especialidad"
-            />
-          )}
+          {Array.isArray(props.especialidades.data) &&
+            props.especialidades?.data?.length > 0 && (
+              <Select
+                name="especialidad"
+                value={values.especialidad}
+                onChange={getValueEspecialidad}
+                onBlur={handleBlur}
+                className={"bg-[#eeeeeec5]"}
+                options={props.especialidades.data}
+                placeholder="Elegir especialidad"
+              />
+            )}
         </div>
-        {medicos.data?.length > 0 && (
+        {Array.isArray(medicos.data) && medicos.data?.length > 0 && (
           <div className={`${styles.medicosContainer}`}>
             {medicos.data?.map((medico, index) => (
               <div

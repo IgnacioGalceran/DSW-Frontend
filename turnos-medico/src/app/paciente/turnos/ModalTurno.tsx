@@ -110,6 +110,7 @@ const ModalTurno: React.FC<ModalTurnos> = ({
       const to = init.clone().add(30, "minutes").format("HH:mm");
 
       if (
+        Array.isArray(turnos.data) &&
         !turnos?.data?.find(
           (turno) => turno.inicio === from && turno.fin === to
         )

@@ -26,14 +26,20 @@ const page = () => {
     }
   ) => {
     const auth = getAuth();
-    let registeredUser = await createUserWithEmailAndPassword(
-      auth,
-      value.usuario.email,
-      value.password
-    );
-    value.usuario.uid = registeredUser.user.uid;
+    let registeredUser;
 
-    const {password, repeatPassword, ...restValue} = value;
+    if (value.usuario.email) {
+      registeredUser = await createUserWithEmailAndPassword(
+        auth,
+        value.usuario.email,
+        value.password
+      );
+    }
+
+    if (!registeredUser) return;
+
+    value.usuario.uid = registeredUser.user.uid;
+    const { password, repeatPassword, ...restValue } = value;
 
     let result = await insert(restValue);
 

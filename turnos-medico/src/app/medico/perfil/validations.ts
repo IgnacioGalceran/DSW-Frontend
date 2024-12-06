@@ -1,7 +1,33 @@
 import Joi from "joi";
 
-export const validateUpdateProfile = Joi.object({
+export const validateMedicos = Joi.object({
+  especialidad: Joi.any().messages({
+    "string.empty": "Este campo no puede estar vacío",
+  }),
+  horaDesde: Joi.string().min(5).max(5).required().messages({
+    "string.min": "La longitud mínima es de 5 caracteres",
+    "string.max": "La longitud máxima es de 5 caracteres",
+    "string.empty": "Este campo no puede estar vacío",
+    "any.required": "Este campo es requerido *",
+  }),
+  horaHasta: Joi.string().min(5).max(5).required().messages({
+    "string.min": "La longitud mínima es de 5 caracteres",
+    "string.max": "La longitud máxima es de 5 caracteres",
+    "string.empty": "Este campo no puede estar vacío",
+    "any.required": "Este campo es requerido *",
+  }),
+  diasAtencion: Joi.array().required().messages({
+    "string.empty": "Este campo no puede estar vacío",
+    "any.required": "Este campo es requerido *",
+  }),
+  matricula: Joi.string().min(2).max(50).required().messages({
+    "string.min": "La longitud mínima es de 3 caracteres",
+    "string.max": "La longitud máxima es de 10 caracteres",
+    "string.empty": "Este campo no puede estar vacío",
+    "any.required": "Este campo es requerido *",
+  }),
   usuario: Joi.object({
+    uid: Joi.string().min(0).max(50).allow(null),
     nombre: Joi.string().min(2).max(30).required().messages({
       "string.min": "La longitud mínima es de 2 caracteres",
       "string.max": "La longitud máxima es de 30 caracteres",
@@ -31,7 +57,7 @@ export const validateUpdateProfile = Joi.object({
 export const validate = (data: any) => {
   if (!data) return { error: true, message: "Datos inválidos" };
 
-  const { error } = validateUpdateProfile.validate(data, { abortEarly: false });
+  const { error } = validateMedicos.validate(data, { abortEarly: false });
 
   if (error) {
     const errors = error.details.reduce((acc: any, curr: any) => {

@@ -62,7 +62,7 @@ export default function ListaMedicos() {
             initialValues={dataUpdate}
             isUpdating={dataUpdate ? true : false}
             setOpenForm={setOpenForm}
-            especialidades={especialidades.data}
+            especialidades={especialidades.data as Especialidades[]}
             insert={insert}
             update={update}
           />

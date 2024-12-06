@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import ListaPacientes from "@/app/pages/pacientes/page";
 import { Pacientes } from "@/app/pages/pacientes/type";
 import { validatePacientes } from "@/app/pages/pacientes/validations";
@@ -113,7 +113,7 @@ const DataProfile = () => {
           handleConfirma={handleSubmit}
         />
       )}
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-20">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-10">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mt-4">
           Perfil
         </h2>

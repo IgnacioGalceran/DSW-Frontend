@@ -6,4 +6,5 @@ export type Usuarios = {
   dni: string;
   tipoDni: string;
   email?: string;
+  verificado?: boolean;
 };

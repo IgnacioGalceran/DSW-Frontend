@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Joi, { ObjectSchema } from "joi";
 
 interface UseFormReturn<T> {
@@ -85,7 +85,6 @@ function useForm<T>(
     }
 
     const validationErrors = await validateField(name, value, schema);
-    console.log(validationErrors);
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: validationErrors[name] || "",
@@ -96,6 +95,8 @@ function useForm<T>(
     e.preventDefault();
     const validationErrors = await validateForm(values, schema);
     setErrors(validationErrors);
+
+    console.log(values);
 
     if (Object.keys(validationErrors).length === 0 && isPasswordOK()) {
       await callbackFunction(values);
@@ -129,6 +130,15 @@ function useForm<T>(
     }
     return {};
   };
+
+  useEffect(() => {
+    if (
+      initialValues &&
+      JSON.stringify(initialValues) !== JSON.stringify(values)
+    ) {
+      setValues(initialValues);
+    }
+  }, [initialValues, values]);
 
   return {
     values,

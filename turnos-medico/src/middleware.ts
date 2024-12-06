@@ -31,11 +31,11 @@ export function middleware(request: NextRequest) {
     token !== null
   ) {
     if (rol?.value === "Paciente")
-    return NextResponse.redirect(new URL("/paciente/turnos", request.url));
+      return NextResponse.redirect(new URL("/paciente/turnos", request.url));
     else if (rol?.value === "Medico") {
       return NextResponse.redirect(new URL("/medico/turnos", request.url));
     } else if (rol?.value === "Administrador") {
-      return NextResponse.redirect(new URL("/pages/turnos", request.url));
+      return NextResponse.redirect(new URL("/pages/perfil", request.url));
     }
   }
 
