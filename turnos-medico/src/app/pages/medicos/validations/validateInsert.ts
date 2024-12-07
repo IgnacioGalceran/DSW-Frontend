@@ -26,6 +26,13 @@ export const validateInsert = Joi.object({
       "string.max": "La longitud máxima es de 24 caracteres",
     })
     .allow(""),
+  obrasocial: Joi.array()
+    .messages({
+      "string.min": "La longitud mínima es de 24 caracteres",
+      "string.max": "La longitud máxima es de 24 caracteres",
+    })
+    .allow(null)
+    .default([]),
   diasAtencion: Joi.array().allow(""),
   horaDesde: Joi.string().min(5).max(25).required().messages({
     "string.min": "La longitud mínima es de 5 caracteres",

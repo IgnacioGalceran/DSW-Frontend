@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { FirebaseAuth } from "@/firebase/config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Medicos } from "./type";
 import useForm from "@/hooks/useForm";
 import Confirma from "@/components/Confirmacion";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
-import useCRUD from "@/hooks/useCrud";
 import { Especialidades } from "../especialidades/type";
 import React from "react";
 import { dias, horas } from "@/constants/const";
 import { validateInsert } from "./validations/validateInsert";
 import { validateUpdate } from "./validations/validateUpdate";
+import { ObraSocial } from "../obrasocial/type";
 
 type FormValues = Medicos & {
   email?: string;
@@ -24,6 +22,7 @@ export default function InsertMedicos(props: {
   isUpdating: boolean;
   setOpenForm: any;
   especialidades: Especialidades[];
+  obrasSociales: ObraSocial[];
   insert: any;
   update: any;
 }) {
@@ -50,6 +49,23 @@ export default function InsertMedicos(props: {
           { dia: "Domingo", isSelected: false },
         ]
   );
+  const [obrasSocialesSeleccionadas, setObrasSocialesSeleccionadas] = useState(
+    props.initialValues?.obrasocial.length
+      ? props.obrasSociales.map((os) => ({
+          id: os.id,
+          nombre: os.nombre,
+          isSelected: props.initialValues.obrasocial?.some(
+            (osValue: string) => {
+              return osValue === os.id;
+            }
+          ),
+        }))
+      : props.obrasSociales.map((os) => ({
+          id: os.id,
+          nombre: os.nombre,
+          isSelected: false,
+        }))
+  );
 
   const submitMedicos = async (
     value: Medicos & {
@@ -63,6 +79,12 @@ export default function InsertMedicos(props: {
         .filter((diaObj) => diaObj.isSelected)
         .map((diaObj) => diaObj.dia);
       value.diasAtencion = dias;
+
+      let obrasSocialesValue = obrasSocialesSeleccionadas
+        .filter((osObj) => osObj.isSelected)
+        .map((osObj) => osObj.id);
+
+      value.obrasocial = obrasSocialesValue;
 
       if (props.isUpdating) {
         await props.update(props.initialValues?.id, value);
@@ -82,10 +104,11 @@ export default function InsertMedicos(props: {
     if (isUpdating) {
       return {
         matricula: initialValues.matricula || "",
-        especialidad: initialValues.especialidad?.id.toString() || "",
+        especialidad: initialValues.especialidad?.id?.toString() || "",
         diasAtencion: initialValues.diasAtencion || [],
         horaDesde: initialValues.horaDesde || "",
         horaHasta: initialValues.horaHasta || "",
+        obrasocial: initialValues.obrasocial || [],
         usuario: {
           uid: initialValues.usuario?.uid || "",
           nombre: initialValues.usuario?.nombre || "",
@@ -104,6 +127,7 @@ export default function InsertMedicos(props: {
       diasAtencion: [],
       horaDesde: "",
       horaHasta: "",
+      obrasocial: [],
       usuario: {
         uid: "",
         nombre: "",
@@ -149,6 +173,29 @@ export default function InsertMedicos(props: {
     setDiasAtencion(diasAtencionObj);
   };
 
+  console.log(obrasSocialesSeleccionadas);
+
+  const handleOSSelect = (obj: {
+    id: string;
+    nombre: string;
+    isSelected: boolean;
+  }) => {
+    let osObj = [...obrasSocialesSeleccionadas];
+
+    let osIndex = obrasSocialesSeleccionadas.findIndex(
+      (osObj) => obj.id === osObj.id
+    );
+
+    if (osIndex !== -1) {
+      osObj[osIndex] = {
+        ...osObj[osIndex],
+        isSelected: !obj.isSelected,
+      };
+    }
+
+    setObrasSocialesSeleccionadas(osObj);
+  };
+
   const getHoraEnEntero = (hora: string) => parseInt(hora.split(":")[0], 10);
 
   const horasFiltradasHasta = horas.filter((hora) => {
@@ -175,9 +222,9 @@ export default function InsertMedicos(props: {
       )}
       <form
         onSubmit={(e) => handleConfirma(e)}
-        className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full sm:w-1/2 mx-auto"
+        className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full sm:w-1/2 lg:w-3/4 xl:w-2/3 mx-auto"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {!props.isUpdating && (
             <React.Fragment>
               <Input
@@ -212,7 +259,7 @@ export default function InsertMedicos(props: {
 
           <Input
             type="text"
-            name="usuario.nombre"
+            name="usuario.nombre" // El name está anidado
             value={values.usuario?.nombre}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -254,7 +301,7 @@ export default function InsertMedicos(props: {
             value={values.especialidad}
             onChange={handleChange}
             onBlur={handleBlur}
-            options={props.especialidades}
+            options={props.especialidades as any}
             error={errors["especialidad"]}
             placeholder="Especialidad"
           />
@@ -266,6 +313,24 @@ export default function InsertMedicos(props: {
             onBlur={handleBlur}
             error={errors["matricula"]}
             placeholder="Matrícula*"
+          />
+          <Select
+            name="horaDesde"
+            value={values.horaDesde}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            options={horas}
+            error={errors.horaDesde}
+            placeholder="Hora desde"
+          />
+          <Select
+            name="horaHasta"
+            value={values.horaHasta}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            options={horasFiltradasHasta}
+            error={errors.horaHasta}
+            placeholder="Hora hasta"
           />
           <div>
             <h2 className="block text-gray-700 text-sm font-bold">
@@ -295,25 +360,34 @@ export default function InsertMedicos(props: {
               {errors["diasAtencion"] || " "}
             </p>
           </div>
-          <Select
-            name="horaDesde"
-            value={values.horaDesde}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            options={horas}
-            error={errors.horaDesde}
-            placeholder="Hora desde"
-          />
-
-          <Select
-            name="horaHasta"
-            value={values.horaHasta}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            options={horasFiltradasHasta}
-            error={errors.horaHasta}
-            placeholder="Hora hasta"
-          />
+          <div>
+            <h2 className="block text-gray-700 text-sm font-bold">
+              Obras sociales
+            </h2>
+            <div className="shadow appearance-none border rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer max-h-[140px] overflow-auto">
+              {obrasSocialesSeleccionadas.map((obj) => (
+                <p
+                  key={obj.nombre}
+                  className={
+                    obj.isSelected
+                      ? "text-blue-700 bg-blue-100 p-1 m-0"
+                      : "text-black bg-white p-1 m-0"
+                  }
+                  onClick={() => handleOSSelect(obj)}
+                >
+                  {obj.nombre}
+                </p>
+              ))}
+            </div>
+            <p
+              className={`text-red-500 text-xs italic ${
+                errors["obrasocial"] ? "visible" : "invisible"
+              }`}
+              style={{ minHeight: "1.25rem" }}
+            >
+              {errors["obrasocial"] || " "}
+            </p>
+          </div>
         </div>
         <button className={classButton} type="submit">
           {props.isUpdating ? "Actualizar médico" : "Cargar médico"}

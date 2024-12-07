@@ -28,7 +28,7 @@ function useForm<T>(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-
+    console.log(name, value);
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
       setValues((prevValues: any) => ({
@@ -94,6 +94,7 @@ function useForm<T>(
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const validationErrors = await validateForm(values, schema);
+    console.log(validationErrors);
     setErrors(validationErrors);
 
     console.log(values);
@@ -131,14 +132,15 @@ function useForm<T>(
     return {};
   };
 
+  // Variable para evitar que se renderice infinitamente
+  const [isInitialValuesSet, setIsInitialValuesSet] = useState<boolean>(false);
+
   useEffect(() => {
-    if (
-      initialValues &&
-      JSON.stringify(initialValues) !== JSON.stringify(values)
-    ) {
+    if (!isInitialValuesSet) {
       setValues(initialValues);
+      setIsInitialValuesSet(true);
     }
-  }, [initialValues, values]);
+  }, [initialValues, isInitialValuesSet]);
 
   return {
     values,
