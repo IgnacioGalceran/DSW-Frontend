@@ -23,7 +23,12 @@ export const DataMedico = (props: {
   };
 
   const handleDelete = async () => {
-    if (id) await props.remove(id);
+    try {
+      if (id) await props.remove(id);
+    } catch (error) {
+    } finally {
+      setOpenConfirma(false);
+    }
   };
 
   return (
