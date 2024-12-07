@@ -6,10 +6,11 @@ import { DataMedico } from "./DataMedico";
 import { Medicos } from "./type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
-import styles from "./medicos.module.css";
-import useCRUD from "@/hooks/useCrud";
 import { Especialidades } from "../especialidades/type";
+import { ObraSocial } from "../obrasocial/type";
 import React from "react";
+import useCRUD from "@/hooks/useCrud";
+import styles from "./medicos.module.css";
 
 export default function ListaMedicos() {
   const {
@@ -20,25 +21,28 @@ export default function ListaMedicos() {
     update,
     remove,
   } = useCRUD<Medicos>("medicos");
-
   const {
     fetchData: getEspecialidades,
     data: especialidades,
     loading: loadingEspecialidades,
   } = useCRUD<Especialidades>("especialidades");
-
+  const {
+    fetchData: getOS,
+    data: obrasocial,
+    loading: loadingOS,
+  } = useCRUD<ObraSocial>("obrasocial");
   const [dataUpdate, setDataUpdate] = useState<Medicos | undefined>(undefined);
-
   const [openForm, setOpenForm] = useState<boolean>(false);
 
   useEffect(() => {
     getMedicos();
     getEspecialidades();
+    getOS();
   }, []);
 
   return (
     <React.Fragment>
-      {(loading || loadingEspecialidades) && <Loader />}
+      {(loading || loadingEspecialidades || loadingOS) && <Loader />}
       <div className="overflow-auto">
         <div>
           <h1 className="text-2xl text-3xl text-center p-4">
@@ -63,6 +67,7 @@ export default function ListaMedicos() {
             isUpdating={dataUpdate ? true : false}
             setOpenForm={setOpenForm}
             especialidades={especialidades.data as Especialidades[]}
+            obrasSociales={obrasocial.data as ObraSocial[]}
             insert={insert}
             update={update}
           />

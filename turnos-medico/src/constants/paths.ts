@@ -2,6 +2,7 @@ import { HeaderList } from "@/types/headerList";
 import { FRONT_URL } from "./const";
 import {
   faCalendar,
+  faInstitution,
   faList,
   faUser,
   faUserDoctor,
@@ -45,6 +46,12 @@ export const headerList: HeaderList[] = [
     path: `/pages/medicos`,
     title: "Médicos",
     icon: faUserDoctor,
+    rol: ["Administrador"],
+  },
+  {
+    path: `/pages/obrasocial`,
+    title: "Obras Sociales",
+    icon: faInstitution,
     rol: ["Administrador"],
   },
   {

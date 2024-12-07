@@ -1,5 +1,4 @@
 import { Usuarios } from "@/types/usuarios";
-import { Especialidades } from "../especialidades/type";
 
 export type Medicos = {
   usuario: Usuarios;
@@ -9,4 +8,5 @@ export type Medicos = {
   horaHasta?: string;
   matricula: string;
   diasAtencion?: string[];
+  obrasocial: string[];
 };

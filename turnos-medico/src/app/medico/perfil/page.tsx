@@ -12,6 +12,7 @@ import Select from "@/components/Select";
 import { Medicos } from "@/app/pages/medicos/type";
 import { dias, horas } from "@/constants/const";
 import { Especialidades } from "@/app/pages/especialidades/type";
+import { ObraSocial } from "@/app/pages/obrasocial/type";
 
 const DataProfile = () => {
   const { data: medico, loading, fetchDataById } = useCRUD<any>("medicos");
@@ -22,12 +23,18 @@ const DataProfile = () => {
     loading: loadingEspecialidades,
     fetchData: fetchEspecialidades,
   } = useCRUD<Especialidades>("especialidades");
+  const {
+    data: obrasocial,
+    loading: loadingObrasocial,
+    fetchData: fetchObrasocial,
+  } = useCRUD<ObraSocial>("obrasocial");
   const { id: userId, uid: uid } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     if (typeof userId === "string") {
       fetchDataById(userId);
       fetchEspecialidades();
+      fetchObrasocial();
     }
   }, [userId]);
 
@@ -38,6 +45,8 @@ const DataProfile = () => {
     e.preventDefault();
     setOpenConfirma(true);
   };
+
+  console.log(medico);
 
   const submitDataUpdate = async (value: Medicos) => {
     try {
@@ -63,16 +72,30 @@ const DataProfile = () => {
     { dia: "Sábado", isSelected: false },
     { dia: "Domingo", isSelected: false },
   ]);
+  const [obrasSocialesSeleccionadas, setObrasSocialesSeleccionadas] = useState(
+    Array.isArray(obrasocial.data) && obrasocial.data.length
+      ? obrasocial.data.map((os) => ({
+          id: os.id,
+          nombre: os.nombre,
+          isSelected: initialValues?.obrasocial?.some(
+            (osValue: string) => osValue === os.id
+          ),
+        }))
+      : []
+  );
 
   useEffect(() => {
+    console.log(initialValues);
     if (initialValues) {
       setDiasAtencion(
         dias.map((dia) => {
           return {
             dia: dia,
-            isSelected: initialValues.diasAtencion?.some(
-              (diaValue: any) => diaValue === dia
-            )
+            isSelected: initialValues.diasAtencion?.some((diaValue: any) => {
+              console.log(diaValue);
+              console.log(dia);
+              return diaValue === dia;
+            })
               ? true
               : false,
           };
@@ -80,6 +103,25 @@ const DataProfile = () => {
       );
     }
   }, [initialValues]);
+
+  useEffect(() => {
+    if (initialValues?.obrasocial) {
+      const data = Array.isArray(obrasocial.data)
+        ? obrasocial.data
+        : [obrasocial.data];
+
+      setObrasSocialesSeleccionadas((prevState) => {
+        return data.map((os: any) => {
+          return {
+            ...os,
+            isSelected: initialValues.obrasocial.some(
+              (osValue: string) => osValue === os.id
+            ),
+          };
+        });
+      });
+    }
+  }, [initialValues, obrasocial.data]);
 
   useEffect(() => {
     if (medico.data.id) {
@@ -95,11 +137,26 @@ const DataProfile = () => {
         horaHasta: medico.data?.horaHasta || "",
         matricula: medico.data?.matricula || "",
         diasAtencion: medico.data?.diasAtencion || [],
+        obrasocial: medico.data?.obrasocial || [],
+      });
+      setValues({
+        usuario: {
+          nombre: medico.data?.usuario?.nombre || "",
+          apellido: medico.data?.usuario?.apellido || "",
+          tipoDni: medico.data?.usuario?.tipoDni || "",
+          dni: medico.data?.usuario?.dni || "",
+        },
+        especialidad: medico.data?.especialidad || "",
+        horaDesde: medico.data?.horaDesde || "",
+        horaHasta: medico.data?.horaHasta || "",
+        matricula: medico.data?.matricula || "",
+        diasAtencion: medico.data?.diasAtencion || [],
+        obrasocial: medico.data?.obrasocial || [],
       });
     }
   }, [medico.data]);
 
-  const { values, errors, handleChange, handleBlur, handleSubmit } =
+  const { values, setValues, errors, handleChange, handleBlur, handleSubmit } =
     useForm<Medicos>(
       initialValues || ({} as Medicos),
       validateMedicos,
@@ -119,6 +176,27 @@ const DataProfile = () => {
     }
 
     setDiasAtencion(diasAtencionObj);
+  };
+
+  const handleOSSelect = (obj: {
+    id: string;
+    nombre: string;
+    isSelected: boolean;
+  }) => {
+    let osObj = [...obrasSocialesSeleccionadas];
+
+    let osIndex = obrasSocialesSeleccionadas.findIndex(
+      (osObj: any) => obj.id === osObj.id
+    );
+
+    if (osIndex !== -1) {
+      osObj[osIndex] = {
+        ...osObj[osIndex],
+        isSelected: !obj.isSelected,
+      };
+    }
+
+    setObrasSocialesSeleccionadas(osObj);
   };
 
   const getHoraEnEntero = (hora: string) => parseInt(hora.split(":")[0], 10);
@@ -143,17 +221,17 @@ const DataProfile = () => {
           handleConfirma={handleSubmit}
         />
       )}
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-10">
+      <div className="sm:mx-auto sm:w-full lg:w-3/4 xl:w-2/3 mt-10">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mt-4">
           Perfil
         </h2>
       </div>
       <form
         onSubmit={(e) => handleConfirma(e)}
-        className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full sm:w-1/2 mx-auto"
+        className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full mx-auto"
         key={JSON.stringify(initialValues)}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Input
             type="text"
             name="usuario.nombre"
@@ -202,6 +280,33 @@ const DataProfile = () => {
             error={errors["especialidad"]}
             placeholder="Especialidad"
           />
+          <Input
+            type="text"
+            name="matricula"
+            value={values.matricula}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors["matricula"]}
+            placeholder="Matrícula*"
+          />
+          <Select
+            name="horaDesde"
+            value={values.horaDesde}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            options={horas}
+            error={errors.horaDesde}
+            placeholder="Hora desde"
+          />
+          <Select
+            name="horaHasta"
+            value={values.horaHasta}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            options={horasFiltradasHasta}
+            error={errors.horaHasta}
+            placeholder="Hora hasta"
+          />
           <div>
             <h2 className="block text-gray-700 text-sm font-bold">
               Días de atención
@@ -230,34 +335,34 @@ const DataProfile = () => {
               {errors["diasAtencion"] || " "}
             </p>
           </div>
-          <Input
-            type="text"
-            name="matricula"
-            value={values.matricula}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors["matricula"]}
-            placeholder="Matrícula*"
-          />
-          <Select
-            name="horaDesde"
-            value={values.horaDesde}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            options={horas}
-            error={errors.horaDesde}
-            placeholder="Hora desde"
-          />
-
-          <Select
-            name="horaHasta"
-            value={values.horaHasta}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            options={horasFiltradasHasta}
-            error={errors.horaHasta}
-            placeholder="Hora hasta"
-          />
+          <div>
+            <h2 className="block text-gray-700 text-sm font-bold">
+              Obras sociales
+            </h2>
+            <div className="shadow appearance-none border rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer max-h-[140px] overflow-auto">
+              {obrasSocialesSeleccionadas.map((obj: any) => (
+                <p
+                  key={obj.nombre}
+                  className={
+                    obj.isSelected
+                      ? "text-blue-700 bg-blue-100 p-1 m-0"
+                      : "text-black bg-white p-1 m-0"
+                  }
+                  onClick={() => handleOSSelect(obj)}
+                >
+                  {obj.nombre}
+                </p>
+              ))}
+            </div>
+            <p
+              className={`text-red-500 text-xs italic ${
+                errors["obrasocial"] ? "visible" : "invisible"
+              }`}
+              style={{ minHeight: "1.25rem" }}
+            >
+              {errors["obrasocial"] || " "}
+            </p>
+          </div>
         </div>
         <div>
           <button className={classButtonEdit} type="submit">

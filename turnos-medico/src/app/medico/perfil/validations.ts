@@ -4,6 +4,13 @@ export const validateMedicos = Joi.object({
   especialidad: Joi.any().messages({
     "string.empty": "Este campo no puede estar vacío",
   }),
+  obrasocial: Joi.array()
+    .messages({
+      "string.min": "La longitud mínima es de 24 caracteres",
+      "string.max": "La longitud máxima es de 24 caracteres",
+    })
+    .allow(null)
+    .default([]),
   horaDesde: Joi.string().min(5).max(5).required().messages({
     "string.min": "La longitud mínima es de 5 caracteres",
     "string.max": "La longitud máxima es de 5 caracteres",
