@@ -6,7 +6,9 @@
   font-size: 1.1rem;
   font-weight: 600;
   width: 300px;
+  min-width: fit-content;
   height: 75px;
+  min-height: fit-content;
   position: relative;
   background-color: hsl(216, 19%, 15%, 0.9);
   color: #1c1d1e;
