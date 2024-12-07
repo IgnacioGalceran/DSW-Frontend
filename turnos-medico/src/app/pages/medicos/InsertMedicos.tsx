@@ -82,7 +82,8 @@ export default function InsertMedicos(props: {
 
       let obrasSocialesValue = obrasSocialesSeleccionadas
         .filter((osObj) => osObj.isSelected)
-        .map((osObj) => osObj.id);
+        .map((osObj) => osObj.id)
+        .filter((id): id is string => id !== undefined);
 
       value.obrasocial = obrasSocialesValue;
 
@@ -365,7 +366,7 @@ export default function InsertMedicos(props: {
               Obras sociales
             </h2>
             <div className="shadow appearance-none border rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer max-h-[140px] overflow-auto">
-              {obrasSocialesSeleccionadas.map((obj) => (
+              {obrasSocialesSeleccionadas.map((obj: any) => (
                 <p
                   key={obj.nombre}
                   className={
