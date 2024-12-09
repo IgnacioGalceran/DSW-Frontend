@@ -23,15 +23,19 @@ export default function InsertTurnos(props: {
   especialidades: response<Especialidades>;
   obrasocial: any;
   setOpenForm: any;
+  paciente: string;
   getTurnos: any;
 }) {
-  const [obrasocialSeleccionada, setObrasocialSeleccionada] =
-    useState<any>(null);
+  const [obrasocialSeleccionada, setObrasocialSeleccionada] = useState<any>("");
   const [openModal, setOpenModal] = useState<{ open: boolean; data: any }>({
     open: false,
-    data: null,
+    data: {
+      medico: null,
+      paciente: null,
+      turno: null,
+    },
   });
-  const [idEspecialidad, setIdEspecialidad] = useState<string | null>(null);
+  const [idEspecialidad, setIdEspecialidad] = useState<string | null>("");
   const {
     fetchData,
     data: medicos,
@@ -106,6 +110,8 @@ export default function InsertTurnos(props: {
     handleChange(e);
   };
 
+  console.log(medicosWithOS);
+
   return (
     <React.Fragment>
       {loadingMedicos && <Loader />}
@@ -160,7 +166,16 @@ export default function InsertTurnos(props: {
               <div
                 className={`${styles.medicoCard}  shadow-md rounded py-2 px-4`}
                 key={index}
-                onClick={() => setOpenModal({ open: true, data: medico })}
+                onClick={() =>
+                  setOpenModal({
+                    open: true,
+                    data: {
+                      medico: medico,
+                      paciente: props.paciente,
+                      turno: null,
+                    },
+                  })
+                }
               >
                 <p className="text-center">
                   {medico.usuario.nombre} {medico.usuario.apellido}
