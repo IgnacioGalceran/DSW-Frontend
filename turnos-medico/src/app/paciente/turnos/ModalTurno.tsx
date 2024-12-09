@@ -5,7 +5,7 @@ import modal from "./modalTurno.module.css";
 import useCRUD from "@/hooks/useCrud";
 import { Turnos } from "./type";
 import Loader from "@/components/Loader";
-import moment, { Moment } from "moment";
+import moment from "moment";
 import "moment/locale/es";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,6 +20,7 @@ const ModalTurno: React.FC<ModalTurnos> = ({
   openModal,
   setOpenModal,
   insert,
+  update,
   setOpenForm,
   getTurnos: refreshTurnos,
 }) => {
@@ -37,18 +38,24 @@ const ModalTurno: React.FC<ModalTurnos> = ({
     startDate: new Date(),
     endDate: new Date(new Date().setDate(new Date().getDate() + 3)),
   });
-  const now = new Date();
   const {
     fetchData: getTurnos,
     data: turnos,
     loading: loadingTurnos,
-  } = useCRUD<Turnos>(
-    `turnos/findTurnosOcupadosByMedicoByDates/${openModal?.data?.id}?startDate=${date.startDate}&endDate=${date.endDate}`
-  );
+  } = useCRUD<Turnos>(`turnos/findTurnosOcupadosByMedicoByDates`);
+
+  console.log(openModal.data);
 
   useEffect(() => {
-    getTurnos();
-  }, [date.startDate, date.endDate]);
+    console.log(
+      `${openModal?.data?.medico}?startDate=${date.startDate}&endDate=${date.endDate}`
+    );
+
+    if (openModal.data?.medico?.id && date.startDate && date.endDate)
+      getTurnos(
+        `${openModal?.data?.medico?.id}?startDate=${date.startDate}&endDate=${date.endDate}`
+      );
+  }, [date.startDate, date.endDate, openModal.data?.medico?.id]);
 
   const isBeforeToday = (): boolean => {
     if (moment(date.startDate).startOf("day") > moment().startOf("day"))
@@ -75,7 +82,7 @@ const ModalTurno: React.FC<ModalTurnos> = ({
 
   const doesAttend = (dia: string) =>
     Boolean(
-      openModal.data.diasAtencion?.some(
+      openModal.data?.medico?.diasAtencion?.some(
         (diaAtencion) =>
           diaAtencion.toLowerCase().trim() === dia.toLowerCase().trim()
       )
@@ -126,7 +133,7 @@ const ModalTurno: React.FC<ModalTurnos> = ({
     let inicio = range.split("-")[0].trim();
     let fin = range.split("-")[1].trim();
     setBody({
-      medico: openModal.data.id,
+      medico: openModal.data?.medico?.id,
       paciente: id,
       inicio,
       fin,
@@ -136,9 +143,16 @@ const ModalTurno: React.FC<ModalTurnos> = ({
   };
 
   const handleSubmit = async () => {
-    if (body) await insert(body);
+    if (body)
+      if (openModal.data.turno) {
+        await update(openModal.data.turno.id, body);
+      } else {
+        await insert(body);
+      }
     setOpenForm(false);
-    refreshTurnos();
+    console.log(body);
+    refreshTurnos(body?.paciente);
+    setOpenConfirma(false);
     setBody(null);
     setOpenModal({ open: false, data: null });
   };
@@ -189,10 +203,11 @@ const ModalTurno: React.FC<ModalTurnos> = ({
               </h2>
             </div>
             <h1 className={modal.title}>
-              {openModal.data.usuario.nombre} {openModal.data.usuario.apellido}
+              {openModal.data?.medico?.usuario.nombre}{" "}
+              {openModal.data?.medico?.usuario.apellido}
             </h1>
             <h2 className={modal.subtitle}>
-              Especialidad: {openModal.data.especialidad.nombre}
+              Especialidad: {openModal.data?.medico?.especialidad.nombre}
             </h2>
             <div className={modal.turnoContainer}>
               {array.map((a, indexDay) => {
@@ -206,8 +221,8 @@ const ModalTurno: React.FC<ModalTurnos> = ({
                 const now = moment();
                 if (attend) {
                   ranges = generateHours(
-                    openModal.data.horaDesde,
-                    openModal.data.horaHasta,
+                    openModal.data?.medico?.horaDesde,
+                    openModal.data?.medico?.horaHasta,
                     date.startDate,
                     indexDay,
                     now
