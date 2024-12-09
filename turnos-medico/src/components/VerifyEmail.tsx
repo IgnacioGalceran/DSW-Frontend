@@ -13,9 +13,6 @@ const VerifyEmail = ({ searchParams }: any) => {
   const [success, setSuccess] = useState<boolean | null>(null);
   const { showToast } = useToast();
   const router = useRouter();
-  if (searchParams) console.log(searchParams.get("continueUrl"));
-
-  console.log(searchParams);
 
   React.useEffect(() => {
     const verifyUser = async () => {

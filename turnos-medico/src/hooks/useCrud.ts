@@ -13,12 +13,11 @@ export default function useCRUD<T>(entity: string) {
   const [loading, setLoading] = useState<boolean>(false);
   const { showToast } = useToast();
 
-  console.log(API_URL);
-
-  const fetchData = async () => {
+  const fetchData = async (id?: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/${entity}`, {
+      let url = id ? `${API_URL}/${entity}/${id}` : `${API_URL}/${entity}`;
+      const response = await fetch(`${url}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -47,7 +46,7 @@ export default function useCRUD<T>(entity: string) {
       });
 
       const result = await response.json();
-      console.log(result);
+
       if (!response.ok) {
         throw new Error(result.message || "Error fetching data");
       }

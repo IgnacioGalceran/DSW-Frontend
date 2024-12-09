@@ -81,8 +81,6 @@ const ModalTurno: React.FC<ModalTurnos> = ({
       )
     );
 
-  console.log(turnos.data);
-
   function generateHours(
     horaInicial: string | undefined,
     horaFinal: string | undefined,
@@ -144,8 +142,6 @@ const ModalTurno: React.FC<ModalTurnos> = ({
     setBody(null);
     setOpenModal({ open: false, data: null });
   };
-
-  console.log(body);
 
   return (
     <React.Fragment>

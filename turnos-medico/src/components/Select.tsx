@@ -4,7 +4,7 @@ interface SelectProps {
   name: string;
   value: string | number | string[] | undefined;
   onChange: React.ChangeEventHandler<HTMLSelectElement>;
-  onBlur: React.FocusEventHandler<HTMLSelectElement>;
+  onBlur?: React.FocusEventHandler<HTMLSelectElement>;
   options: Array<{ id: string | number; nombre: string }>;
   error?: string;
   placeholder?: string;
@@ -23,7 +23,6 @@ const Select: React.FC<SelectProps> = ({
   className,
   multiple = false,
 }) => {
-  console.log(value);
   return (
     <div>
       <label className="block text-gray-700 text-sm font-bold">
@@ -31,15 +30,14 @@ const Select: React.FC<SelectProps> = ({
       </label>
       <select
         name={name}
-        value={value} // El valor seleccionado se asigna aquí
+        value={value}
         onChange={onChange}
         onBlur={onBlur}
-        multiple={multiple} // Si es múltiple, el valor será un array
+        multiple={multiple}
         className={`shadow border rounded w-full py-2 px-3 mt-1 text-gray-700 focus:outline-none focus:shadow-outline cursor-pointer ${className} ${
           error ? "border-red-500" : value ? "border-green-500" : ""
         }`}
       >
-        {/* Esta opción es el valor por defecto */}
         <option value="">{placeholder}</option>
         {options?.map((option, index) => (
           <option key={index} value={option.id}>

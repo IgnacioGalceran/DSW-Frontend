@@ -5,7 +5,6 @@ import Loader from "../../../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
-  faEdit,
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +15,7 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import styles from "./turnos.module.css";
 import Confirma from "@/components/Confirmacion";
+import { ObraSocial } from "@/app/pages/obrasocial/type";
 
 export default function ListaTurnos() {
   const [openConfirma, setOpenConfirma] = useState<boolean>(false);
@@ -27,6 +27,11 @@ export default function ListaTurnos() {
     data: especialidades,
     loading: loadingEspecialidades,
   } = useCRUD<Especialidades>("especialidades/findEspecialidadesWithMedicos");
+  const {
+    fetchData: getObrasocial,
+    data: obrasocial,
+    loading: loadingObrasociales,
+  } = useCRUD<ObraSocial>(`obrasocial`);
   const [openForm, setOpenForm] = useState<boolean>(false);
   const { update, remove, loading: loadingT } = useCRUD<Turnos>(`turnos`);
   const {
@@ -35,10 +40,9 @@ export default function ListaTurnos() {
     loading: loadingTurnos,
   } = useCRUD<Turnos>(`turnos/findTurnosByPaciente/${id}`);
 
-  console.log(especialidades);
-
   useEffect(() => {
     getEspecialidades();
+    getObrasocial();
     getTurnos();
   }, []);
 
@@ -57,7 +61,9 @@ export default function ListaTurnos() {
 
   return (
     <React.Fragment>
-      {(loadingEspecialidades || loadingTurnos) && <Loader />}
+      {(loadingEspecialidades || loadingTurnos || loadingObrasociales) && (
+        <Loader />
+      )}
       {openConfirma && (
         <Confirma
           open={openConfirma}
@@ -111,6 +117,7 @@ export default function ListaTurnos() {
         {openForm && (
           <InsertTurnos
             especialidades={especialidades}
+            obrasocial={obrasocial}
             setOpenForm={setOpenForm}
             getTurnos={getTurnos}
           />

@@ -46,8 +46,6 @@ const DataProfile = () => {
     setOpenConfirma(true);
   };
 
-  console.log(medico);
-
   const submitDataUpdate = async (value: Medicos) => {
     try {
       let dias = diasAtencion
@@ -78,22 +76,19 @@ const DataProfile = () => {
           id: os.id,
           nombre: os.nombre,
           isSelected: initialValues?.obrasocial?.some(
-            (osValue: string) => osValue === os.id
+            (osValue: any) => osValue === os.id
           ),
         }))
       : []
   );
 
   useEffect(() => {
-    console.log(initialValues);
     if (initialValues) {
       setDiasAtencion(
         dias.map((dia) => {
           return {
             dia: dia,
             isSelected: initialValues.diasAtencion?.some((diaValue: any) => {
-              console.log(diaValue);
-              console.log(dia);
               return diaValue === dia;
             })
               ? true
@@ -115,7 +110,7 @@ const DataProfile = () => {
           return {
             ...os,
             isSelected: initialValues.obrasocial.some(
-              (osValue: string) => osValue === os.id
+              (osValue: any) => osValue === os.id
             ),
           };
         });
@@ -276,7 +271,7 @@ const DataProfile = () => {
             value={values.especialidad?.id}
             onChange={handleChange}
             onBlur={handleBlur}
-            options={especialidades.data as Especialidades[]}
+            options={especialidades.data as { id: string; nombre: string }[]}
             error={errors["especialidad"]}
             placeholder="Especialidad"
           />
