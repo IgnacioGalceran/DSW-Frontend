@@ -143,6 +143,7 @@ const ModalTurno: React.FC<ModalTurnos> = ({
   };
 
   const handleSubmit = async () => {
+    console.log(body);
     if (body)
       if (openModal.data.turno) {
         await update(openModal.data.turno.id, body);

@@ -80,7 +80,7 @@ export default function InsertTurnos(props: {
       )
     );
 
-    obrasocialesUnicas = props.obrasocial.data.filter((os: ObraSocial) =>
+    obrasocialesUnicas = props.obrasocial?.data?.filter((os: ObraSocial) =>
       obrasocialesUnicas.find((osUnica) => osUnica === os.id)
     );
 
