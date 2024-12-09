@@ -43,8 +43,6 @@ export default function ListaPacientes() {
     }
   };
 
-  console.log(pacientes);
-
   return (
     <React.Fragment>
       {(loading || loadingVerificar) && <Loader />}

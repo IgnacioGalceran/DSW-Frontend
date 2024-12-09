@@ -7,9 +7,6 @@ import React from "react";
 const FirebaseAction = () => {
   const searchParams = useSearchParams();
 
-  if (searchParams) console.log(searchParams.get("mode"));
-  console.log(searchParams?.size);
-
   return (
     <React.Fragment>
       {searchParams && searchParams.get("mode") === "resetPassword" && (

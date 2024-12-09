@@ -83,7 +83,7 @@ export default function InsertMedicos(props: {
       let obrasSocialesValue = obrasSocialesSeleccionadas
         .filter((osObj) => osObj.isSelected)
         .map((osObj) => osObj.id)
-        .filter((id): id is string => id !== undefined);
+        .filter((id): id is string => id !== undefined) as any;
 
       value.obrasocial = obrasSocialesValue;
 
@@ -173,8 +173,6 @@ export default function InsertMedicos(props: {
 
     setDiasAtencion(diasAtencionObj);
   };
-
-  console.log(obrasSocialesSeleccionadas);
 
   const handleOSSelect = (obj: {
     id: string;

@@ -17,7 +17,6 @@ const page = () => {
   const router = useRouter();
   const { sendVerificationEmail } = useAuth();
   const { insert, loading } = useCRUD<Pacientes>("pacientes");
-  console.log("register");
   const submitPaciente = async (
     value: Pacientes & {
       email: string;

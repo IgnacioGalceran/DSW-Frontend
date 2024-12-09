@@ -28,7 +28,7 @@ function useForm<T>(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    console.log(name, value);
+
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
       setValues((prevValues: any) => ({
@@ -94,10 +94,7 @@ function useForm<T>(
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const validationErrors = await validateForm(values, schema);
-    console.log(validationErrors);
     setErrors(validationErrors);
-
-    console.log(values);
 
     if (Object.keys(validationErrors).length === 0 && isPasswordOK()) {
       await callbackFunction(values);

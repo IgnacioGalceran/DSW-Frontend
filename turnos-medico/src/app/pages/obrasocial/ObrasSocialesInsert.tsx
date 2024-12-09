@@ -19,11 +19,9 @@ export default function InsertObrasSociales(props: {
 
   const submitObraSocial = async (value: ObraSocial) => {
     try {
-      console.log(props.isUpdating);
       if (props.isUpdating) {
         await props.update(props.initialValues?.id, value);
       } else {
-        console.log(value);
         await props.insert(value);
       }
       props.setOpenForm(false);

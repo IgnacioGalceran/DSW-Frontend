@@ -36,8 +36,6 @@ const DataProfile = () => {
 
   const submitDataUpdate = async (value: Pacientes) => {
     try {
-      console.log("submitDataUpdate", value);
-
       await update(userId, value);
       dispatch(
         login({
