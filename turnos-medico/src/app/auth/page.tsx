@@ -10,8 +10,7 @@ import { signInWithGoogle } from "@/firebase/providers";
 import Loader from "@/components/Loader";
 import styles from "./login.module.css";
 import { useAuth } from "@/hooks/useAuth";
-
-import RecoveryAccount from "./recoveryAccount/page";
+import RecoveryAccount from "./recoveryAccount/RecoveryAccount";
 
 import { useToast } from "@/context/ToastContext";
 
@@ -173,11 +172,13 @@ export default function LoginPage() {
           </div>
         </div>
       )}
-      {resetPassword && (
+      {resetPassword ? (
         <RecoveryAccount
           resetPassword={resetPassword}
           setResetPassword={setResetPassword}
         />
+      ) : (
+        <React.Fragment></React.Fragment>
       )}
     </React.Fragment>
   );
