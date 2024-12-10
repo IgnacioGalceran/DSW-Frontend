@@ -11,7 +11,7 @@ import Loader from "@/components/Loader";
 import styles from "./login.module.css";
 import { useAuth } from "@/hooks/useAuth";
 
-import { RecoveryAccount } from "./recoveryAccount/page";
+import RecoveryAccount from "./recoveryAccount/page";
 
 import { useToast } from "@/context/ToastContext";
 
