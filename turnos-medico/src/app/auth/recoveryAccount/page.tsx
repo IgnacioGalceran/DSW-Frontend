@@ -1,5 +1,5 @@
+"use client";
 import React, { useState } from "react";
-
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Input from "@/components/Input";
