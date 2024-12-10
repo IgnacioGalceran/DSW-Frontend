@@ -15,10 +15,10 @@ type RecoveryAccountProps = {
   setResetPassword: (value: boolean) => void;
 };
 
-export const RecoveryAccount = ({
+export default function RecoveryAccount({
   resetPassword,
   setResetPassword,
-}: RecoveryAccountProps) => {
+}: RecoveryAccountProps) {
   const [resetPasswordEmail, setResetPasswordEmail] = useState({
     email: "",
   });
@@ -62,4 +62,4 @@ export const RecoveryAccount = ({
       />
     </form>
   );
-};
+}
