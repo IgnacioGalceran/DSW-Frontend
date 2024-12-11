@@ -85,6 +85,7 @@ export default function InsertEspecialidades(props: {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Input
+            id="input-especialidad"
             type="text"
             name="nombre"
             value={values.nombre || ""}
@@ -94,7 +95,7 @@ export default function InsertEspecialidades(props: {
             placeholder="Nombre especialidad"
           />
         </div>
-        <button className={classButton} type="submit">
+        <button id="add-especialidad" className={classButton} type="submit">
           {props.isUpdating ? "Actualizar especialidad" : "Cargar especialidad"}
         </button>
       </form>

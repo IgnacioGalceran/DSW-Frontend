@@ -137,10 +137,10 @@ export default function ListaTurnos() {
                         <div>
                           {turno.inicio} - {turno.fin}
                         </div>
-                        <div>{turno.medico.especialidad.nombre}</div>
+                        <div>{turno.medico?.especialidad?.nombre}</div>
                         <div>
-                          Medico: {turno.medico.usuario.nombre}{" "}
-                          {turno.medico.usuario.apellido}
+                          Medico: {turno.medico?.usuario?.nombre}{" "}
+                          {turno.medico?.usuario?.apellido}
                         </div>
                         <div className={styles.actions}>
                           <FontAwesomeIcon

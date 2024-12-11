@@ -8,11 +8,13 @@ interface InputProps {
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   error?: string;
   placeholder?: string;
+  id?: string;
 }
 
 const Input: React.FC<InputProps> = ({
   type,
   name,
+  id,
   value,
   onChange,
   onBlur,
@@ -25,6 +27,7 @@ const Input: React.FC<InputProps> = ({
         {placeholder}
       </label>
       <input
+        id={id}
         type={type}
         name={name}
         value={value}

@@ -43,9 +43,13 @@ const Confirma: React.FC<ModalConfirma> = ({
               </div>
               <div className={confirma.buttonContainer}>
                 <button
+                  id="confirma"
                   className={confirma.si}
                   onClick={(e) => {
-                    handleConfirma(e);
+                    {
+                      handleConfirma(e);
+                      setOpenConfirma(false);
+                    }
                   }}
                 >
                   <FontAwesomeIcon icon={faCheck} />

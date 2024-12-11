@@ -46,6 +46,7 @@ const Header = () => {
           return (
             <li
               key={index}
+              id={e.title}
               className={
                 ePath[ePath.length - 1] === path[path.length - 1]
                   ? styles.active

@@ -77,7 +77,7 @@ export default function LoginPage() {
             >
               <div>
                 <label
-                  // for="email"
+                  htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Correo electrónico
@@ -96,7 +96,7 @@ export default function LoginPage() {
               <div>
                 <div className="flex items-center justify-between">
                   <label
-                    // type="password"
+                    htmlFor="password"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Contraseña
@@ -126,6 +126,7 @@ export default function LoginPage() {
               <div>
                 <button
                   type="submit"
+                  id="login-button"
                   className="flex w-full justify-center rounded-md bg-sky-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-800 focus-visible:outline-offset-2"
                 >
                   Iniciar sesión

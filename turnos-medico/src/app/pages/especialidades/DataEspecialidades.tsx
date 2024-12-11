@@ -67,6 +67,7 @@ export const DataEspecialidades = (props: {
                   }}
                 />
                 <FontAwesomeIcon
+                  id={`${especialidad.nombre}`}
                   icon={faTrash}
                   className={styles.trash}
                   onClick={() =>

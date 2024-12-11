@@ -30,6 +30,6 @@
     "src/firebase/providers.ts",
     "src/pages/api/signIn.js",
     "src/firebase/helper.ts"
-, "src/context/ToastContext.txs"  ],
+, "src/context/ToastContext.txs", "src/e2e-tests/test.js"  ],
   "exclude": ["node_modules"]
 }

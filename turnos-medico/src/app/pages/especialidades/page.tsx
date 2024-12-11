@@ -60,6 +60,7 @@ export default function ListaEspecialidades() {
         )}
         {
           <FontAwesomeIcon
+            id="insert-especialidad"
             icon={openForm ? faArrowLeft : faPlus}
             className={openForm ? styles.hide : styles.insert}
             onClick={() => {

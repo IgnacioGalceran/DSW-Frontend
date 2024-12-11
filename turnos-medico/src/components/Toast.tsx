@@ -53,6 +53,7 @@ const Toast: React.FC<ToastProps> = ({
 
   return (
     <div
+      id={`${getStatusClass(status)}`}
       className={`${styles.toast} ${getStatusClass(status)}`}
       style={{ animationDuration: `${duration}ms` }}
     >

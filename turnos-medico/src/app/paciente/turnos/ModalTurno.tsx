@@ -145,8 +145,8 @@ const ModalTurno: React.FC<ModalTurnos> = ({
   const handleSubmit = async () => {
     console.log(body);
     if (body)
-      if (openModal.data.turno) {
-        await update(openModal.data.turno.id, body);
+      if (openModal.data?.turno) {
+        await update(openModal.data?.turno?.id, body);
       } else {
         await insert(body);
       }
@@ -204,11 +204,11 @@ const ModalTurno: React.FC<ModalTurnos> = ({
               </h2>
             </div>
             <h1 className={modal.title}>
-              {openModal.data?.medico?.usuario.nombre}{" "}
-              {openModal.data?.medico?.usuario.apellido}
+              {openModal.data?.medico?.usuario?.nombre}{" "}
+              {openModal.data?.medico?.usuario?.apellido}
             </h1>
             <h2 className={modal.subtitle}>
-              Especialidad: {openModal.data?.medico?.especialidad.nombre}
+              Especialidad: {openModal.data?.medico?.especialidad?.nombre}
             </h2>
             <div className={modal.turnoContainer}>
               {array.map((a, indexDay) => {
