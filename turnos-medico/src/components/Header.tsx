@@ -34,7 +34,7 @@ const Header = () => {
     <header className={styles.header}>
       <ul className={openHeader ? styles.openUl : ""}>
         <div className={styles.menu} onClick={() => setOpenHeader(!openHeader)}>
-          <FontAwesomeIcon icon={faBars} className={styles.img} />
+          <FontAwesomeIcon icon={faBars} className={styles.icons} />
         </div>
 
         {headerList.map((e, index: number) => {
@@ -57,7 +57,8 @@ const Header = () => {
                 router.push(e.path);
               }}
             >
-              <FontAwesomeIcon icon={e.icon} />
+              <FontAwesomeIcon icon={e.icon} className={styles.icons} />
+              <a className={styles.iconDescription}> {e.description}</a>
             </li>
           );
         })}

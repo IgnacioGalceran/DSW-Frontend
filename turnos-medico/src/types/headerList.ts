@@ -3,4 +3,5 @@ export type HeaderList = {
   icon: any;
   title: string;
   rol: string[];
+  description: string;
 };

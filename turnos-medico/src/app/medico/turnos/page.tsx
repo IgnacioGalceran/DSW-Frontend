@@ -15,7 +15,7 @@ export default function ListaTurnos() {
     fetchData: getTurnos,
     data: turnos,
     loading: loadingTurnos,
-  } = useCRUD<Turnos>(`turnos/findTurnosByMedico/${id}`);
+  } = useCRUD<Turnos>(`turnos/findTurnosByMedico/${id}`, false);
 
   useEffect(() => {
     getTurnos();
