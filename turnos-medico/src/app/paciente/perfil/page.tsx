@@ -21,6 +21,7 @@ const DataProfile = () => {
   const {
     displayName,
     id: userId,
+    uid,
     tipoDni,
     dni,
     login,

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../constants/const";
 import { useToast } from "@/context/ToastContext";
 
-export default function useCRUD<T>(entity: string) {
+export default function useCRUD<T>(entity: string, doFetch: boolean = true) {
   const [data, setData] = useState<response<T>>({
     data: [],
     error: false,
@@ -74,7 +74,9 @@ export default function useCRUD<T>(entity: string) {
 
       if (!result.error) {
         showToast(result.message, "OK", 4000);
-        await fetchData();
+        if (doFetch) {
+          await fetchData();
+        }
       } else {
         showToast(result.message, "FAIL", 4000);
       }
@@ -100,7 +102,12 @@ export default function useCRUD<T>(entity: string) {
 
       if (!result.error) {
         showToast(result.message, "OK", 4000);
-        await fetchData();
+        console.log("dofetch", doFetch);
+
+        if (doFetch) {
+          console.log("if", doFetch);
+          await fetchData();
+        }
       } else {
         showToast(result.message, "FAIL", 4000);
       }
@@ -125,7 +132,9 @@ export default function useCRUD<T>(entity: string) {
 
       if (!result.error) {
         showToast(result.message, "OK", 4000);
-        await fetchData();
+        if (doFetch) {
+          await fetchData();
+        }
       } else {
         showToast(result.message, "FAIL", 4000);
       }
