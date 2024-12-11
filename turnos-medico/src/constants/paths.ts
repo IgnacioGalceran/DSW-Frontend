@@ -27,7 +27,7 @@ export const headerList: HeaderList[] = [
   },
   //Administrador
   {
-    path: `/`,
+    path: `/pages/perfil`,
     title: "Perfil",
     icon: faUser,
     rol: ["Administrador"],
