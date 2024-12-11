@@ -115,7 +115,7 @@
 }
 
 .turnoCard:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
@@ -171,21 +171,29 @@
   text-transform: capitalize;
 }
 
+.turnoCard div {
+  position: relative;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
 .edit,
 .trash {
   position: absolute;
   bottom: 10px;
-  right: 20px;
+  right: 10px;
   font-size: 1.2rem;
 }
 
 .edit {
-  color: rgb(74, 131, 172);
+  color: rgb(114, 189, 242);
+  right: 40px;
 }
 
 .trash {
   color: rgb(250, 108, 108);
-  right: 48px;
 }
 
 .edit:hover,

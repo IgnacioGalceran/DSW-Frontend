@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Joi, { ObjectSchema } from "joi";
 
 interface UseFormReturn<T> {
@@ -85,7 +85,6 @@ function useForm<T>(
     }
 
     const validationErrors = await validateField(name, value, schema);
-    // console.log(validationErrors);
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: validationErrors[name] || "",
@@ -129,6 +128,16 @@ function useForm<T>(
     }
     return {};
   };
+
+  // Variable para evitar que se renderice infinitamente
+  const [isInitialValuesSet, setIsInitialValuesSet] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isInitialValuesSet) {
+      setValues(initialValues);
+      setIsInitialValuesSet(true);
+    }
+  }, [initialValues, isInitialValuesSet]);
 
   return {
     values,

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import useForm from "@/hooks/useForm";
 import Confirma from "@/components/Confirmacion";
+import { ObraSocial } from "./type";
+import { obrasSocialUpdate, obrasSocialAdd } from "./validations";
 import Input from "@/components/Input";
-import { Especialidades } from "../especialidades/type";
 import React from "react";
-import { validateEspecialidades } from "./validations";
 
-type FormValues = Especialidades;
+type FormValues = ObraSocial;
 
-export default function InsertEspecialidades(props: {
+export default function InsertObrasSociales(props: {
   initialValues: any;
   isUpdating: boolean;
   setOpenForm: any;
@@ -17,7 +17,7 @@ export default function InsertEspecialidades(props: {
 }) {
   const [openConfirma, setOpenConfirma] = useState<boolean>(false);
 
-  const submitEspecialidad = async (value: Especialidades) => {
+  const submitObraSocial = async (value: ObraSocial) => {
     try {
       if (props.isUpdating) {
         await props.update(props.initialValues?.id, value);
@@ -37,11 +37,19 @@ export default function InsertEspecialidades(props: {
     if (isUpdating) {
       return {
         nombre: initialValues?.nombre || "",
+        cuit: initialValues.cuit || "",
+        email: initialValues.email || "",
+        telefono: initialValues.telefono || "",
+        direccion: initialValues.direccion || "",
       };
     }
 
     return {
       nombre: "",
+      cuit: "",
+      email: "",
+      telefono: "",
+      direccion: "",
     };
   };
 
@@ -61,8 +69,8 @@ export default function InsertEspecialidades(props: {
   const { values, errors, handleChange, handleBlur, handleSubmit } =
     useForm<FormValues>(
       { ...initialFormValues },
-      validateEspecialidades,
-      submitEspecialidad
+      props.isUpdating ? obrasSocialUpdate : obrasSocialAdd,
+      submitObraSocial
     );
 
   return (
@@ -71,8 +79,8 @@ export default function InsertEspecialidades(props: {
         <Confirma
           message={
             props.isUpdating
-              ? "Está seguro que quiere actualizar la especialidad?"
-              : "Está seguro que quiere agregar la especialidad"
+              ? "Está seguro que quiere actualizar la obra social?"
+              : "Está seguro que quiere agregar la obra social"
           }
           open={openConfirma}
           setOpenConfirma={setOpenConfirma}
@@ -91,11 +99,47 @@ export default function InsertEspecialidades(props: {
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["nombre"]}
-            placeholder="Nombre especialidad"
+            placeholder="Nombre"
+          />
+          <Input
+            type="text"
+            name="cuit"
+            value={values.cuit || ""}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors["cuit"]}
+            placeholder="Cuit"
+          />
+          <Input
+            type="text"
+            name="telefono"
+            value={values.telefono || ""}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors["telefono"]}
+            placeholder="Telefono"
+          />
+          <Input
+            type="email"
+            name="email"
+            value={values.email || ""}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors["email"]}
+            placeholder="Email"
+          />
+          <Input
+            type="text"
+            name="direccion"
+            value={values.direccion || ""}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors["direccion"]}
+            placeholder="Dirección"
           />
         </div>
         <button className={classButton} type="submit">
-          {props.isUpdating ? "Actualizar especialidad" : "Cargar especialidad"}
+          {props.isUpdating ? "Actualizar obra social" : "Cargar obra social"}
         </button>
       </form>
     </React.Fragment>

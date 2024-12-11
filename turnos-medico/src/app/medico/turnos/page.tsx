@@ -31,7 +31,7 @@ export default function ListaTurnos() {
               Lista de turnos
             </h1>
             <div className={styles.calendar}>
-              {turnos.data?.length ? (
+              {Array.isArray(turnos.data) && turnos.data?.length ? (
                 turnos.data?.map((turno, index) => {
                   let date = moment(turno.fecha).locale("es");
 

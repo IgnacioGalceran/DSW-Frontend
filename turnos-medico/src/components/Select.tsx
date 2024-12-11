@@ -4,7 +4,7 @@ interface SelectProps {
   name: string;
   value: string | number | string[] | undefined;
   onChange: React.ChangeEventHandler<HTMLSelectElement>;
-  onBlur: React.FocusEventHandler<HTMLSelectElement>;
+  onBlur?: React.FocusEventHandler<HTMLSelectElement>;
   options: Array<{ id: string | number; nombre: string }>;
   error?: string;
   placeholder?: string;
@@ -24,7 +24,7 @@ const Select: React.FC<SelectProps> = ({
   multiple = false,
 }) => {
   return (
-    <div className="">
+    <div>
       <label className="block text-gray-700 text-sm font-bold">
         {placeholder}
       </label>

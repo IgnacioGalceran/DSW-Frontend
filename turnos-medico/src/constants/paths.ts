@@ -2,6 +2,7 @@ import { HeaderList } from "@/types/headerList";
 import { FRONT_URL } from "./const";
 import {
   faCalendar,
+  faInstitution,
   faList,
   faUser,
   faUserDoctor,
@@ -9,13 +10,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export const headerList: HeaderList[] = [
+  //Perfil
+  {
+    path: `/paciente/perfil`,
+    title: "Perfil",
+    icon: faUser,
+    rol: ["Paciente"],
+    description: "Perfil",
+  },
+  {
+    path: `/medico/perfil`,
+    title: "Perfil",
+    icon: faUser,
+    rol: ["Medico"],
+    description: "Perfil",
+  },
+  {
+    path: `/pages/perfil`,
+    title: "Perfil",
+    icon: faUser,
+    rol: ["Administrador"],
+    description: "Perfil",
+  },
   //Administrador
-  // {
-  //   path: `/pages/turnos`,
-  //   title: "Turnos",
-  //   icon: faCalendar,
-  //   rol: ["Administrador"],
-  // },
   {
     path: `/`,
     title: "Perfil",
@@ -29,6 +46,13 @@ export const headerList: HeaderList[] = [
     icon: faUserDoctor,
     rol: ["Administrador"],
     description: "Lista de médicos",
+  },
+  {
+    path: `/pages/obrasocial`,
+    title: "Obras Sociales",
+    icon: faInstitution,
+    rol: ["Administrador"],
+    description: "Lista obras sociales",
   },
   {
     path: `/pages/pacientes`,

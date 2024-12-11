@@ -1,20 +1,9 @@
 import Joi from "joi";
 
-export const validateUpdate = Joi.object({
-  matricula: Joi.string().min(2).max(50).required().messages({
-    "string.min": "La longitud mínima es de 3 caracteres",
-    "string.max": "La longitud máxima es de 10 caracteres",
+export const validateMedicos = Joi.object({
+  especialidad: Joi.any().messages({
     "string.empty": "Este campo no puede estar vacío",
-    "any.required": "Este campo es requerido *",
   }),
-  especialidad: Joi.string()
-    .min(24)
-    .max(24)
-    .messages({
-      "string.min": "La longitud mínima es de 24 caracteres",
-      "string.max": "La longitud máxima es de 24 caracteres",
-    })
-    .allow(""),
   obrasocial: Joi.array()
     .messages({
       "string.min": "La longitud mínima es de 24 caracteres",
@@ -22,16 +11,25 @@ export const validateUpdate = Joi.object({
     })
     .allow(null)
     .default([]),
-  diasAtencion: Joi.array().allow(""),
-  horaDesde: Joi.string().min(5).max(25).required().messages({
+  horaDesde: Joi.string().min(5).max(5).required().messages({
     "string.min": "La longitud mínima es de 5 caracteres",
     "string.max": "La longitud máxima es de 5 caracteres",
     "string.empty": "Este campo no puede estar vacío",
     "any.required": "Este campo es requerido *",
   }),
-  horaHasta: Joi.string().min(5).max(25).required().messages({
+  horaHasta: Joi.string().min(5).max(5).required().messages({
     "string.min": "La longitud mínima es de 5 caracteres",
     "string.max": "La longitud máxima es de 5 caracteres",
+    "string.empty": "Este campo no puede estar vacío",
+    "any.required": "Este campo es requerido *",
+  }),
+  diasAtencion: Joi.array().required().messages({
+    "string.empty": "Este campo no puede estar vacío",
+    "any.required": "Este campo es requerido *",
+  }),
+  matricula: Joi.string().min(2).max(50).required().messages({
+    "string.min": "La longitud mínima es de 3 caracteres",
+    "string.max": "La longitud máxima es de 10 caracteres",
     "string.empty": "Este campo no puede estar vacío",
     "any.required": "Este campo es requerido *",
   }),
@@ -62,3 +60,20 @@ export const validateUpdate = Joi.object({
     }),
   }),
 });
+
+export const validate = (data: any) => {
+  if (!data) return { error: true, message: "Datos inválidos" };
+
+  const { error } = validateMedicos.validate(data, { abortEarly: false });
+
+  if (error) {
+    const errors = error.details.reduce((acc: any, curr: any) => {
+      const path = curr.path.join(".");
+      acc[path] = curr.message;
+      return acc;
+    }, {});
+    return { error: true, message: errors };
+  }
+
+  return { error: false, message: "" };
+};

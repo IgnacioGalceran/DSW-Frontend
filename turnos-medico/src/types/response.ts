@@ -1,5 +1,5 @@
 type response<T> = {
-  data: T[];
+  data: T[] | T;
   message: string;
   error: boolean;
 };

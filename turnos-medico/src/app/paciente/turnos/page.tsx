@@ -16,6 +16,10 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import styles from "./turnos.module.css";
 import Confirma from "@/components/Confirmacion";
+import { ObraSocial } from "@/app/pages/obrasocial/type";
+import ModalTurno from "./ModalTurno";
+import { Medicos } from "@/app/pages/medicos/type";
+import { Pacientes } from "@/app/pages/pacientes/type";
 
 export default function ListaTurnos() {
   const [openConfirma, setOpenConfirma] = useState<boolean>(false);
@@ -26,24 +30,48 @@ export default function ListaTurnos() {
     fetchData: getEspecialidades,
     data: especialidades,
     loading: loadingEspecialidades,
-  } = useCRUD<Especialidades>(
-    "especialidades/findEspecialidadesWithMedicos",
-    false
-  );
+  } = useCRUD<Especialidades>("especialidades/findEspecialidadesWithMedicos");
+  const {
+    fetchData: getObrasocial,
+    data: obrasocial,
+    loading: loadingObrasociales,
+  } = useCRUD<ObraSocial>(`obrasocial`);
   const [openForm, setOpenForm] = useState<boolean>(false);
-  const { update, remove, loading: loadingT } = useCRUD<Turnos>(`turnos`);
+  const {
+    fetchData,
+    remove,
+    update,
+    insert,
+    loading: loadingT,
+  } = useCRUD<Turnos>(`turnos`);
   const {
     fetchData: getTurnos,
     data: turnos,
     loading: loadingTurnos,
-  } = useCRUD<Turnos>(`turnos/findTurnosByPaciente/${id}`, false);
-
-  console.log(especialidades);
+  } = useCRUD<Turnos>(`turnos/findTurnosByPaciente`);
+  const [openModalTurnos, setOpenModalTurnos] = useState<{
+    open: boolean;
+    data: {
+      medico: Medicos | null;
+      paciente: Pacientes | null;
+      turno: Turnos | null;
+    };
+  }>({
+    open: false,
+    data: { medico: null, paciente: null, turno: null },
+  });
 
   useEffect(() => {
     getEspecialidades();
-    getTurnos();
+    getObrasocial();
   }, []);
+
+  useEffect(() => {
+    console.log(id);
+    getTurnos(id);
+  }, [id]);
+
+  console.log(turnos);
 
   const confirmaDelete = async (id: string) => {
     setOpenConfirma(true);
@@ -55,18 +83,38 @@ export default function ListaTurnos() {
     if (idTurno) await remove(idTurno);
     setOpenConfirma(false);
     setIdTurno(null);
-    getTurnos();
+    getTurnos(id);
+  };
+
+  const handleEdit = (turno: Turnos) => {
+    setOpenModalTurnos({
+      open: true,
+      data: { medico: turno.medico, paciente: turno.paciente, turno: turno },
+    });
   };
 
   return (
     <React.Fragment>
-      {(loadingEspecialidades || loadingTurnos) && <Loader />}
+      {(loadingEspecialidades ||
+        loadingTurnos ||
+        loadingObrasociales ||
+        loadingT) && <Loader />}
       {openConfirma && (
         <Confirma
           open={openConfirma}
           setOpenConfirma={setOpenConfirma}
           message={message}
           handleConfirma={handleDelete}
+        />
+      )}
+      {openModalTurnos && (
+        <ModalTurno
+          openModal={openModalTurnos}
+          setOpenModal={setOpenModalTurnos}
+          insert={insert}
+          update={update}
+          setOpenForm={setOpenForm}
+          getTurnos={getTurnos}
         />
       )}
       <div className={styles.turnosContainer}>
@@ -77,7 +125,7 @@ export default function ListaTurnos() {
                 Lista de turnos
               </h1>
               <div className={styles.calendar}>
-                {turnos.data?.length ? (
+                {Array.isArray(turnos.data) && turnos.data?.length ? (
                   turnos.data?.map((turno, index) => {
                     let date = moment(turno.fecha).locale("es");
 
@@ -90,11 +138,22 @@ export default function ListaTurnos() {
                           {turno.inicio} - {turno.fin}
                         </div>
                         <div>{turno.medico.especialidad.nombre}</div>
-                        <FontAwesomeIcon
-                          icon={faTrash}
-                          className={styles.trash}
-                          onClick={() => confirmaDelete(turno.id)}
-                        />
+                        <div>
+                          Medico: {turno.medico.usuario.nombre}{" "}
+                          {turno.medico.usuario.apellido}
+                        </div>
+                        <div className={styles.actions}>
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            className={styles.trash}
+                            onClick={() => confirmaDelete(turno.id)}
+                          />
+                          <FontAwesomeIcon
+                            icon={faEdit}
+                            className={styles.edit}
+                            onClick={() => handleEdit(turno)}
+                          />
+                        </div>
                       </div>
                     );
                   })
@@ -114,7 +173,9 @@ export default function ListaTurnos() {
         {openForm && (
           <InsertTurnos
             especialidades={especialidades}
+            obrasocial={obrasocial}
             setOpenForm={setOpenForm}
+            paciente={id}
             getTurnos={getTurnos}
           />
         )}

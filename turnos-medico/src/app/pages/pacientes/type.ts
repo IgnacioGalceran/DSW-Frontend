@@ -1,14 +1,5 @@
-import { Roles } from "../roles/type";
+import { Usuarios } from "@/types/usuarios";
 
 export type Pacientes = {
-  usuario: {
-    id?: string;
-    uid?: string;
-    nombre: string;
-    apellido: string;
-    dni?: string;
-    tipoDni?: string;
-    rol?: Roles;
-    email?: string;
-  };
+  usuario: Usuarios;
 };

@@ -1,79 +1,52 @@
-import { useState } from "react";
-import { Medicos } from "./type";
-import useForm from "@/hooks/useForm";
+"use client";
+import React, { useEffect, useState } from "react";
 import Confirma from "@/components/Confirmacion";
 import Input from "@/components/Input";
+import Loader from "@/components/Loader";
+import useCRUD from "@/hooks/useCrud";
+import useForm from "@/hooks/useForm";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "../../pages/pacientes/pacientes.module.css";
+import { validateMedicos } from "./validations";
 import Select from "@/components/Select";
-import { Especialidades } from "../especialidades/type";
-import React from "react";
+import { Medicos } from "@/app/pages/medicos/type";
 import { dias, horas } from "@/constants/const";
-import { validateInsert } from "./validations/validateInsert";
-import { validateUpdate } from "./validations/validateUpdate";
-import { ObraSocial } from "../obrasocial/type";
+import { Especialidades } from "@/app/pages/especialidades/type";
+import { ObraSocial } from "@/app/pages/obrasocial/type";
 
-type FormValues = Medicos & {
-  email?: string;
-  password?: string;
-  repeatPassword?: string;
-};
+const DataProfile = () => {
+  const { data: medico, loading, fetchDataById } = useCRUD<any>("medicos");
+  const { loading: loadingUpdate, update } =
+    useCRUD<Medicos>("medicos/udtProfile");
+  const {
+    data: especialidades,
+    loading: loadingEspecialidades,
+    fetchData: fetchEspecialidades,
+  } = useCRUD<Especialidades>("especialidades");
+  const {
+    data: obrasocial,
+    loading: loadingObrasocial,
+    fetchData: fetchObrasocial,
+  } = useCRUD<ObraSocial>("obrasocial");
+  const { id: userId, uid: uid } = useSelector((state: any) => state.auth);
 
-export default function InsertMedicos(props: {
-  initialValues: any;
-  isUpdating: boolean;
-  setOpenForm: any;
-  especialidades: Especialidades[];
-  obrasSociales: ObraSocial[];
-  insert: any;
-  update: any;
-}) {
-  const [openConfirma, setOpenConfirma] = useState<boolean>(false);
-  const [diasAtencion, setDiasAtencion] = useState(
-    props.initialValues
-      ? dias.map((dia) => {
-          return {
-            dia: dia,
-            isSelected: props.initialValues.diasAtencion?.some(
-              (diaValue: any) => diaValue === dia
-            )
-              ? true
-              : false,
-          };
-        })
-      : [
-          { dia: "Lunes", isSelected: false },
-          { dia: "Martes", isSelected: false },
-          { dia: "Miércoles", isSelected: false },
-          { dia: "Jueves", isSelected: false },
-          { dia: "Viernes", isSelected: false },
-          { dia: "Sábado", isSelected: false },
-          { dia: "Domingo", isSelected: false },
-        ]
-  );
-  const [obrasSocialesSeleccionadas, setObrasSocialesSeleccionadas] = useState(
-    props.initialValues?.obrasocial.length
-      ? props.obrasSociales.map((os) => ({
-          id: os.id,
-          nombre: os.nombre,
-          isSelected: props.initialValues.obrasocial?.some(
-            (osValue: string) => {
-              return osValue === os.id;
-            }
-          ),
-        }))
-      : props.obrasSociales.map((os) => ({
-          id: os.id,
-          nombre: os.nombre,
-          isSelected: false,
-        }))
-  );
-
-  const submitMedicos = async (
-    value: Medicos & {
-      email: string;
-      password: string;
-      repeatPassword: string;
+  useEffect(() => {
+    if (typeof userId === "string") {
+      fetchDataById(userId);
+      fetchEspecialidades();
+      fetchObrasocial();
     }
-  ) => {
+  }, [userId]);
+
+  const [openConfirma, setOpenConfirma] = useState<boolean>(false);
+  const { classButtonEdit } = styles;
+
+  const handleConfirma = (e: any) => {
+    e.preventDefault();
+    setOpenConfirma(true);
+  };
+
+  const submitDataUpdate = async (value: Medicos) => {
     try {
       let dias = diasAtencion
         .filter((diaObj) => diaObj.isSelected)
@@ -86,77 +59,110 @@ export default function InsertMedicos(props: {
         .filter((id): id is string => id !== undefined) as any;
 
       value.obrasocial = obrasSocialesValue;
-
-      if (props.isUpdating) {
-        await props.update(props.initialValues?.id, value);
-      } else {
-        await props.insert(value);
-      }
-      props.setOpenForm(false);
-    } catch (error) {
-      console.error("Error al enviar el médico:", error);
+      await update(uid, value);
+    } catch (error: any) {
+      console.error("Error al actualizar al usuario", error);
+    } finally {
+      setOpenConfirma(false);
     }
   };
 
-  const getInitialFormValues = (
-    initialValues: FormValues,
-    isUpdating: boolean
-  ): FormValues => {
-    if (isUpdating) {
-      return {
-        matricula: initialValues.matricula || "",
-        especialidad: initialValues.especialidad?.id?.toString() || "",
-        diasAtencion: initialValues.diasAtencion || [],
-        horaDesde: initialValues.horaDesde || "",
-        horaHasta: initialValues.horaHasta || "",
-        obrasocial: initialValues.obrasocial || [],
-        usuario: {
-          uid: initialValues.usuario?.uid || "",
-          nombre: initialValues.usuario?.nombre || "",
-          apellido: initialValues.usuario?.apellido || "",
-          tipoDni: initialValues.usuario?.tipoDni || "",
-          dni: initialValues.usuario?.dni || "",
-        },
-      };
-    }
-
-    return {
-      email: "",
-      password: "",
-      repeatPassword: "",
-      matricula: "",
-      diasAtencion: [],
-      horaDesde: "",
-      horaHasta: "",
-      obrasocial: [],
-      usuario: {
-        uid: "",
-        nombre: "",
-        apellido: "",
-        tipoDni: "",
-        dni: "",
-      },
-    };
-  };
-
-  const initialFormValues = getInitialFormValues(
-    props.initialValues,
-    props.isUpdating
+  const [initialValues, setInitialValues] = useState<Medicos | null>(null);
+  const [diasAtencion, setDiasAtencion] = useState([
+    { dia: "Lunes", isSelected: false },
+    { dia: "Martes", isSelected: false },
+    { dia: "Miércoles", isSelected: false },
+    { dia: "Jueves", isSelected: false },
+    { dia: "Viernes", isSelected: false },
+    { dia: "Sábado", isSelected: false },
+    { dia: "Domingo", isSelected: false },
+  ]);
+  const [obrasSocialesSeleccionadas, setObrasSocialesSeleccionadas] = useState(
+    Array.isArray(obrasocial.data) && obrasocial.data.length
+      ? obrasocial.data.map((os) => ({
+          id: os.id,
+          nombre: os.nombre,
+          isSelected: initialValues?.obrasocial?.some(
+            (osValue: any) => osValue === os.id
+          ),
+        }))
+      : []
   );
 
-  const classButton =
-    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 mt-2 px-2 text-lg rounded focus:outline-none focus:shadow-outline mx-auto block";
+  useEffect(() => {
+    if (initialValues) {
+      setDiasAtencion(
+        dias.map((dia) => {
+          return {
+            dia: dia,
+            isSelected: initialValues.diasAtencion?.some((diaValue: any) => {
+              return diaValue === dia;
+            })
+              ? true
+              : false,
+          };
+        })
+      );
+    }
+  }, [initialValues]);
 
-  const handleConfirma = (e: any) => {
-    e.preventDefault();
-    setOpenConfirma(true);
-  };
+  useEffect(() => {
+    if (initialValues?.obrasocial) {
+      const data = Array.isArray(obrasocial.data)
+        ? obrasocial.data
+        : [obrasocial.data];
 
-  const { values, errors, handleChange, handleBlur, handleSubmit } =
-    useForm<FormValues>(
-      { ...initialFormValues },
-      props.isUpdating ? validateUpdate : validateInsert,
-      submitMedicos
+      setObrasSocialesSeleccionadas((prevState) => {
+        return data.map((os: any) => {
+          return {
+            ...os,
+            isSelected: initialValues.obrasocial.some(
+              (osValue: any) => osValue === os.id
+            ),
+          };
+        });
+      });
+    }
+  }, [initialValues, obrasocial.data]);
+
+  useEffect(() => {
+    if (medico.data.id) {
+      setInitialValues({
+        usuario: {
+          nombre: medico.data?.usuario?.nombre || "",
+          apellido: medico.data?.usuario?.apellido || "",
+          tipoDni: medico.data?.usuario?.tipoDni || "",
+          dni: medico.data?.usuario?.dni || "",
+        },
+        especialidad: medico.data?.especialidad || "",
+        horaDesde: medico.data?.horaDesde || "",
+        horaHasta: medico.data?.horaHasta || "",
+        matricula: medico.data?.matricula || "",
+        diasAtencion: medico.data?.diasAtencion || [],
+        obrasocial: medico.data?.obrasocial || [],
+      });
+      setValues({
+        usuario: {
+          nombre: medico.data?.usuario?.nombre || "",
+          apellido: medico.data?.usuario?.apellido || "",
+          tipoDni: medico.data?.usuario?.tipoDni || "",
+          dni: medico.data?.usuario?.dni || "",
+        },
+        especialidad: medico.data?.especialidad || "",
+        horaDesde: medico.data?.horaDesde || "",
+        horaHasta: medico.data?.horaHasta || "",
+        matricula: medico.data?.matricula || "",
+        diasAtencion: medico.data?.diasAtencion || [],
+        obrasocial: medico.data?.obrasocial || [],
+      });
+    }
+  }, [medico.data]);
+
+  const { values, setValues, errors, handleChange, handleBlur, handleSubmit } =
+    useForm<Medicos>(
+      initialValues || ({} as Medicos),
+      validateMedicos,
+      submitDataUpdate
     );
 
   const handleDaySelect = (obj: { dia: string; isSelected: boolean }) => {
@@ -182,7 +188,7 @@ export default function InsertMedicos(props: {
     let osObj = [...obrasSocialesSeleccionadas];
 
     let osIndex = obrasSocialesSeleccionadas.findIndex(
-      (osObj) => obj.id === osObj.id
+      (osObj: any) => obj.id === osObj.id
     );
 
     if (osIndex !== -1) {
@@ -205,65 +211,37 @@ export default function InsertMedicos(props: {
     return horaActualEntero > horaDesdeEntero && horaActualEntero <= horaLimite;
   });
 
+  if (loading || loadingEspecialidades) return <Loader />;
+
   return (
-    <React.Fragment>
+    <>
       {openConfirma && (
         <Confirma
-          message={
-            props.isUpdating
-              ? "Está seguro que quiere actualizar el médico?"
-              : "Está seguro que quiere agregar el médico"
-          }
+          message="Estás seguro de guardar los cambios?"
           open={openConfirma}
           setOpenConfirma={setOpenConfirma}
           handleConfirma={handleSubmit}
         />
       )}
+      <div className="sm:mx-auto sm:w-full lg:w-3/4 xl:w-2/3 mt-10">
+        <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mt-4">
+          Perfil
+        </h2>
+      </div>
       <form
         onSubmit={(e) => handleConfirma(e)}
-        className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full sm:w-1/2 lg:w-3/4 xl:w-2/3 mx-auto"
+        className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full mx-auto"
+        key={JSON.stringify(initialValues)}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {!props.isUpdating && (
-            <React.Fragment>
-              <Input
-                type="email"
-                name="email"
-                value={values.email || ""}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors["email"]}
-                placeholder="Correo electrónico*"
-              />
-              <Input
-                type="text"
-                name="password"
-                value={values.password || ""}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors["password"]}
-                placeholder="Contraseña*"
-              />
-              <Input
-                type="text"
-                name="repeatPassword"
-                value={values.repeatPassword || ""}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors["repeatPassword"]}
-                placeholder="Repetir contraseña*"
-              />
-            </React.Fragment>
-          )}
-
           <Input
             type="text"
-            name="usuario.nombre" // El name está anidado
+            name="usuario.nombre"
             value={values.usuario?.nombre}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.nombre"]}
-            placeholder="Nombre del Médico*"
+            placeholder="Nombre"
           />
           <Input
             type="text"
@@ -272,7 +250,7 @@ export default function InsertMedicos(props: {
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.apellido"]}
-            placeholder="Apellido del Médico*"
+            placeholder="Apellido"
           />
           <Select
             name="usuario.tipoDni"
@@ -284,7 +262,7 @@ export default function InsertMedicos(props: {
               { id: "Pasaporte", nombre: "Pasaporte" },
             ]}
             error={errors["usuario.tipoDni"]}
-            placeholder="Tipo DNI"
+            placeholder="Tipo documento"
           />
           <Input
             type="text"
@@ -293,14 +271,14 @@ export default function InsertMedicos(props: {
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.dni"]}
-            placeholder="Dni del Médico*"
+            placeholder="Numero"
           />
           <Select
             name="especialidad"
-            value={values.especialidad}
+            value={values.especialidad?.id}
             onChange={handleChange}
             onBlur={handleBlur}
-            options={props.especialidades as any}
+            options={especialidades.data as { id: string; nombre: string }[]}
             error={errors["especialidad"]}
             placeholder="Especialidad"
           />
@@ -388,10 +366,14 @@ export default function InsertMedicos(props: {
             </p>
           </div>
         </div>
-        <button className={classButton} type="submit">
-          {props.isUpdating ? "Actualizar médico" : "Cargar médico"}
-        </button>
+        <div>
+          <button className={classButtonEdit} type="submit">
+            Guardar cambios
+          </button>
+        </div>
       </form>
-    </React.Fragment>
+    </>
   );
-}
+};
+
+export default DataProfile;

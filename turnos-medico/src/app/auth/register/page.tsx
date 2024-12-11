@@ -17,7 +17,6 @@ const page = () => {
   const router = useRouter();
   const { sendVerificationEmail } = useAuth();
   const { insert, loading } = useCRUD<Pacientes>("pacientes");
-  console.log("register");
   const submitPaciente = async (
     value: Pacientes & {
       email: string;
@@ -26,14 +25,22 @@ const page = () => {
     }
   ) => {
     const auth = getAuth();
-    let registeredUser = await createUserWithEmailAndPassword(
-      auth,
-      value.usuario.email,
-      value.password
-    );
-    value.usuario.uid = registeredUser.user.uid;
+    let registeredUser;
 
-    let result = await insert(value);
+    if (value.usuario.email) {
+      registeredUser = await createUserWithEmailAndPassword(
+        auth,
+        value.usuario.email,
+        value.password
+      );
+    }
+
+    if (!registeredUser) return;
+
+    value.usuario.uid = registeredUser.user.uid;
+    const { password, repeatPassword, ...restValue } = value;
+
+    let result = await insert(restValue);
 
     if (!result.error) {
       await sendVerificationEmail(registeredUser.user);

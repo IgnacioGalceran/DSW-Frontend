@@ -23,7 +23,12 @@ export const DataMedico = (props: {
   };
 
   const handleDelete = async () => {
-    if (id) await props.remove(id);
+    try {
+      if (id) await props.remove(id);
+    } catch (error) {
+    } finally {
+      setOpenConfirma(false);
+    }
   };
 
   return (
@@ -37,49 +42,50 @@ export const DataMedico = (props: {
             handleConfirma={handleDelete}
           />
         )}
-        {props.medicos.data?.map((medico: Medicos) => (
-          <li
-            className={`md:w-1/5 rounded-md m-2 ${styles.medicoCard}`}
-            key={medico.usuario.id}
-          >
-            <div>
-              <div className="min-w-0 gap-x-4">
-                <div className="min-w-0">
-                  <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
-                    {medico.usuario.nombre + " " + medico.usuario.apellido}
-                  </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                    {"Matrícula: " + medico.matricula}
+        {Array.isArray(props.medicos.data) &&
+          props.medicos.data?.map((medico: Medicos) => (
+            <li
+              className={`md:w-1/5 rounded-md m-2 ${styles.medicoCard}`}
+              key={medico.usuario.id}
+            >
+              <div>
+                <div className="min-w-0 gap-x-4">
+                  <div className="min-w-0">
+                    <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
+                      {medico.usuario.nombre + " " + medico.usuario.apellido}
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {"Matrícula: " + medico.matricula}
+                    </p>
+                  </div>
+                </div>
+                <div className=" sm:flex sm:flex-col ">
+                  <p className="mt-1 text-xs text-gray-500">
+                    {medico.especialidad
+                      ? "Especialidad: " + medico.especialidad?.nombre
+                      : "Especialidad: Sin especialidad"}
                   </p>
                 </div>
               </div>
-              <div className=" sm:flex sm:flex-col ">
-                <p className="mt-1 text-xs text-gray-500">
-                  {medico.especialidad
-                    ? "Especialidad: " + medico.especialidad?.nombre
-                    : "Especialidad: Sin especialidad"}
-                </p>
+              <div className={styles.acciones}>
+                <FontAwesomeIcon
+                  icon={faEdit}
+                  className={styles.edit}
+                  onClick={() => {
+                    props.setDataUpdate(medico);
+                    props.setOpenForm(true);
+                  }}
+                />
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  className={styles.trash}
+                  onClick={() =>
+                    medico.usuario.id && confirmaDelete(medico.usuario.id)
+                  }
+                />
               </div>
-            </div>
-            <div className={styles.acciones}>
-              <FontAwesomeIcon
-                icon={faEdit}
-                className={styles.edit}
-                onClick={() => {
-                  props.setDataUpdate(medico);
-                  props.setOpenForm(true);
-                }}
-              />
-              <FontAwesomeIcon
-                icon={faTrash}
-                className={styles.trash}
-                onClick={() =>
-                  medico.usuario.id && confirmaDelete(medico.usuario.id)
-                }
-              />
-            </div>
-          </li>
-        ))}
+            </li>
+          ))}
       </ul>
     </React.Fragment>
   );

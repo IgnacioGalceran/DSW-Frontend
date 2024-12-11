@@ -3,7 +3,6 @@ import { FirebaseAuth } from "@/firebase/config";
 import { API_URL } from "@/constants/const";
 
 const getUserData = async (uid, token) => {
-  console.log(uid);
   const response = await fetch(`${API_URL}/auth/getUserData/${uid}`, {
     method: "POST",
     headers: {

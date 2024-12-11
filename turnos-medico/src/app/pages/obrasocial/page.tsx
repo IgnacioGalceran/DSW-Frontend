@@ -1,56 +1,56 @@
 "use client";
-import { Especialidades } from "./type";
-import styles from "./especialidades.module.css";
 import Loader from "../../../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import InsertEspecialidades from "./InsertEspecialidades";
-import useCRUD from "@/hooks/useCrud";
-import { DataEspecialidades } from "./DataEspecialidades";
+import { DataObrasocial } from "./DataObrasocial";
+import { ObraSocial } from "./type";
 import React from "react";
+import InsertObrasSociales from "./ObrasSocialesInsert";
+import useCRUD from "@/hooks/useCrud";
+import styles from "./obrasocial.module.css";
 
 export default function ListaEspecialidades() {
   const {
-    fetchData: getEspecialidades,
-    data: especialidades,
-    loading: loadingEspecialidades,
+    fetchData: getObrasSociales,
+    data: obrasSociales,
+    loading,
     insert,
     update,
     remove,
-  } = useCRUD<Especialidades>("especialidades");
-  const [dataUpdate, setDataUpdate] = useState<Especialidades | undefined>(
+  } = useCRUD<ObraSocial>("obrasocial");
+  const [dataUpdate, setDataUpdate] = useState<ObraSocial | undefined>(
     undefined
   );
   const [openForm, setOpenForm] = useState<boolean>(false);
 
   useEffect(() => {
-    getEspecialidades();
+    getObrasSociales();
   }, []);
 
   return (
     <React.Fragment>
-      {loadingEspecialidades && <Loader />}
+      {loading && <Loader />}
       <div className="overflow-auto">
         <div>
           <h1 className="text-2xl text-3xl text-center p-4">
             {openForm
               ? dataUpdate
-                ? "Actualización de Especialidad"
-                : "Cargar Especialidad"
-              : "Lista de Especialidades"}
+                ? "Actualización de Obras Sociales"
+                : "Cargar Obra Social"
+              : "Lista de Obras Sociales"}
           </h1>
         </div>
         {!openForm && (
-          <DataEspecialidades
-            especialidades={especialidades}
+          <DataObrasocial
+            obrasSociales={obrasSociales}
             remove={remove}
             setDataUpdate={setDataUpdate}
             setOpenForm={setOpenForm}
           />
         )}
         {openForm && (
-          <InsertEspecialidades
+          <InsertObrasSociales
             isUpdating={dataUpdate ? true : false}
             setOpenForm={setOpenForm}
             initialValues={dataUpdate}

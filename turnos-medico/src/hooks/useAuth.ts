@@ -12,8 +12,10 @@ import {
 import { useDispatch } from "react-redux";
 import { API_URL } from "@/constants/const";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const useAuth = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -31,6 +33,7 @@ export const useAuth = () => {
 
   const signIn = async (credentials: any) => {
     try {
+      setLoading(true);
       const { email, password } = credentials;
       const userCredential = await signInWithEmailAndPassword(
         FirebaseAuth,
@@ -41,9 +44,7 @@ export const useAuth = () => {
       const token = await user.getIdToken();
       const userData = await getUserData(user.uid, token);
       localStorage.setItem("token", token);
-      dispatch(checkingCredentials(true));
-      console.log("userData", userData);
-      console.log("user", user);
+
       if (!user || !userData) {
         return;
       }
@@ -77,7 +78,7 @@ export const useAuth = () => {
         throw new Error("Acceso limitado debido a varios intentos fallidos.");
       }
     } finally {
-      dispatch(checkingCredentials(false));
+      setLoading(false);
     }
   };
 
@@ -161,6 +162,7 @@ export const useAuth = () => {
   };
 
   const sendVerificationEmail = async (usuario: User) => {
+    setLoading(true);
     const actionCodeSettings = {
       url: `http://localhost:3000/pages/verify/?uid=${usuario.uid}`,
       handleCodeInApp: true,
@@ -173,8 +175,10 @@ export const useAuth = () => {
       }
     } catch (error) {
       console.error("Error al enviar el correo de verificación:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  return { signOut, signIn, tokenListener, sendVerificationEmail };
+  return { signOut, signIn, tokenListener, sendVerificationEmail, loading };
 };

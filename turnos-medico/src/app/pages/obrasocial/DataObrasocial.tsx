@@ -1,13 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Especialidades } from "./type";
-import styles from "./especialidades.module.css";
-import { faEdit, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { ObraSocial } from "./type";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import Confirma from "@/components/Confirmacion";
+import styles from "./obrasocial.module.css";
 
-export const DataEspecialidades = (props: {
-  especialidades: response<Especialidades>;
-  setDataUpdate: (e: Especialidades) => void;
+export const DataObrasocial = (props: {
+  obrasSociales: response<ObraSocial>;
+  setDataUpdate: (e: ObraSocial) => void;
   remove: any;
   setOpenForm: any;
 }) => {
@@ -18,7 +18,7 @@ export const DataEspecialidades = (props: {
   const confirmaDelete = async (id: string) => {
     setOpenConfirma(true);
     setId(id);
-    setMessage("¿Está seguro que quiere borrar la especialidad?");
+    setMessage("¿Está seguro que quiere borrar la obra social?");
   };
 
   const handleDelete = async () => {
@@ -44,16 +44,16 @@ export const DataEspecialidades = (props: {
         role="list"
         className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 px-6 my-3"
       >
-        {Array.isArray(props.especialidades.data) &&
-          props.especialidades.data?.map((especialidad: Especialidades) => (
+        {Array.isArray(props.obrasSociales.data) &&
+          props.obrasSociales.data?.map((obrasocial: ObraSocial) => (
             <li
               className={`md:w-1/5 rounded-md m-2 ${styles.especialidadCard}`}
-              key={especialidad.id}
+              key={obrasocial.id}
             >
               <div className="min-w-0 gap-x-4">
                 <div className="min-w-0">
                   <p className="capitalize text-sm font-semibold leading-6 text-gray-900">
-                    {especialidad.nombre}
+                    {obrasocial.nombre}
                   </p>
                 </div>
               </div>
@@ -62,7 +62,7 @@ export const DataEspecialidades = (props: {
                   icon={faEdit}
                   className={styles.edit}
                   onClick={() => {
-                    props.setDataUpdate(especialidad);
+                    props.setDataUpdate(obrasocial);
                     props.setOpenForm(true);
                   }}
                 />
@@ -70,7 +70,7 @@ export const DataEspecialidades = (props: {
                   icon={faTrash}
                   className={styles.trash}
                   onClick={() =>
-                    especialidad?.id && confirmaDelete(especialidad.id)
+                    obrasocial?.id && confirmaDelete(obrasocial.id)
                   }
                 />
               </div>

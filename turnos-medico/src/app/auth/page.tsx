@@ -10,20 +10,15 @@ import { signInWithGoogle } from "@/firebase/providers";
 import Loader from "@/components/Loader";
 import styles from "./login.module.css";
 import { useAuth } from "@/hooks/useAuth";
-
-import { RecoveryAccount } from "./recoveryAccount/page";
+import RecoveryAccount from "./recoveryAccount/RecoveryAccount";
 
 import { useToast } from "@/context/ToastContext";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
-  const { signIn } = useAuth();
+  const { signIn, loading } = useAuth();
   const { showToast } = useToast();
   const router = useRouter();
-
-  const { initialState, status, isLoading } = useSelector(
-    (state: any) => state.auth
-  );
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -58,18 +53,18 @@ export default function LoginPage() {
 
   return (
     <React.Fragment>
-      {isLoading && <Loader />}
+      {loading && <Loader />}
       {!resetPassword && (
         <div
-          className={`${styles.claseTest}  flex h-screen flex-col px-6 py-12 lg:px-8`}
+          className={`${styles.claseTest}  flex h-screen flex-col px-6 py-5 lg:px-8`}
         >
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
-              className="mx-auto h-24 w-24 sm:h-30 sm:w-30 md:h-40 md:w-40 lg:h-56 lg:w-56"
+              className="mx-auto h-20 w-20 sm:h-30 sm:w-30 md:h-30 md:w-30 lg:h-40 lg:w-40"
               src="/assets/turnos.png"
               alt="Logo"
             />
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Inicio de sesión - Turnos médicos
             </h2>
           </div>
@@ -178,11 +173,13 @@ export default function LoginPage() {
           </div>
         </div>
       )}
-      {resetPassword && (
+      {resetPassword ? (
         <RecoveryAccount
           resetPassword={resetPassword}
           setResetPassword={setResetPassword}
         />
+      ) : (
+        <React.Fragment></React.Fragment>
       )}
     </React.Fragment>
   );

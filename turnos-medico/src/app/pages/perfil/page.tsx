@@ -1,7 +1,5 @@
 "use client";
-import ListaPacientes from "@/app/pages/pacientes/page";
 import { Pacientes } from "@/app/pages/pacientes/type";
-import { validatePacientes } from "@/app/pages/pacientes/validations";
 import Confirma from "@/components/Confirmacion";
 import Input from "@/components/Input";
 import Loader from "@/components/Loader";
@@ -12,16 +10,17 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "../../pages/pacientes/pacientes.module.css";
 import { validateUpdateProfile } from "./validations";
 import Select from "@/components/Select";
+import { Medicos } from "@/app/pages/medicos/type";
+import { Usuarios } from "@/types/usuarios";
 
 const DataProfile = () => {
   const { data, loading, update, fetchDataById } =
-    useCRUD<Pacientes>("pacientes");
+    useCRUD<Usuarios>("usuarios");
   const dispatch = useDispatch();
 
   const {
     displayName,
     id: userId,
-    uid,
     tipoDni,
     dni,
     login,
@@ -50,56 +49,21 @@ const DataProfile = () => {
     }
   };
 
-  const nombre = displayName?.split(" ")[0];
-  const apellido = displayName?.split(" ")[1];
+  const nombre: string = displayName?.split(" ")[0];
+  const apellido: string = displayName?.split(" ")[1];
 
   const { values, setValues, errors, handleChange, handleBlur, handleSubmit } =
-    useForm<Pacientes>(
+    useForm<Usuarios>(
       {
-        usuario: {
-          nombre: nombre,
-          apellido: apellido,
-          tipoDni: tipoDni,
-          dni: dni,
-        },
+        nombre: nombre,
+        apellido: apellido,
+        tipoDni: tipoDni,
+        dni: dni,
       },
       validateUpdateProfile,
       submitDataUpdate
     );
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const response = await fetchDataById(userId);
-      const { nombre, apellido, tipoDni, dni } = response.data.usuario;
-      if (response) {
-        setValues((prevValues: any) => ({
-          ...prevValues,
-          usuario: {
-            nombre: nombre || "",
-            apellido: apellido || "",
-            tipoDni: tipoDni || "",
-            dni: dni || "",
-          },
-        }));
-      }
-    };
-
-    if (userId) {
-      fetchUserData();
-    }
-  }, [userId, setValues]);
-
-  // useEffect(() => {
-  //   setValues((prevValues: any) => ({
-  //     ...prevValues,
-  //     usuario: {
-  //       ...prevValues.usuario,
-  //       nombre: displayName?.split(" ")[0] || "",
-  //       apellido: displayName?.split(" ")[1] || "",
-  //     },
-
-  //   }));
-  // }, [displayName, setValues]);
   return (
     <>
       {loading && <Loader />}
@@ -125,7 +89,7 @@ const DataProfile = () => {
           <Input
             type="text"
             name="usuario.nombre"
-            value={values.usuario?.nombre}
+            value={values.nombre}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.nombre"]}
@@ -134,7 +98,7 @@ const DataProfile = () => {
           <Input
             type="text"
             name="usuario.apellido"
-            value={values.usuario?.apellido}
+            value={values.apellido}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.apellido"]}
@@ -142,7 +106,7 @@ const DataProfile = () => {
           />
           <Select
             name="usuario.tipoDni"
-            value={values.usuario?.tipoDni}
+            value={values.tipoDni}
             onChange={handleChange}
             onBlur={handleBlur}
             options={[
@@ -156,7 +120,7 @@ const DataProfile = () => {
           <Input
             type="text"
             name="usuario.dni"
-            value={values.usuario.dni}
+            value={values.dni}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.dni"]}
