@@ -25,13 +25,6 @@ export const headerList: HeaderList[] = [
     rol: ["Medico"],
     description: "Perfil",
   },
-  {
-    path: `/pages/perfil`,
-    title: "Perfil",
-    icon: faUser,
-    rol: ["Administrador"],
-    description: "Perfil",
-  },
   //Administrador
   {
     path: `/`,
