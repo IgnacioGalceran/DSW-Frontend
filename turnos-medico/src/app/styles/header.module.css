@@ -13,6 +13,10 @@
   
 }
 
+.iconDescription {
+  display: none;
+}
+
 .header ul {
   display: flex;
   justify-content: flex-end;
@@ -85,13 +89,18 @@
   .header {
     justify-content: flex-end;
     background-color: rgba(22, 26, 25, 0.741);
+    
     height: 60px;
+  }
+ 
+  .icons{
+    display: none;
   }
 
   .header li {
     display: block;
     padding: 0 14px;
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-weight: 600;
     cursor: pointer;
   }
@@ -111,10 +120,17 @@
     height: fit-content;
     max-height: fit-content;
   }
+  .iconDescription {
+    display: inline-block;
+  }
 }
 
 @media only screen and (min-width: 1500px) {
   .header li {
     font-size: 1.8rem;
   }
+  .icons{
+    display: none;
+  }
+
 }

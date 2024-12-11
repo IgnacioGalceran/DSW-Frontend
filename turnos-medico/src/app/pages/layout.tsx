@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import styles from "./layout.module.css";
 import Loader from "@/components/Loader";
 import React from "react";
+import { DataObraSociales } from "./obrasociales/page";
 
 function Layout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ function Layout({ children }: { children: ReactNode }) {
   return (
     <React.Fragment>
       <Header />
+      {/* <DataObraSociales /> */}
       <div className={styles.container}>{children}</div>
     </React.Fragment>
   );
