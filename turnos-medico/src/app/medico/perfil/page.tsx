@@ -52,6 +52,13 @@ const DataProfile = () => {
         .filter((diaObj) => diaObj.isSelected)
         .map((diaObj) => diaObj.dia);
       value.diasAtencion = dias;
+
+      let obrasSocialesValue = obrasSocialesSeleccionadas
+        .filter((osObj) => osObj.isSelected)
+        .map((osObj) => osObj.id)
+        .filter((id): id is string => id !== undefined) as any;
+
+      value.obrasocial = obrasSocialesValue;
       await update(uid, value);
     } catch (error: any) {
       console.error("Error al actualizar al usuario", error);
