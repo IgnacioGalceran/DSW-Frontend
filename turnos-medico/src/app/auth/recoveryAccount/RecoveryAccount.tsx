@@ -9,6 +9,7 @@ import { FirebaseAuth } from "@/firebase/config";
 import { sendPasswordResetEmail } from "firebase/auth";
 
 import styles from "../login.module.css";
+import { useToast } from "@/context/ToastContext";
 
 type RecoveryAccountProps = {
   resetPassword: boolean;
@@ -21,6 +22,7 @@ export default function RecoveryAccount({
   const [resetPasswordEmail, setResetPasswordEmail] = useState({
     email: "",
   });
+  const { showToast } = useToast();
 
   const changeResetPasswordEmail = (event: any) => {
     setResetPasswordEmail({
@@ -32,6 +34,7 @@ export default function RecoveryAccount({
   const handleSendChangePasswordEmail = async (e: any) => {
     e.preventDefault();
     await sendPasswordResetEmail(FirebaseAuth, resetPasswordEmail.email);
+    showToast("Email enviado correctamente", "OK", 4000);
   };
 
   return (
