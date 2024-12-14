@@ -3,3 +3,31 @@
   height: 100vh;
   padding-top: 60px;
 }
+
+.containerfilter{
+  display: flex;
+  align-items: center; 
+  gap: 8px;
+  margin: 0 auto; 
+  width: 75%; 
+  max-width: 600px; 
+}
+
+
+.containerfilter input {
+  flex: 10; 
+}
+
+.containerfilter button {
+  flex: .7;
+  background-color: #34D399;
+  border: 1px solid rgba(128, 128, 128, 0.496);
+  height: 40px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orderButton{
+  height: 60%;
+}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter, usePathname } from "next/navigation";
 import { headerList } from "@/constants/paths";
@@ -11,7 +11,8 @@ import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   const [openHeader, setOpenHeader] = useState<boolean>(false);
-  const { isAuth, rol } = useSelector((state: any) => state.auth);
+  const [nombre, setNombre] = useState<string>("");
+  const { isAuth, rol, displayName } = useSelector((state: any) => state.auth);
   const { signOut } = useAuth();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -30,8 +31,19 @@ const Header = () => {
     return true;
   };
 
+  useEffect(() => {
+    if (displayName) {
+      if (displayName.split(" ").length > 2) {
+        setNombre(displayName.split(" ")[0] + " " + displayName.split(" ")[1]);
+      } else {
+        setNombre(displayName.split(" ")[0]);
+      }
+    }
+  }, [displayName]);
+
   return (
     <header className={styles.header}>
+      <span>Hola, {nombre} </span>
       <ul className={openHeader ? styles.openUl : ""}>
         <div className={styles.menu} onClick={() => setOpenHeader(!openHeader)}>
           <FontAwesomeIcon icon={faBars} className={styles.icons} />

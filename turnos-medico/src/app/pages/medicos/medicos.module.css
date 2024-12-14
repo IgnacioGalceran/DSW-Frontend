@@ -7,9 +7,9 @@
 }
 
 .medicoCard {
-  display: flex;
-  justify-content: center;
-  text-align: center;
+    display: flex;
+    justify-content: space-between;
+    
   padding: 16px 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   gap: 30px;

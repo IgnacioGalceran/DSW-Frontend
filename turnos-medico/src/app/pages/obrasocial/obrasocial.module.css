@@ -58,16 +58,16 @@
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.5);
 }
 
-.especialidadCard {
+.obraSocialCard {
   display: flex;
-  justify-content: space-evenly;
-  text-align: center;
+  justify-content: space-between;
   padding: 18px 10px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
   width: 90%;
 }
 
-.especialidadCard p {
+
+.obraSocialCard p {
   margin: 6px 0;
 }
 

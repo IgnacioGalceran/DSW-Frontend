@@ -223,7 +223,7 @@ export default function InsertMedicos(props: {
         onSubmit={(e) => handleConfirma(e)}
         className="bg-white shadow-md rounded px-8 py-6 mb-4 w-full sm:w-1/2 lg:w-3/4 xl:w-2/3 mx-auto"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
           {!props.isUpdating && (
             <React.Fragment>
               <Input
