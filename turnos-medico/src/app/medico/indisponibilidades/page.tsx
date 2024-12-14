@@ -91,7 +91,7 @@ const Indisponibilidades = () => {
       )}
       <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded">
         <h1 className="text-xl font-bold mb-4 text-center">
-          Cargar Indisponibilidades
+          Cargar día de ausencia
         </h1>
         <form className="mb-6" onSubmit={(e) => handleAction(e, true)}>
           <input
@@ -120,7 +120,7 @@ const Indisponibilidades = () => {
         </form>
 
         <h2 className="text-lg font-semibold mb-2">
-          Fechas de Indisponibilidad
+          Fechas de Indisponibilidad horaria
         </h2>
         {medico?.data?.indisponibilidades?.length > 0 ? (
           <table className="w-full border-collapse">
