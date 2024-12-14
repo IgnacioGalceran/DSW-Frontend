@@ -47,7 +47,7 @@ export const DataObrasocial = (props: {
         {Array.isArray(props.obrasSociales.data) &&
           props.obrasSociales.data?.map((obrasocial: ObraSocial) => (
             <li
-              className={`md:w-1/5 rounded-md m-2 ${styles.especialidadCard}`}
+              className={`rounded-md m-2 ${styles.especialidadCard}`}
               key={obrasocial.id}
             >
               <div className="min-w-0 gap-x-4">

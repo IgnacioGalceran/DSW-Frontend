@@ -1,61 +1,78 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Turnos } from "./type";
-import Loader from "../../../components/Loader";
-import useCRUD from "@/hooks/useCrud";
-import { Especialidades } from "../../pages/especialidades/type";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import "moment/locale/es";
 import styles from "./turnos.module.css";
+import Loader from "../../../components/Loader";
+import useCRUD from "@/hooks/useCrud";
 
 export default function ListaTurnos() {
   const { id } = useSelector((state: any) => state.auth);
-  const { update, remove, loading: loadingT } = useCRUD<Turnos>(`turnos`);
   const {
     fetchData: getTurnos,
     data: turnos,
     loading: loadingTurnos,
-  } = useCRUD<Turnos>(`turnos/findTurnosByMedico/${id}`, false);
+  } = useCRUD(`turnos/findTurnosByMedico/${id}`, false);
 
   useEffect(() => {
     getTurnos();
   }, []);
 
+  const groupTurnosByDay = (turnos: any) => {
+    return turnos.reduce((acc: any, turno: any) => {
+      const fecha = moment(turno.fecha).format("YYYY-MM-DD");
+      if (!acc[fecha]) {
+        acc[fecha] = [];
+      }
+      acc[fecha].push(turno);
+      return acc;
+    }, {});
+  };
+
+  const turnosGrouped = turnos?.data ? groupTurnosByDay(turnos.data) : null;
+
   return (
     <React.Fragment>
       {loadingTurnos && <Loader />}
-      <div className={styles.turnosContainer}>
-        <React.Fragment>
-          <div className={styles.container}>
-            <h1 className={`${styles.title} text-gray-900 text-2xl m-2`}>
-              Lista de turnos
-            </h1>
-            <div className={styles.calendar}>
-              {Array.isArray(turnos.data) && turnos.data?.length ? (
-                turnos.data?.map((turno, index) => {
-                  let date = moment(turno.fecha).locale("es");
+      <div className={styles.calendar}>
+        {Object?.keys(turnosGrouped)?.length > 0 ? (
+          Object?.entries(turnosGrouped)?.map(([fecha, turnos]: any) => {
+            const isToday = moment(fecha).isSame(moment(), "day");
 
-                  return (
+            return (
+              <div
+                key={fecha}
+                className={`${styles.diaContainer} ${
+                  isToday ? styles.today : ""
+                }`}
+              >
+                <div className={styles.diaTitulo}>
+                  {moment(fecha).format("dddd, DD [de] MMMM [de] YYYY")}
+                </div>
+                <div className={styles.turnosPorDia}>
+                  {turnos.map((turno: any, index: number) => (
                     <div className={styles.turnoCard} key={index}>
-                      <div>{date.format("MMMM")}</div>
-                      <div>{date.format("dddd")}</div>
-                      <div>{date.format("DD")}</div>
                       <div>
-                        {turno.inicio} - {turno.fin}
+                        <strong>Horario:</strong> {turno.inicio} - {turno.fin}
                       </div>
                       <div>
-                        Paciente: {turno.paciente.usuario.nombre}{" "}
+                        <strong>Paciente:</strong>{" "}
+                        {turno.paciente.usuario.nombre}{" "}
                         {turno.paciente.usuario.apellido}
                       </div>
                     </div>
-                  );
-                })
-              ) : (
-                <h2>Aún no posee turnos</h2>
-              )}
-            </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div className={styles.noTurnos}>
+            <h2>Aún no posee turnos asignados</h2>
+            <img src="/assets/no-turnos.svg" alt="No hay turnos" />
           </div>
-        </React.Fragment>
+        )}
       </div>
     </React.Fragment>
   );

@@ -2,6 +2,10 @@
   text-transform: capitalize;
 }
 
+.container {
+  height: 100%;
+}
+
 .medicoCard {
   display: flex;
   justify-content: center;

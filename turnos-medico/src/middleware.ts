@@ -9,11 +9,15 @@ export function middleware(request: NextRequest) {
   const verificado = request.cookies.get("verificado");
   const url = request.nextUrl;
 
-  // console.log(rol);
+  console.log(url.pathname);
 
   if (url.pathname === "/landing" || url.pathname.startsWith("/auth")) {
     return NextResponse.next();
   }
+
+  console.log("rol", rol?.value);
+  console.log("verificado", verificado?.value);
+  console.log("token", token);
 
   if (
     verificado &&
@@ -21,6 +25,7 @@ export function middleware(request: NextRequest) {
     token !== null &&
     rol?.value === "Paciente"
   ) {
+    console.log("/auth/firebase-action");
     return NextResponse.redirect(new URL("/auth/firebase-action", request.url));
   }
 
@@ -30,11 +35,14 @@ export function middleware(request: NextRequest) {
     JSON.parse(verificado?.value) &&
     token !== null
   ) {
-    if (rol?.value === "Paciente")
+    if (rol?.value === "Paciente") {
+      console.log("/paciente/turnos");
       return NextResponse.redirect(new URL("/paciente/turnos", request.url));
-    else if (rol?.value === "Medico") {
+    } else if (rol?.value === "Medico") {
+      console.log("/medico/turnos");
       return NextResponse.redirect(new URL("/medico/turnos", request.url));
     } else if (rol?.value === "Administrador") {
+      console.log("/pages/perfil");
       return NextResponse.redirect(new URL("/pages/perfil", request.url));
     }
   }

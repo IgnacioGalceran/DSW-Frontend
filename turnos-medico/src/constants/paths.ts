@@ -2,6 +2,7 @@ import { HeaderList } from "@/types/headerList";
 import { FRONT_URL } from "./const";
 import {
   faCalendar,
+  faCancel,
   faInstitution,
   faList,
   faUser,
@@ -25,7 +26,6 @@ export const headerList: HeaderList[] = [
     rol: ["Medico"],
     description: "Perfil",
   },
-  //Administrador
   {
     path: `/pages/perfil`,
     title: "Perfil",
@@ -33,6 +33,7 @@ export const headerList: HeaderList[] = [
     rol: ["Administrador"],
     description: "Perfil",
   },
+  //Administrador
   {
     path: `/pages/medicos`,
     title: "Médicos",
@@ -63,13 +64,6 @@ export const headerList: HeaderList[] = [
   },
   //Paciente
   {
-    path: `/paciente/perfil`,
-    title: "Perfil",
-    icon: faUser,
-    rol: ["Paciente"],
-    description: "Perfil",
-  },
-  {
     path: `/paciente/turnos`,
     title: "Turnos",
     icon: faCalendar,
@@ -85,10 +79,10 @@ export const headerList: HeaderList[] = [
     description: "Turnos",
   },
   {
-    path: `/medico/perfil`,
-    title: "Perfil",
-    icon: faUser,
+    path: `/medico/indisponibilidades`,
+    title: "Indisponibilidades",
+    icon: faCancel,
     rol: ["Medico"],
-    description: "Perfil",
+    description: "Indisponibilidades",
   },
 ];

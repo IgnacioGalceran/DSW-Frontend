@@ -16,7 +16,7 @@ import { useToast } from "@/context/ToastContext";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
-  const { signIn, loading } = useAuth();
+  const { signIn, loading, getUserData } = useAuth();
   const { showToast } = useToast();
   const router = useRouter();
 
@@ -36,7 +36,7 @@ export default function LoginPage() {
 
   async function handleGoogleLogin(e: any) {
     e.preventDefault();
-    await signInWithGoogle(dispatch);
+    await signInWithGoogle(getUserData, dispatch);
     router.push("/");
   }
 

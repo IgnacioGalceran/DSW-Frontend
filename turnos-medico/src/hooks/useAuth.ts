@@ -25,6 +25,7 @@ export const useAuth = () => {
       localStorage.removeItem("token");
       document.cookie = `token=; path=/; Secure; SameSite=Lax; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
       document.cookie = `rol=; path=/; Secure; SameSite=Lax; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+
       dispatch(logout());
     } catch (error) {
       console.log("Error al cerrar sesión:", error);
@@ -62,7 +63,13 @@ export const useAuth = () => {
         })
       );
 
-      router.push("/");
+      if (userData.data.rol.nombre === "Paciente") {
+        router.push("/paciente/turnos");
+      } else if (userData.data.rol.nombre === "Medico") {
+        router.push("/medico/turnos");
+      } else if (userData.data.rol.nombre === "Administrador") {
+        router.push("/pages/perfil");
+      }
 
       return user;
     } catch (error: any) {
@@ -134,7 +141,7 @@ export const useAuth = () => {
   const getUserData = async (uid: string, token: string) => {
     try {
       const response = await fetch(`${API_URL}/auth/getUserData/${uid}`, {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -146,6 +153,8 @@ export const useAuth = () => {
       }
 
       const data = await response.json();
+
+      console.log(data);
 
       document.cookie = `token=${token}; path=/; Secure; SameSite=Lax`;
       document.cookie = `rol=${data.data.rol.nombre}; path=/; Secure; SameSite=Lax`;
@@ -180,5 +189,12 @@ export const useAuth = () => {
     }
   };
 
-  return { signOut, signIn, tokenListener, sendVerificationEmail, loading };
+  return {
+    signOut,
+    signIn,
+    tokenListener,
+    sendVerificationEmail,
+    getUserData,
+    loading,
+  };
 };

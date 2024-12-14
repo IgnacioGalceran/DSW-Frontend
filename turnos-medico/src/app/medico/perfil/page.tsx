@@ -225,7 +225,7 @@ const DataProfile = () => {
       )}
       <div className="sm:mx-auto sm:w-full lg:w-3/4 xl:w-2/3 mt-10">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mt-4">
-          Perfil
+          Perfil de médico
         </h2>
       </div>
       <form

@@ -9,6 +9,7 @@ interface InputProps {
   error?: string;
   placeholder?: string;
   id?: string;
+  className?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -19,6 +20,7 @@ const Input: React.FC<InputProps> = ({
   onChange,
   onBlur,
   error,
+  className,
   placeholder,
 }) => {
   return (
@@ -33,9 +35,13 @@ const Input: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        className={`shadow appearance-none border rounded w-full py-2 px-3 mt-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-          error ? "border-red-500" : value ? "border-green-500" : ""
-        }`}
+        className={
+          className
+            ? className
+            : ` shadow appearance-none border rounded w-full py-2 px-3 mt-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                error ? "border-red-500" : value ? "border-green-500" : ""
+              }`
+        }
         placeholder={placeholder}
       />
       <p

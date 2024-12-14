@@ -10,4 +10,5 @@ export type Medicos = {
   matricula: string;
   diasAtencion?: string[];
   obrasocial: ObraSocial[];
+  indisponibilidades?: Date[];
 };

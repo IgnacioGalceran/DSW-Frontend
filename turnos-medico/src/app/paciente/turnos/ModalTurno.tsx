@@ -44,13 +44,7 @@ const ModalTurno: React.FC<ModalTurnos> = ({
     loading: loadingTurnos,
   } = useCRUD<Turnos>(`turnos/findTurnosOcupadosByMedicoByDates`);
 
-  console.log(openModal.data);
-
   useEffect(() => {
-    console.log(
-      `${openModal?.data?.medico}?startDate=${date.startDate}&endDate=${date.endDate}`
-    );
-
     if (openModal.data?.medico?.id && date.startDate && date.endDate)
       getTurnos(
         `${openModal?.data?.medico?.id}?startDate=${date.startDate}&endDate=${date.endDate}`
@@ -62,6 +56,8 @@ const ModalTurno: React.FC<ModalTurnos> = ({
       return false;
     else return true;
   };
+
+  console.log(turnos);
 
   const handleDateBack = () => {
     if (!isBeforeToday())
@@ -80,13 +76,35 @@ const ModalTurno: React.FC<ModalTurnos> = ({
     });
   };
 
-  const doesAttend = (dia: string) =>
-    Boolean(
-      openModal.data?.medico?.diasAtencion?.some(
-        (diaAtencion) =>
-          diaAtencion.toLowerCase().trim() === dia.toLowerCase().trim()
-      )
-    );
+  const doesAttend = (start: Date, end: Date, index: number) => {
+    let attend!: boolean;
+    let dia = moment(start).add(index, "days").format("yyyy-MM-DD");
+
+    let checkearIndisponibilidades =
+      openModal.data.medico?.indisponibilidades?.find((i) => {
+        return i.toString().slice(0, 10) === dia.toString();
+      });
+
+    if (checkearIndisponibilidades) {
+      attend = false;
+    } else {
+      let checkearDiasAtencion = openModal.data.medico?.diasAtencion?.find(
+        (dia) => {
+          return (
+            dia.toLowerCase().trim() ===
+            moment(date.startDate)
+              .add(index, "days")
+              .locale("es")
+              .format("dddd")
+          );
+        }
+      );
+
+      if (checkearDiasAtencion) attend = true;
+    }
+
+    return attend;
+  };
 
   function generateHours(
     horaInicial: string | undefined,
@@ -143,7 +161,6 @@ const ModalTurno: React.FC<ModalTurnos> = ({
   };
 
   const handleSubmit = async () => {
-    console.log(body);
     if (body)
       if (openModal.data?.turno) {
         await update(openModal.data?.turno?.id, body);
@@ -151,7 +168,6 @@ const ModalTurno: React.FC<ModalTurnos> = ({
         await insert(body);
       }
     setOpenForm(false);
-    console.log(body);
     refreshTurnos(body?.paciente);
     setOpenConfirma(false);
     setBody(null);
@@ -203,21 +219,18 @@ const ModalTurno: React.FC<ModalTurnos> = ({
                 {moment(date.endDate).locale("es").format("MMMM Y")}
               </h2>
             </div>
-            <h1 className={modal.title}>
-              {openModal.data?.medico?.usuario?.nombre}{" "}
-              {openModal.data?.medico?.usuario?.apellido}
-            </h1>
-            <h2 className={modal.subtitle}>
-              Especialidad: {openModal.data?.medico?.especialidad?.nombre}
-            </h2>
+            <div className={modal.containerTitle}>
+              <h1 className={modal.title}>
+                Médico: {openModal.data?.medico?.usuario?.nombre}{" "}
+                {openModal.data?.medico?.usuario?.apellido}
+              </h1>
+              <h2 className={modal.subtitle}>
+                Especialidad: {openModal.data?.medico?.especialidad?.nombre}
+              </h2>
+            </div>
             <div className={modal.turnoContainer}>
               {array.map((a, indexDay) => {
-                let attend = doesAttend(
-                  moment(date.startDate)
-                    .add(indexDay, "days")
-                    .locale("es")
-                    .format("dddd")
-                );
+                let attend = doesAttend(date.startDate, date.endDate, indexDay);
                 let ranges!: string[];
                 const now = moment();
                 if (attend) {
