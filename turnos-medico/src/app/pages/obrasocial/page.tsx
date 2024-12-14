@@ -30,8 +30,8 @@ export default function ListaEspecialidades() {
 
   return (
     <React.Fragment>
-      {loading && <Loader />}
-      <div className="overflow-auto">
+      <div className={`${styles.container} overflow-auto`}>
+        {loading && <Loader />}
         <div>
           <h1 className="text-2xl text-3xl text-center p-4">
             {openForm

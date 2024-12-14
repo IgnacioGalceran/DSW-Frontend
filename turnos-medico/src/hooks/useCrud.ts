@@ -119,9 +119,27 @@ export default function useCRUD<T>(entity: string, doFetch: boolean = true) {
     }
   };
 
-  const remove = async (id: string) => {
+  const remove = async (
+    id: string,
+    params?: [{ key: string; value: string }]
+  ) => {
     try {
-      const response = await fetch(`${API_URL}/${entity}/${id}`, {
+      const queryString = params
+        ? params
+            .map(
+              ({ key, value }) =>
+                `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+            )
+            .join("&")
+        : "";
+
+      const url = `${API_URL}/${entity}/${id}${
+        queryString ? `?${queryString}` : ""
+      }`;
+
+      console.log(url);
+
+      const response = await fetch(`${url}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

@@ -11,7 +11,7 @@ import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   const [openHeader, setOpenHeader] = useState<boolean>(false);
-  const { isAuth, rol, displayName } = useSelector((state: any) => state.auth);
+  const { isAuth, rol } = useSelector((state: any) => state.auth);
   const { signOut } = useAuth();
   const dispatch = useDispatch();
   const router = useRouter();

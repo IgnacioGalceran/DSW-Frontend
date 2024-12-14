@@ -89,17 +89,6 @@ const DataProfile = () => {
     }
   }, [userId, setValues]);
 
-  // useEffect(() => {
-  //   setValues((prevValues: any) => ({
-  //     ...prevValues,
-  //     usuario: {
-  //       ...prevValues.usuario,
-  //       nombre: displayName?.split(" ")[0] || "",
-  //       apellido: displayName?.split(" ")[1] || "",
-  //     },
-
-  //   }));
-  // }, [displayName, setValues]);
   return (
     <>
       {loading && <Loader />}
@@ -114,7 +103,7 @@ const DataProfile = () => {
       )}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-10">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mt-4">
-          Perfil
+          Perfil de paciente
         </h2>
       </div>
       <form
@@ -160,7 +149,7 @@ const DataProfile = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.dni"]}
-            placeholder="Numero "
+            placeholder="Numero de dni"
           />
         </div>
         <div>

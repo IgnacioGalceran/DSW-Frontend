@@ -6,21 +6,26 @@ import Loader from "@/components/Loader";
 import useCRUD from "@/hooks/useCrud";
 import useForm from "@/hooks/useForm";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from "../../pages/pacientes/pacientes.module.css";
 import { validateUpdateProfile } from "./validations";
 import Select from "@/components/Select";
-import { Medicos } from "@/app/pages/medicos/type";
 import { Usuarios } from "@/types/usuarios";
 
 const DataProfile = () => {
-  const { data, loading, update, fetchDataById } =
-    useCRUD<Usuarios>("usuarios");
-  const dispatch = useDispatch();
+  const { loading, fetchDataById } = useCRUD<Usuarios>(
+    "auth/getUserData",
+    false
+  );
+  const { update, loading: loadingUpdate } = useCRUD<Usuarios>(
+    "auth/udtprofile",
+    false
+  );
 
   const {
     displayName,
     id: userId,
+    uid,
     tipoDni,
     dni,
     login,
@@ -36,37 +41,55 @@ const DataProfile = () => {
 
   const submitDataUpdate = async (value: Pacientes) => {
     try {
-      await update(userId, value);
-      dispatch(
-        login({
-          displayName: `${nombre} ${apellido}`,
-          tipoDni: tipoDni,
-          dni: dni,
-        })
-      );
+      await update(uid, value);
     } catch (error: any) {
       console.error("Error al actualizar al usuario", error);
     }
   };
 
-  const nombre: string = displayName?.split(" ")[0];
-  const apellido: string = displayName?.split(" ")[1];
+  const nombre = displayName?.split(" ")[0];
+  const apellido = displayName?.split(" ")[1];
 
   const { values, setValues, errors, handleChange, handleBlur, handleSubmit } =
-    useForm<Usuarios>(
+    useForm<Pacientes>(
       {
-        nombre: nombre,
-        apellido: apellido,
-        tipoDni: tipoDni,
-        dni: dni,
+        usuario: {
+          nombre: nombre,
+          apellido: apellido,
+          tipoDni: tipoDni,
+          dni: dni,
+        },
       },
       validateUpdateProfile,
       submitDataUpdate
     );
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const response = await fetchDataById(uid);
+
+      const { nombre, apellido, tipoDni, dni } = response.data;
+      if (response) {
+        setValues((prevValues: any) => ({
+          ...prevValues,
+          usuario: {
+            nombre: nombre || "",
+            apellido: apellido || "",
+            tipoDni: tipoDni || "",
+            dni: dni || "",
+          },
+        }));
+      }
+    };
+
+    if (userId) {
+      fetchUserData();
+    }
+  }, [userId, setValues]);
+
   return (
     <>
-      {loading && <Loader />}
+      {(loading || loadingUpdate) && <Loader />}
 
       {openConfirma && (
         <Confirma
@@ -78,7 +101,7 @@ const DataProfile = () => {
       )}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-10">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mt-4">
-          Perfil
+          Perfil de administrador
         </h2>
       </div>
       <form
@@ -89,7 +112,7 @@ const DataProfile = () => {
           <Input
             type="text"
             name="usuario.nombre"
-            value={values.nombre}
+            value={values.usuario?.nombre}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.nombre"]}
@@ -98,7 +121,7 @@ const DataProfile = () => {
           <Input
             type="text"
             name="usuario.apellido"
-            value={values.apellido}
+            value={values.usuario?.apellido}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.apellido"]}
@@ -106,7 +129,7 @@ const DataProfile = () => {
           />
           <Select
             name="usuario.tipoDni"
-            value={values.tipoDni}
+            value={values.usuario?.tipoDni}
             onChange={handleChange}
             onBlur={handleBlur}
             options={[
@@ -120,11 +143,11 @@ const DataProfile = () => {
           <Input
             type="text"
             name="usuario.dni"
-            value={values.dni}
+            value={values.usuario.dni}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors["usuario.dni"]}
-            placeholder="Numero "
+            placeholder="Numero de dni"
           />
         </div>
         <div>

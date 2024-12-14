@@ -42,8 +42,8 @@ export default function ListaMedicos() {
 
   return (
     <React.Fragment>
-      {(loading || loadingEspecialidades || loadingOS) && <Loader />}
-      <div className="overflow-auto">
+      <div className={`${styles.container} overflow-auto`}>
+        {(loading || loadingEspecialidades || loadingOS) && <Loader />}
         <div>
           <h1 className="text-2xl text-3xl text-center p-4">
             {openForm

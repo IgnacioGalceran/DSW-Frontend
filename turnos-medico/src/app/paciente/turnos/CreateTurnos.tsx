@@ -75,16 +75,16 @@ export default function InsertTurnos(props: {
   useEffect(() => {
     let obrasocialesUnicas = Array.from(
       new Set(
-        Array.isArray(medicos.data) &&
-          (medicos.data.flatMap((medico) => medico.obrasocial) as any)
+        Array.isArray(medicos?.data) &&
+          (medicos.data?.flatMap((medico) => medico.obrasocial) as any)
       )
     );
 
     obrasocialesUnicas = props.obrasocial?.data?.filter((os: ObraSocial) =>
-      obrasocialesUnicas.find((osUnica) => osUnica === os.id)
+      obrasocialesUnicas?.find((osUnica) => osUnica === os.id)
     );
 
-    obrasocialesUnicas.push({ id: "0", nombre: "Sin obra social" });
+    obrasocialesUnicas?.push({ id: "0", nombre: "Sin obra social" });
 
     setObrasocialesEncontradas(obrasocialesUnicas);
   }, [medicos.data]);
@@ -141,7 +141,7 @@ export default function InsertTurnos(props: {
               />
             )}
         </div>
-        {medicos.data.length && obrasocialesEncontradas.length ? (
+        {medicos.data.length && obrasocialesEncontradas?.length ? (
           <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
             <Select
               name="obrasocial"
@@ -157,7 +157,7 @@ export default function InsertTurnos(props: {
         ) : (
           <React.Fragment></React.Fragment>
         )}
-        {obrasocialesEncontradas.length &&
+        {obrasocialesEncontradas?.length &&
         obrasocialSeleccionada &&
         Array.isArray(medicosWithOS) &&
         medicosWithOS.length > 0 ? (

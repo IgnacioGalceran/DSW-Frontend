@@ -1,10 +1,11 @@
 .loaderContainer {
   position: absolute;
   top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
-  min-height: 100dvh;
-  height: fit-content;
+  align-items: center;
+  height: 100%;
   width: 100%;
   overflow: hidden;
   background-color: rgba(40, 40, 40, 0.603);
