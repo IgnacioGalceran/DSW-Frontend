@@ -34,7 +34,6 @@ export default function ListaPacientes() {
         fetchData();
       }
     } catch (error) {
-      console.log(error);
     } finally {
       setId("");
       setPaciente(null);

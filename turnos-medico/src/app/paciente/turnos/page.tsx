@@ -67,11 +67,8 @@ export default function ListaTurnos() {
   }, []);
 
   useEffect(() => {
-    console.log(id);
     getTurnos(id);
   }, [id]);
-
-  console.log(turnos);
 
   const confirmaDelete = async (id: string) => {
     setOpenConfirma(true);

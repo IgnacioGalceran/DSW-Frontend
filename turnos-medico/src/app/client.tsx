@@ -13,7 +13,7 @@ export default function CheckAuth() {
       try {
         await tokenListener(dispatch);
       } catch (error) {
-        console.error("Error setting up token listener:", error);
+        throw error;
       } finally {
         dispatch(checkingCredentials(false));
       }

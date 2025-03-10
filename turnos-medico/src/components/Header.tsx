@@ -58,7 +58,7 @@ const Header = () => {
               }}
             >
               <FontAwesomeIcon icon={e.icon} className={styles.icons} />
-              <a className={styles.iconDescription}> {e.description}</a>
+              {e.description}
             </li>
           );
         })}

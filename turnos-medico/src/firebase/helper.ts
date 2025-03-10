@@ -80,7 +80,6 @@ export const signIn = async (credentials: any, dispatch: any, router: any) => {
     router.push("/");
     return user;
   } catch (error) {
-    console.log("Error al iniciar sesión:", error);
     dispatch(checkingCredentials(false));
   }
 };
@@ -91,9 +90,7 @@ export const signOut = async (dispatch: any) => {
 
     localStorage.removeItem("token");
     dispatch(logout());
-  } catch (error) {
-    console.log("Error al cerrar sesión:", error);
-  }
+  } catch (error) {}
 };
 
 const getUserData = async (uid: string, token: string) => {

@@ -27,9 +27,7 @@ export const useAuth = () => {
       document.cookie = `rol=; path=/; Secure; SameSite=Lax; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 
       dispatch(logout());
-    } catch (error) {
-      console.log("Error al cerrar sesión:", error);
-    }
+    } catch (error) {}
   };
 
   const signIn = async (credentials: any) => {
@@ -73,7 +71,6 @@ export const useAuth = () => {
 
       return user;
     } catch (error: any) {
-      console.log(error.message);
       if (error.message === "Firebase: Error (auth/invalid-credential).") {
         throw new Error("Datos de usuario incorrectos");
       }
@@ -154,8 +151,6 @@ export const useAuth = () => {
 
       const data = await response.json();
 
-      console.log(data);
-
       document.cookie = `token=${token}; path=/; Secure; SameSite=Lax`;
       document.cookie = `rol=${data.data.rol.nombre}; path=/; Secure; SameSite=Lax`;
       document.cookie = `verificado=${data.data.verificado}; path=/; Secure; SameSite=Lax`;
@@ -180,10 +175,8 @@ export const useAuth = () => {
     try {
       if (usuario) {
         await sendEmailVerification(usuario, actionCodeSettings);
-        console.log("Correo de verificación enviado");
       }
     } catch (error) {
-      console.error("Error al enviar el correo de verificación:", error);
     } finally {
       setLoading(false);
     }

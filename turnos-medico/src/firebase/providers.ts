@@ -9,7 +9,6 @@ const googleProvider = new GoogleAuthProvider();
 export const signInWithGoogle = async (getUserData: any, dispatch: any) => {
   try {
     const result: any = await signInWithPopup(FirebaseAuth, googleProvider);
-    console.log(result);
     const { displayName, email, uid, accessToken } = result.user;
 
     const response = await fetch(`${API_URL}/auth/checkUser/${uid}`, {
@@ -27,7 +26,6 @@ export const signInWithGoogle = async (getUserData: any, dispatch: any) => {
     const data = await response.json();
 
     if (!data.error) {
-      console.log(data);
       let userData = await getUserData(uid, accessToken);
 
       localStorage.setItem("token", accessToken);
@@ -49,9 +47,5 @@ export const signInWithGoogle = async (getUserData: any, dispatch: any) => {
         })
       );
     }
-
-    console.log("data", data);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };

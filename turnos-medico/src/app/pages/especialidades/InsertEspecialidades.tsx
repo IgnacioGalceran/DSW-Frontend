@@ -26,7 +26,7 @@ export default function InsertEspecialidades(props: {
       }
       props.setOpenForm(false);
     } catch (error) {
-      console.error("Error al enviar la especialidad:", error);
+      throw error;
     }
   };
 

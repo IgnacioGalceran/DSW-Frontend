@@ -110,8 +110,6 @@ export default function InsertTurnos(props: {
     handleChange(e);
   };
 
-  console.log(medicosWithOS);
-
   return (
     <React.Fragment>
       {loadingMedicos && <Loader />}

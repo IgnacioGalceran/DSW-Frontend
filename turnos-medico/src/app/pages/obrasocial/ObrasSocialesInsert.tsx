@@ -25,9 +25,7 @@ export default function InsertObrasSociales(props: {
         await props.insert(value);
       }
       props.setOpenForm(false);
-    } catch (error) {
-      console.error("Error al enviar la especialidad:", error);
-    }
+    } catch (error) {}
   };
 
   const getInitialFormValues = (

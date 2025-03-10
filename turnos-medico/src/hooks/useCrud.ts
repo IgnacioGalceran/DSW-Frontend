@@ -83,7 +83,6 @@ export default function useCRUD<T>(entity: string, doFetch: boolean = true) {
 
       return result;
     } catch (error: any) {
-      console.log(error);
       return { error: true, message: error.message };
     }
   };
@@ -102,10 +101,8 @@ export default function useCRUD<T>(entity: string, doFetch: boolean = true) {
 
       if (!result.error) {
         showToast(result.message, "OK", 4000);
-        console.log("dofetch", doFetch);
 
         if (doFetch) {
-          console.log("if", doFetch);
           await fetchData();
         }
       } else {
@@ -114,7 +111,6 @@ export default function useCRUD<T>(entity: string, doFetch: boolean = true) {
 
       return result;
     } catch (error: any) {
-      console.log(error);
       return { data: {}, error: true, message: error.message };
     }
   };
@@ -136,8 +132,6 @@ export default function useCRUD<T>(entity: string, doFetch: boolean = true) {
       const url = `${API_URL}/${entity}/${id}${
         queryString ? `?${queryString}` : ""
       }`;
-
-      console.log(url);
 
       const response = await fetch(`${url}`, {
         method: "DELETE",

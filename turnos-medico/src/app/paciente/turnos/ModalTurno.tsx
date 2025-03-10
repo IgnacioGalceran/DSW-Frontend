@@ -57,8 +57,6 @@ const ModalTurno: React.FC<ModalTurnos> = ({
     else return true;
   };
 
-  console.log(turnos);
-
   const handleDateBack = () => {
     if (!isBeforeToday())
       setDate({

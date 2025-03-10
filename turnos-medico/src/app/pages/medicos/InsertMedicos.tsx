@@ -93,9 +93,7 @@ export default function InsertMedicos(props: {
         await props.insert(value);
       }
       props.setOpenForm(false);
-    } catch (error) {
-      console.error("Error al enviar el médico:", error);
-    }
+    } catch (error) {}
   };
 
   const getInitialFormValues = (

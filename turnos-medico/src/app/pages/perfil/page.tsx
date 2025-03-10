@@ -42,9 +42,7 @@ const DataProfile = () => {
   const submitDataUpdate = async (value: Pacientes) => {
     try {
       await update(uid, value);
-    } catch (error: any) {
-      console.error("Error al actualizar al usuario", error);
-    }
+    } catch (error: any) {}
   };
 
   const nombre = displayName?.split(" ")[0];

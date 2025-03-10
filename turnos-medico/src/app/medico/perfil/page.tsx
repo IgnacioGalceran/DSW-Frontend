@@ -61,7 +61,7 @@ const DataProfile = () => {
       value.obrasocial = obrasSocialesValue;
       await update(uid, value);
     } catch (error: any) {
-      console.error("Error al actualizar al usuario", error);
+      showToast(error.message, "FAIL", 3000);
     } finally {
       setOpenConfirma(false);
     }
@@ -377,3 +377,6 @@ const DataProfile = () => {
 };
 
 export default DataProfile;
+function showToast(message: any, arg1: string, arg2: number) {
+  throw new Error("Function not implemented.");
+}
