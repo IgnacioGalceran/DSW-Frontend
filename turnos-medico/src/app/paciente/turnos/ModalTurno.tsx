@@ -288,6 +288,13 @@ const ModalTurno: React.FC<ModalTurnos> = ({
               })}
             </div>
           </div>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className={modal.hide}
+            onClick={() => {
+              setOpenModal(false);
+            }}
+          />
         </div>
       )}
     </React.Fragment>
